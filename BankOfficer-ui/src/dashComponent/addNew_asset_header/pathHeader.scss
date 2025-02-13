@@ -1,0 +1,29 @@
+.container-header {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  color: #555;
+  padding: 10px 20px;
+  font-weight: 500;
+  position: relative; // Ensures the pseudo-element is positioned relative to this container
+  width: 94%; // Adjust width as needed
+  margin: auto; // Centers it within parent container
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0; // Align to the left instead of 50%
+    width: 100%; // Adjust width as needed
+    height:  1.8px ; // Border thickness
+    background-color: #bbb; // Border color
+  } 
+
+  span {
+    font-size: 20px; // Increased span font size
+  }
+
+  .active {
+    font-weight: 600;
+    color: #000;
+  }
+}

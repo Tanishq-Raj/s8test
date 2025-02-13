@@ -1,0 +1,74 @@
+.notificationContainer {
+  font-family: "Poppins", sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    position: relative;
+    aspect-ratio: 0.884;
+    margin-top: 297px;
+    width: 206px;
+    max-width: 100%;
+    font-size: 14px;
+    color: #000;
+    padding: 21px 20px;
+  }
+  
+  .backgroundImage {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    color: #535353;
+  }
+  
+  .notificationIcon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    color: yellow;
+    width: 24px;
+    align-self: center;
+  }
+  
+  .notificationTitle {
+    position: relative;
+    align-self: center;
+    margin-top: 25px;
+  }
+  
+  .notificationCount {
+    position: relative;
+    color: #2c2c2af6;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 12px;
+  }
+  
+  .notificationButton {
+    position: relative;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-top: 59px;
+    padding: 12px 27px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 991px) {
+    .notificationContainer {
+      margin-top: 40px;
+    }
+    
+    .notificationCount {
+      margin: 0 3px 0 2px;
+    }
+    
+    .notificationButton {
+      padding-left: 20px;
+      margin-top: 40px;
+    }
+  }

@@ -1,0 +1,18 @@
+.myAssetsView{
+  font-family: "Poppins", sans-serif;
+
+    display: flex;
+    
+    .sideContainerV {
+        flex: 1; /* Sidebar takes 1 parts of the total flex space */
+        min-width: 245px; /* Optional: Minimum width for sidebar */
+        background-color: #f4f4f4; /* Example styling for visibility */
+      }
+    
+      .AssetsViewCards{
+        flex: 8; /* Main content takes the remaining space */
+        display: flex;
+        flex-direction: column; /* Stack items vertically */
+      }
+      
+} 

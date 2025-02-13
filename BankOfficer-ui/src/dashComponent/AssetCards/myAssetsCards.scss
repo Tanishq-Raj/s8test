@@ -1,0 +1,200 @@
+.myAssetsCardsContainer {
+  // font-family: "Roboto";
+  font-family: "Poppins", sans-serif;
+
+  flex: 4;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 1);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  height: 459px;
+  width: 459px;
+  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+
+  .headerContainer2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+      margin: 0; // Remove left margin
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: #555;
+      margin: 0; // Remove left margin
+      margin-left: auto; // Push to right
+      padding-left: 20px; // Add spacing between h2 and h3
+    }
+  }
+
+  .cardsScrollContainer {
+    margin-left: 10px;
+    width: 100%;
+    overflow-x: auto; // Enable horizontal scrolling
+    padding-bottom: 10px; // Space for scrollbar
+    position: relative; // For positioning the "View All" button
+
+    &::-webkit-scrollbar {
+      height: 8px; // Scrollbar height
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #888; // Scrollbar thumb color
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #f1f1f1; // Scrollbar track color
+    }
+  }
+
+  .assetsList {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 10px; // Space for scrollbar
+  }
+
+  .assetCard {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 250px; // Minimum width for each card
+    height: 370px; // Set a fixed height for the card
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .cardHeader {
+      position: relative;
+      flex: 1; // Allow the header to take up remaining space
+      .propertyImage {
+        width: 100%;
+        height: 100%; // Make the image fill the header
+        object-fit: cover; // Ensure the image covers the area without distortion
+      }
+
+      .userImageContainer {
+        position: absolute;
+        bottom: -20px; // Half outside the image
+        left: 10px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid white; // Optional: Add a border to make it stand out
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .userImage {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          overflow: hidden;
+          background-color: #fff; 
+        }
+      }
+
+      .heartButton {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+
+        .heartIcon {
+          width: 24px;
+          height: 24px;
+          transition: filter 0.3s ease;
+
+          &:hover {
+            filter: brightness(0.8);
+          }
+        }
+      }
+    }
+
+    .cardBody {
+      padding: 15px;
+      flex-shrink: 0; // Prevent the body from shrinking
+      position: relative; 
+     
+      h4 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 10px 0;
+      }
+
+      p {
+        font-size: 14px;
+        color: #555;
+        margin: 0 0 10px 0;
+      }
+
+      .viewButton {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #004663;
+        color: #fff;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        position: relative;
+        margin-top: -5px;
+        z-index: 10; /* Ensure it’s above other content */
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+
+  // Styles for the "View All" button
+
+  .viewAllCont {
+    position: absolute;
+    right: 10px;
+    bottom: 20px; // Adjust position relative to cards
+    z-index: 1; // Ensure it's above scroll content
+  }
+
+  .viewAllButton {
+    position: relative;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #807d7d;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin-top: -10px;
+
+    &:hover {
+      color: #000;
+    }
+  }
+}
