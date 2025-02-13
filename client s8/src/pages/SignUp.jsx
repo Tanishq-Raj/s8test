@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FormInput } from '../components/auctionSystem/SignInUser/FormInput';
 import { SocialSignInButton } from '../components/auctionSystem/SignInUser/SocialSignInButton';
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../context/context';
 
 
 const userInputs = [
@@ -49,10 +50,6 @@ const signInInputs = [
     { label: "Password", placeholder: "Enter your Password", type: "password" },
 ];
 
-const socialButtons = [
-    { icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/8bc5b28e34b89399a5181e0b1ad025dca906bce676746acf663a21997d16f714?placeholderIfAbsent=true&apiKey=2b64ceff962d4ae184f534c4b0acd108", text: "Sign in with Google" },
-    { icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/ffe4e42a43bb56a2ba547b9efe4b4b55da2566487fabe8ea05c325740412c865?placeholderIfAbsent=true&apiKey=2b64ceff962d4ae184f534c4b0acd108", text: "Sign in with Facebook" },
-];
 
 export default function SignUpPage() {
     const [userType, setUserType] = useState("User");
@@ -65,6 +62,11 @@ export default function SignUpPage() {
         confirmPassword: "",
         phoneNumber: "",
     });
+
+    const {serverUrl} = useContext(AppContext)
+    const socialButtons = [
+        { icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/8bc5b28e34b89399a5181e0b1ad025dca906bce676746acf663a21997d16f714?placeholderIfAbsent=true&apiKey=2b64ceff962d4ae184f534c4b0acd108", text: "Sign in with Google", serverApi: serverUrl + "/api/v1/user/auth/google" },
+    ];
     const navigate = useNavigate();
     
     const handleFormSubmit = () => {

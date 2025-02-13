@@ -322,7 +322,7 @@ export const googleAuthCallback = (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    return res.redirect("http://localhost:5173/usersideprime");
+    return res.redirect( process.env.CLIENT_LOCALHOST + "/usersideprime");
   })(req, res);
 };
 
