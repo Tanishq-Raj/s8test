@@ -159,8 +159,14 @@ th:nth-child(11), td:nth-child(11) { width: 180px; }
   width: 100px;
 }
 
-.completed { color: green; }
-.upcoming { color: black; }
+td span {
+  &.ongoing {color:  #52b788;}
+
+  &.upcoming {color: #0466c8;}
+
+  &.closed {color: #dc3545;}
+}
+
 
 .action-buttons {
   display: flex;

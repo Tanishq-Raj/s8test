@@ -35,6 +35,7 @@ const Profile2 = () => {
   mobile: "",
   bankName: "",
   branchAddress: "",
+  branchZone:"",
   branchName: "",
   ifsc: "",
   jobTitle: ""
@@ -81,7 +82,7 @@ const handleInputChange = (event) => {
           <h4>Information</h4>
           <p><strong>Name:</strong> {userDetails.firstName || "First Name"} {userDetails.lastName || "Last Name"}</p>
           <p><strong>Email:</strong> {userDetails.email || "user@email.com"}</p>
-          <p><strong>Tel:</strong> {userDetails.mobile ? `+91 ${userDetails.mobile}` : "+91 966 696 123"}</p>
+          <p><strong>Tel:</strong> {userDetails.mobile ? `${userDetails.mobile}` : "+91 966 696 123"}</p>
         </div>
         <div className="info2">
           <h4>Professional Details</h4>
@@ -89,6 +90,7 @@ const handleInputChange = (event) => {
           <p><strong>Job Title:</strong> {userDetails.jobTitle || "e.g:Manager"}</p>
           <p><strong>IFSC:</strong> {userDetails.ifsc || "e.g:SBIN1000511"}</p>
           <p><strong>Branch Name:</strong> {userDetails.branchName || "e.g: Mumbai"}</p>
+          <p><strong>Branch Zone:</strong> {userDetails.branchZone || "e.g: "}</p>
           <p><strong>Branch Address:</strong> {userDetails.branchAddress || "e.g:18/A, Mumbai Branch"}</p>
         </div>
        </div>
@@ -152,7 +154,11 @@ const handleInputChange = (event) => {
                                     <input type="text" name="jobTitle" value={userDetails.jobTitle} placeholder="Enter job title..." onChange={handleInputChange} />
                                 </div>
                             </div>
-                            <div className="form-address">
+                            <div className="form-row">
+                            <div className="form-group">
+                                    <label>Branch Zone</label>
+                                    <input type="text" name="branchZone" value={userDetails.branchZone} placeholder="Enter branch zone..." onChange={handleInputChange} />
+                                </div>
                             <div className="form-group">
                                     <label>Branch Address</label>
                                     <textarea type="text" name="branchAddress" value={userDetails.branchAddress} placeholder="Enter branch address..." onChange={handleInputChange}  rows="2"/> 
