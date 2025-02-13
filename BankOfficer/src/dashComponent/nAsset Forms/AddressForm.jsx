@@ -1,43 +1,82 @@
-
+import { useContext } from "react";
 import "./addressForm.scss";
 import PropTypes from "prop-types";
+import { AppContext } from "../../context/context";
 
-const AddressDetailsForm = ({ nextStep, prevStep }) => {  return (
+const AddressDetailsForm = ({ nextStep, prevStep }) => {
+  const { formData, setFormData } = useContext(AppContext);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      address: {
+        ...formData.address,
+        [name]: value
+      }
+    });
+  };
+
+  return (
     <main className="addressFormContainer">
       <div className="formContent">
+        {/* Asset Address */}
+        <section className="formGroup">
+          <label>Asset Address:</label>
+          <div className="inputWrapper">
+            <textarea
+              type="text"
+              name="address"
+              value={formData.address.address}
+              onChange={handleChange}
+              placeholder="Enter Asset Address"
+              aria-label="Asset Address"
+            />
+          </div>
+        </section>
 
         {/* City */}
         <section className="formGroup">
           <label>City:</label>
           <div className="inputWrapper">
-          <input type="text" placeholder="Enter Country" />
+            <input
+              type="text"
+              name="city"
+              value={formData.address.city}
+              onChange={handleChange}
+              placeholder="Enter City"
+              aria-label="City"
+            />
           </div>
-            {/* <img src="/icons/dropdown.svg" className="inputIcon" alt="Dropdown" /> */}
         </section>
 
         {/* State */}
         <section className="formGroup">
           <label>State:</label>
           <div className="inputWrapper">
-          <input type="text" placeholder="Enter Country" />
+            <input
+              type="text"
+              name="state"
+              value={formData.address.state}
+              onChange={handleChange}
+              placeholder="Enter State"
+              aria-label="State"
+            />
           </div>
-            {/* <img src="/icons/dropdown.svg" className="inputIcon" alt="Dropdown" /> */}
         </section>
 
-        {/* Country */}
+        {/* Pincode */}
         <section className="formGroup">
-          <label>Country:</label>
+          <label>Pincode:</label>
           <div className="inputWrapper">
-          <input type="text" placeholder="Enter Country" />
-          </div>
-            {/* <img src="/icons/dropdown.svg" className="inputIcon" alt="Dropdown" /> */}
-        </section>
-
-        {/* Asset Address */}
-        <section className="formGroup">
-          <label>Asset Address:</label>
-          <div className="inputWrapper">
-          <textarea  type="text" placeholder="Enter Asset Address" />
+            <input
+              type="text"
+              name="pincode"
+              value={formData.address.pincode}
+              onChange={handleChange}
+              placeholder="Enter Pincode"
+              aria-label="Pincode"
+            />
           </div>
         </section>
 
@@ -45,13 +84,20 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {  return (
         <section className="formGroup">
           <label>Nearby Place:</label>
           <div className="inputWrapper">
-          <input type="text" placeholder="Enter Nearby Place" />
+            <input
+              type="text"
+              name="nearbyPlaces"
+              value={formData.nearbyPlaces}
+              onChange={handleChange}
+              placeholder="Enter Nearby Place"
+              aria-label="Nearby Place"
+            />
           </div>
         </section>
       </div>
 
-     {/* Action Buttons */}
-     <footer className="actions">
+      {/* Action Buttons */}
+      <footer className="actions">
         <button className="cancelButton" onClick={prevStep}>
           <img src="/back.svg" className="buttonIcon" alt="Back" />
           Back
@@ -69,6 +115,5 @@ AddressDetailsForm.propTypes = {
   nextStep: PropTypes.func.isRequired,
   prevStep: PropTypes.func.isRequired,
 };
-
 
 export default AddressDetailsForm;

@@ -15,6 +15,7 @@
     "@mui/icons-material": "^6.4.0",
     "@react-google-maps/api": "^2.20.6",
     "@shadcn/ui": "^0.0.4",
+    "axios": "^1.7.9",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.474.0",
     "prop-types": "^15.8.1",
