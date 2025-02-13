@@ -1,7 +1,16 @@
 import "./propertyDetailForm.scss";
 import PropTypes from "prop-types";
+import { useState } from "react";
 
 const PropertyDetailsForm = ({ nextStep }) => {
+  const [area, setArea] = useState("");
+
+  const handleAreaBlur = () => {
+    if (area && !area.includes("sq ft")) {
+      setArea(`${area} Sq ft`);
+    }
+  };
+
   return (
     <main className="propertyFormContainer">
       <div className="formContent">
@@ -49,6 +58,21 @@ const PropertyDetailsForm = ({ nextStep }) => {
           <label>Price:</label>
           <div className="inputWrapper">
             <input type="text" placeholder="Enter Price here" aria-label="Price" />
+          </div>
+        </section>
+
+         {/* Area */}
+         <section className="formGroup">
+          <label>Area:</label>
+          <div className="inputWrapper">
+            <input
+              type="text"
+              placeholder="Enter Area here"
+              aria-label="Area"
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+              onBlur={handleAreaBlur}
+            />
           </div>
         </section>
 

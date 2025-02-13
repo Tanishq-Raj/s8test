@@ -18,7 +18,16 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
         <section className="formGroup">
           <label>Amount Due:</label>
           <div className="inputWrapper">
-            <input type="text" placeholder="Enter the due amount" />
+            <input type="text" placeholder="Enter the Due amount" />
+            {/* <img src="/icons/money.svg" className="inputIcon" alt="Money Icon" /> */}
+          </div>
+        </section>
+
+        {/* Reserve Price */}
+        <section className="formGroup">
+          <label>Reserve Price:</label>
+          <div className="inputWrapper">
+            <input type="text" placeholder="Enter the Reserve Price" />
             {/* <img src="/icons/money.svg" className="inputIcon" alt="Money Icon" /> */}
           </div>
         </section>
@@ -40,6 +49,20 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
             {/* <img src="/icons/money.svg" className="inputIcon" alt="Money Icon" /> */}
           </div>
         </section>
+
+       {/* Auction Type */}
+       <section className="formGroup">
+          <label>Auction Type:</label>
+          <div className="inputWrapper">
+            <select aria-label="Type">
+              <option value="">Select the type</option>
+              <option value="Residential">E-auction</option>
+              <option value="Commercial">B</option>
+              <option value="Industrial">C</option>
+            </select>
+          </div>
+        </section>
+
 
         {/* Property Inspection Date */}
         <section className="formGroup">
@@ -72,6 +95,15 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
         <label>Enquiry Contact:</label>
          <div className="inputWrapper">
           <input type="text" placeholder="Enter the enquiry contact number" />
+          </div>
+        </section>
+    
+
+      {/* Importent Note or Message */}
+      <section className="formGroup">
+        <label>Message:</label>
+         <div className="inputWrapper">
+         <textarea type="text" placeholder="Any important message for the auctioneer" />
           </div>
         </section>
       </div>

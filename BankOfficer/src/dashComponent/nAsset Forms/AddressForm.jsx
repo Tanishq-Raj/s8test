@@ -6,11 +6,28 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {  return (
     <main className="addressFormContainer">
       <div className="formContent">
 
-        {/* City */}
+         {/* Asset Address */}
+        <section className="formGroup">
+          <label>Asset Address:</label>
+          <div className="inputWrapper">
+          <textarea  type="text" placeholder="Enter Asset Address" />
+          </div>
+        </section>
+
+         {/* Pincode  */}
+        <section className="formGroup">
+          <label>Pincode :</label>
+          <div className="inputWrapper">
+          <input type="text" placeholder="Enter Pincode " />
+          </div>
+            {/* <img src="/icons/dropdown.svg" className="inputIcon" alt="Dropdown" /> */}
+        </section>
+
+         {/* City */}
         <section className="formGroup">
           <label>City:</label>
           <div className="inputWrapper">
-          <input type="text" placeholder="Enter Country" />
+          <input type="text" placeholder="Enter City" />
           </div>
             {/* <img src="/icons/dropdown.svg" className="inputIcon" alt="Dropdown" /> */}
         </section>
@@ -19,33 +36,32 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {  return (
         <section className="formGroup">
           <label>State:</label>
           <div className="inputWrapper">
-          <input type="text" placeholder="Enter Country" />
+          <input type="text" placeholder="Enter State" />
           </div>
             {/* <img src="/icons/dropdown.svg" className="inputIcon" alt="Dropdown" /> */}
         </section>
-
-        {/* Country */}
+      
+        {/* Asset Longitude , Latitude */}
+        <div className="form-row">
         <section className="formGroup">
-          <label>Country:</label>
-          <div className="inputWrapper">
-          <input type="text" placeholder="Enter Country" />
-          </div>
-            {/* <img src="/icons/dropdown.svg" className="inputIcon" alt="Dropdown" /> */}
+           <label>Longitude:</label>
+           <div className="inputWrapper">
+            <input type="text" placeholder="Enter Asset longitude" />
+           </div>
         </section>
-
-        {/* Asset Address */}
         <section className="formGroup">
-          <label>Asset Address:</label>
-          <div className="inputWrapper">
-          <textarea  type="text" placeholder="Enter Asset Address" />
-          </div>
+           <label>Latitude:</label>
+           <div className="inputWrapper">
+            <input type="text" placeholder="Enter Asset longitude" />
+           </div>
         </section>
+        </div>
 
         {/* Nearby Place */}
         <section className="formGroup">
           <label>Nearby Place:</label>
           <div className="inputWrapper">
-          <input type="text" placeholder="Enter Nearby Place" />
+          <textarea  type="text" placeholder="Enter Nearby Place" />
           </div>
         </section>
       </div>

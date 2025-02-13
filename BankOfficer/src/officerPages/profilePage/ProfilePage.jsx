@@ -8,7 +8,7 @@ import Header from "../../dashComponent/nav/header/Header";
 import CardsContainer from "../../dashComponent/Cards/Cards";
 
 // Dummy data for assets
-import properties from "../../dummyData"; // Adjust the path accordingly
+import properties from "../../dummyData"; 
 import AddNewAsset from "../../dashComponent/Add Asset/AddNewAsset";
 
 const Profilepage = () => {
