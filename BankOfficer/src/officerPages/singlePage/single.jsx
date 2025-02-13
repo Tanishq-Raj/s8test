@@ -100,6 +100,10 @@ const Single = () => {
       <span className="value">{post.reservPrice}</span>
     </div> */}
     <div className="auctionItem">
+      <span className="label">Reserve Price:</span>
+      <span className="value">{post.reservPrice}</span>
+    </div>
+    <div className="auctionItem">
       <span className="label">Earnest Money Deposit:</span>
       <span className="value">{post.deposit}</span>
     </div>

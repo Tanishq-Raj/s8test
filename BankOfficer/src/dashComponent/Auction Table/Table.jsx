@@ -48,8 +48,16 @@ const AuctionHistory = () => {
   const getStatus = (auctionDate) => {
     const currentDate = new Date();
     const auctionDateObj = new Date(auctionDate);
-    return auctionDateObj > currentDate ? "Upcoming" : "Completed";
+
+    if (auctionDateObj < currentDate.setHours(0, 0, 0, 0)) {
+      return "Closed";
+    } else if (auctionDateObj.toDateString() === currentDate.toDateString()) {
+      return "Ongoing";
+    } else {
+      return "Upcoming";
+    }
   };
+
 
   // Export data to Excel
   const exportToExcel = () => {
@@ -138,7 +146,7 @@ const AuctionHistory = () => {
                     <td>{item.city}</td>
                     <td>{item.state}</td>
                     <td>
-                      <span className={getStatus(item.auctionDate) === "Completed" ? "completed" : "upcoming"}>
+                      <span className={getStatus(item.auctionDate) === "Closed" ? "closed" : getStatus(item.auctionDate) === "Ongoing" ? "ongoing" : "upcoming"}>
                         {getStatus(item.auctionDate)}
                       </span>
                     </td>

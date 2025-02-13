@@ -37,7 +37,7 @@
         border: 1px solid #ddd;
         border-radius: 10px;
         width: 250px;
-        height: 300px;
+        height: 310px;
         text-align: center;
       }
   
@@ -48,7 +48,10 @@
         border:2px solid #004663;
         object-fit: cover;
       }
-  
+     h3{
+      margin-top: 10px;
+     }
+
       .upload-btn {
         background-color: #004663;
         color: white;
@@ -75,9 +78,9 @@
         border-radius: 10px;
         border: 1px solid #ddd;
         width: 100%;
-        height: 300px;
+        height: 310px;
         min-height: 260px; /* Ensures minimum height */
-        max-height: 300px; /* Prevents height increase */
+        max-height: 310px; /* Prevents height increase */
         overflow-y: auto; /* Allows scrolling within the section */
       }
   
@@ -94,7 +97,7 @@
   
       .info2 {
         // flex: 1;
-        font-size: 16px;
+        font-size: 15px;
         // color: #333;
         display: flex;
         flex-direction: column;
@@ -111,7 +114,7 @@
       .info h4 , .info2 h4 {
         font-size: 18px;
         color: gray;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         font-weight: 600;
       }
   
@@ -253,9 +256,9 @@
 }
 
 //For Bank Address input fox
-.form-address {
-  width: 100%; // Ensures it takes full container width
-  display: flex;
+// .form-address {
+//   width: 100%; // Ensures it takes full container width
+//   display: flex;
 
   .form-group {
     width: 100%; // Takes full available space
@@ -270,8 +273,8 @@
 
      textarea{
       width: 100%; // Makes the input field stretch fully
-      max-width: 385px; // Ensures it doesn't get too wide
-      min-width: 385px; // Prevents it from becoming too small
+      max-width: 387px; // Ensures it doesn't get too wide
+      min-width: 387px; // Prevents it from becoming too small
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 10px;
@@ -283,7 +286,7 @@
       }
     }
   }
-}
+// }
 
 // Conform new pass
 .form-pass {
