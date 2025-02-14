@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import "./imageUpload.scss";
+import { AppContext } from "../../context/context";
 
 const ImageUpload = () => {
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const {uploadedFiles, setUploadedFiles} = useContext(AppContext);
   const [showPopup, setShowPopup] = useState(false);
   const fileInputRef = useRef(null); // Reference for file input
 
