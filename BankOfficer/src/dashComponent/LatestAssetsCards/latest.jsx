@@ -1,6 +1,7 @@
 import PropTypes from "prop-types"; // Import PropTypes for type validation
 import "./latest.scss";
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 
 function Latest({ asset }) {
 
@@ -17,7 +18,7 @@ function Latest({ asset }) {
       <div className="cardImageContainer">
         <img
           loading="lazy"
-          src={asset.imageUrl}
+          src={asset.media?.[0] || "default-image.jpg"} // ✅ Use first image from media array
           className="cardImage"
           alt={asset.title}
         />
@@ -34,7 +35,9 @@ function Latest({ asset }) {
           <div>{asset.address}</div>
           <div className="detailDate">{asset.auctionDate}</div>
         </div>
-        <div tabIndex="0" role="button" className="detailButton">View</div>
+        <Link to={`/property/${asset.id}`}>
+          <div tabIndex="0" role="button" className="detailButton">View</div>
+        </Link>
       </div>
     </div>
   );
@@ -43,7 +46,8 @@ function Latest({ asset }) {
 // PropTypes for the 'asset' prop
 Latest.propTypes = {
   asset: PropTypes.shape({
-    imageUrl: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    media: PropTypes.arrayOf(PropTypes.string), //  media prop validation
     title: PropTypes.string.isRequired,
     auctionDate: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,

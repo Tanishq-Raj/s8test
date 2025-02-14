@@ -155,10 +155,10 @@ const AuctionHistory = () => {
                       <img src="/goTo.svg" alt="View" width={16} height={16} />
                       </Link>
                       <button className="edit-button">
-                      <img src="/edit2.svg" alt="View" width={16} height={16} />
+                      <img src="/edit2.svg" alt="edit" width={16} height={16} />
                       </button>
                       <button className="delete-button">
-                      <img src="/delete2.svg" alt="View" width={16} height={16} />
+                      <img src="/delete2.svg" alt="delete" width={16} height={16} />
                       </button>
                     </td>
                   </tr>

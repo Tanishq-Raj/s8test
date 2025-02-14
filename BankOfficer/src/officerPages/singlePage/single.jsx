@@ -95,10 +95,6 @@ const Single = () => {
       <span className="label">Amount Due:</span>
       <span className="value">{post.dueAmount}</span>
     </div>
-    {/* <div className="auctionItem">
-      <span className="label">Reserve Price:</span>
-      <span className="value">{post.reservPrice}</span>
-    </div> */}
     <div className="auctionItem">
       <span className="label">Reserve Price:</span>
       <span className="value">{post.reservPrice}</span>

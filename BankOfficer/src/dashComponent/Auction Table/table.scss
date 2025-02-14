@@ -179,16 +179,19 @@ td span {
 
 .action-buttons {
   display: flex;
-  gap: 8px;
   justify-content: center;
-  border-left: 1px solid #ccc; /* Ensures borders align properly */
-  border-right: 1px solid #ccc;
+  align-items: center;
+  gap: 8px; // Maintain spacing between buttons
+  height: 100%; // Make buttons adapt to the row height
+  flex-wrap: wrap; // Ensure buttons adjust if the row expands
 }
 
 .view-button, .edit-button, .delete-button {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 30px; // Adjust as needed
+  height: 100%; // Adjust to match button size
   gap: 4px;
   padding: 4px 8px;
   border-radius: 4px;
@@ -196,19 +199,24 @@ td span {
   cursor: pointer;
   background-color: transparent;
   color: #004f6e;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, filter 0.3s ease;
+  
+  img {
+    width: 16px;
+    height: 16px;
+    transition: filter 0.3s ease;
+  }
+
+  &:hover {
+    background-color: #004f6e;
+    color: white;
+
+    img {
+      filter: brightness(0) invert(1); // Turns icon white
+    }
+  }
 }
 
-.view-button:hover, .edit-button:hover, .delete-button:hover {
-  background-color: #004f6e;
-  color: white;
-}
-
-.view-button:hover img,
-.edit-button:hover img,
-.delete-button:hover img {
-  stroke: white;
-}
 .download-button{
   font-size: 16px; /* Ensure font size is consistent */
   padding: 10px 20px; /* Adds padding around the text */

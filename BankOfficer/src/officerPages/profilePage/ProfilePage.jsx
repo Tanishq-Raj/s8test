@@ -8,11 +8,10 @@ import Header from "../../dashComponent/nav/header/Header";
 import CardsContainer from "../../dashComponent/Cards/Cards";
 
 // Dummy data for assets
-import properties from "../../dummyData"; 
-import AddNewAsset from "../../dashComponent/Add Asset/AddNewAsset";
+import { singlePostData } from "../../dummyData"; import AddNewAsset from "../../dashComponent/Add Asset/AddNewAsset";
 
 const Profilepage = () => {
-  const userAssets = properties; // Initialize directly with the properties data
+  const userAssets = singlePostData; // Initialize directly with the properties data
 
   // Function to get the latest asset based on auction date
   const getLatestAuctionAsset = () => {
