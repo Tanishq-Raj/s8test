@@ -35,21 +35,19 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {
           </div>
         </section>
 
-         {/* Asset Address */}
-        <section className="formGroup">
-          <label>Asset Address:</label>
-          <div className="inputWrapper">
-          <textarea  type="text" placeholder="Enter Asset Address" />
-          </div>
-        </section>
-
          {/* Pincode  */}
         <section className="formGroup">
-          <label>Pincode :</label>
+        <label>Pincode:</label>
           <div className="inputWrapper">
-          <input type="text" placeholder="Enter Pincode " />
+            <input
+              type="text"
+              name="pincode"
+              value={formData.address.pincode}
+              onChange={handleChange}
+              placeholder="Enter Pincode"
+              aria-label="Pincode"
+            />
           </div>
-            {/* <img src="/icons/dropdown.svg" className="inputIcon" alt="Dropdown" /> */}
         </section>
 
          {/* City */}
@@ -64,7 +62,6 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {
               placeholder="Enter City"
               aria-label="City"
             />
-          <input type="text" placeholder="Enter City" />
           </div>
         </section>
 
@@ -80,31 +77,18 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {
               placeholder="Enter State"
               aria-label="State"
             />
-          <input type="text" placeholder="Enter State" />
           </div>
         </section>
-
-        {/* Pincode */}
       
         {/* Asset Longitude , Latitude */}
         <div className="form-row">
         <section className="formGroup">
-          <label>Pincode:</label>
-          <div className="inputWrapper">
-            <input
-              type="text"
-              name="pincode"
-              value={formData.address.pincode}
-              onChange={handleChange}
-              placeholder="Enter Pincode"
-              aria-label="Pincode"
-            />
-          </div>
            <label>Longitude:</label>
            <div className="inputWrapper">
             <input type="text" placeholder="Enter Asset longitude" />
            </div>
         </section>
+
         <section className="formGroup">
            <label>Latitude:</label>
            <div className="inputWrapper">
@@ -117,7 +101,7 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {
         <section className="formGroup">
           <label>Nearby Place:</label>
           <div className="inputWrapper">
-            <input
+            <textarea 
               type="text"
               name="nearbyPlaces"
               value={formData.nearbyPlaces}
@@ -125,7 +109,6 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {
               placeholder="Enter Nearby Place"
               aria-label="Nearby Place"
             />
-          <textarea  type="text" placeholder="Enter Nearby Place" />
           </div>
         </section>
       </div>
