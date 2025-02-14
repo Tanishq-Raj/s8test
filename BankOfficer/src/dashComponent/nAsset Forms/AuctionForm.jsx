@@ -71,8 +71,14 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
         <section className="formGroup">
           <label>Amount Due:</label>
           <div className="inputWrapper">
-            <input type="text" placeholder="Enter the due amount" />
-            {/* <img src="/icons/money.svg" className="inputIcon" alt="Money Icon" /> */}
+            <input
+              type="text"
+              name="amountDue"
+              value={formData.amountDue}
+              onChange={handleChange}
+              placeholder="Enter the due amount"
+              aria-label="Amount Due"
+            />
           </div>
         </section>
 
@@ -105,20 +111,6 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
             />
           </div>
         </section>
-
-       {/* Auction Type */}
-       <section className="formGroup">
-          <label>Auction Type:</label>
-          <div className="inputWrapper">
-            <select aria-label="Type">
-              <option value="">Select the type</option>
-              <option value="Residential">E-auction</option>
-              <option value="Commercial">B</option>
-              <option value="Industrial">C</option>
-            </select>
-          </div>
-        </section>
-
 
         {/* Property Inspection Date */}
         <section className="formGroup">
@@ -179,15 +171,6 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
               placeholder="Enter the enquiry contact number"
               aria-label="Enquiry Contact"
             />
-          </div>
-        </section>
-    
-
-      {/* Importent Note or Message */}
-      <section className="formGroup">
-        <label>Message:</label>
-         <div className="inputWrapper">
-         <textarea type="text" placeholder="Any important message for the auctioneer" />
           </div>
         </section>
       </div>
