@@ -130,6 +130,7 @@ table {
   width: 100%;
   border-collapse: collapse; /* Ensures borders touch properly */
   min-width: 1200px; /* Ensures scrolling when needed */
+  table-layout: fixed; // Ensures columns respect defined widths
 }
 
 thead {
@@ -143,13 +144,13 @@ th, td {
   white-space: nowrap; /* Prevents text wrapping */
 }
 
-th:nth-child(1), td:nth-child(1) { width: 50px; }
-th:nth-child(2), td:nth-child(2) { width: 200px; }
-th:nth-child(3), td:nth-child(3) { width: 150px; }
+th:nth-child(1), td:nth-child(1) { width: 50px; word-wrap: break-word;white-space: normal; overflow-wrap: break-word;}
+th:nth-child(2), td:nth-child(2) { width: 200px; word-wrap: break-word;white-space: normal; overflow-wrap: break-word;}
+th:nth-child(3), td:nth-child(3) { width: 150px;white-space: normal; overflow-wrap: break-word; }
 th:nth-child(4), td:nth-child(4) { width: 100px; }
-th:nth-child(5), td:nth-child(5) { width: 100px; }
+th:nth-child(5), td:nth-child(5) { width: 110px; }
 th:nth-child(6), td:nth-child(6) { width: 150px; }
-th:nth-child(7), td:nth-child(7) { width: 250px; }
+// th:nth-child(7), td:nth-child(7) { width: 250px; }
 th:nth-child(8), td:nth-child(8) { width: 120px; }
 th:nth-child(9), td:nth-child(9) { width: 120px; }
 th:nth-child(10), td:nth-child(10) { width: 120px; }
@@ -157,6 +158,14 @@ th:nth-child(11), td:nth-child(11) { width: 180px; }
 
 .date-column {
   width: 100px;
+}
+
+.address-column {
+  width: 350px; // Adjust as needed
+  max-width: 350px;
+  word-wrap: break-word;
+  white-space: normal; 
+  overflow-wrap: break-word;
 }
 
 td span {
@@ -195,6 +204,11 @@ td span {
   color: white;
 }
 
+.view-button:hover img,
+.edit-button:hover img,
+.delete-button:hover img {
+  stroke: white;
+}
 .download-button{
   font-size: 16px; /* Ensure font size is consistent */
   padding: 10px 20px; /* Adds padding around the text */

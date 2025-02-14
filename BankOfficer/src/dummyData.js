@@ -130,7 +130,7 @@ export default properties;
       "Plot No. 39, G. No.286, S. No. 107/2 B/h Punjab aba Govardhan College, Nashik. Nashik-Mumbai Highway Village Take Ghoti, Tal. Igatpuri, Dist. Nashik admeasuring 435.25 sqm. belonging to Satish Jagannath Yewale.",
     enquiryUrl:"www.google.com",
     contactNo:"9169178550", 
-    borrower: "M/s Vijay Sales",
+    borrower: "M/s Vijay Rajesh Sales",
     dueAmount:"1,50,55,879",
     reservPrice:"48,36,000", 
     deposit:"10% of the reserve price",

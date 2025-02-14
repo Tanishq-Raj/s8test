@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Eye, Search, Users, Edit, Trash } from "lucide-react";
+import { Search, Users} from "lucide-react";
 import { Link } from "react-router-dom"; // Import Link component for routing
 import { singlePostData } from "../../dummyData"; // Adjust the path accordingly
 import * as XLSX from "xlsx"; // Import xlsx library
@@ -74,11 +74,11 @@ const AuctionHistory = () => {
       AUCTION_TYPE: item.auctionType,
       CATEGORY: item.category,
       BORROWER: item.borrower,
-      DUE_AMOUNT: item.dueAmount,
+      "DUE AMOUNT": item.dueAmount,
       DEPOSIT: item.deposit,
-      BID_INC_AMOT:item.bidInc,
-      INSPECTION_DATE: item.inspectDate,
-      INSPECTION_TIME: item.inspectTime,
+      "BID INC AMOT":item.bidInc,
+      "INSPECTION DATE": item.inspectDate,
+      "INSPECTION TIME": item.inspectTime,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -126,7 +126,7 @@ const AuctionHistory = () => {
                   <th>PRICE</th>
                   <th className="date-column">DATE</th>
                   <th>CATEGORY</th>
-                  <th>ADDRESS</th>
+                  <th className="address-column">ADDRESS</th>
                   <th>CITY</th>
                   <th>STATE</th>
                   <th>STATUS</th>
@@ -142,7 +142,7 @@ const AuctionHistory = () => {
                     <td>{item.price}</td>
                     <td>{item.auctionDate}</td>
                     <td>{item.category}</td>
-                    <td>{item.address}</td>
+                    <td className="address-column">{item.address}</td>
                     <td>{item.city}</td>
                     <td>{item.state}</td>
                     <td>
@@ -152,13 +152,13 @@ const AuctionHistory = () => {
                     </td>
                     <td className="action-buttons">
                       <Link to={`/property/${item.id}`} className="view-button">
-                        <Eye size={16} /> 
+                      <img src="/goTo.svg" alt="View" width={16} height={16} />
                       </Link>
                       <button className="edit-button">
-                        <Edit size={16} />
+                      <img src="/edit2.svg" alt="View" width={16} height={16} />
                       </button>
                       <button className="delete-button">
-                        <Trash size={16} />
+                      <img src="/delete2.svg" alt="View" width={16} height={16} />
                       </button>
                     </td>
                   </tr>
