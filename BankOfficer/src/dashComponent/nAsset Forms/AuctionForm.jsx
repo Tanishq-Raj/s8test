@@ -4,14 +4,15 @@ import PropTypes from "prop-types";
 import { AppContext } from "../../context/context";
 import axios from "axios";
 
-const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
-  const { formData, setFormData, uploadedFiles, setUploadedFiles, serverUrl } = useContext(AppContext);
+const AuctionDetailsForm = ({ prevStep }) => {
+  const { formData, setFormData, uploadedFiles, serverUrl } =
+    useContext(AppContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -20,16 +21,12 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
       const newFormData = new FormData();
       newFormData.append("title", formData.title);
       newFormData.append("category", formData.category);
-      // newFormData.append("auctionType", formData.auctionType);
       newFormData.append("auctionDate", formData.auctionDate);
       newFormData.append("auctionTime", formData.auctionTime);
-      // newFormData.append("area", formData.area);
       newFormData.append("price", formData.price);
       newFormData.append("description", formData.description);
       newFormData.append("contact", formData.contact);
       newFormData.append("nearbyPlaces", formData.nearbyPlaces);
-      // newFormData.append("latitude", formData.latitude);
-      // newFormData.append("longitude", formData.longitude);
       newFormData.append("address", JSON.stringify(formData.address));
       newFormData.append("auctionUrl", formData.auctionUrl);
       newFormData.append("borrower", formData.borrower);
@@ -38,21 +35,20 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
       newFormData.append("bidInc", formData.bidInc);
       newFormData.append("inspectDate", formData.inspectDate);
       newFormData.append("inspectTime", formData.inspectTime);
-      console.log(uploadedFiles);
-      console.log("this");
-      console.log(uploadedFiles);
 
-      // uploadedFiles.forEach(({ file }, index) => {
-      //   console.log(`File ${index} is instance of File:`, file instanceof File);
-      //   console.log(`File Type: ${file.type}`); // Should now show correct type
-      // });
-      
       uploadedFiles.forEach((file) => newFormData.append("files", file));
 
       console.log([...newFormData]);
-      
-      const {data} = await axios.post( serverUrl + "/api/v1/bank-user/add-property", newFormData, {headers: { "Content-Type": "multipart/form-data" }, withCredentials: true}, );
-      // {headers: { "Content-Type": "multipart/form-data" }}
+
+      const { data } = await axios.post(
+        serverUrl + "/api/v1/bank-user/add-property",
+        newFormData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
+
       console.log(data);
       if (data.success) {
         console.log(data.message);
@@ -95,6 +91,21 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
           </div>
         </section>
 
+        {/* Reserve Price */}
+        <section className="formGroup">
+          <label>Reserve Price:</label>
+          <div className="inputWrapper">
+            <input
+              type="text"
+              name="reservPrice"
+              value={formData.reservPrice}
+              onChange={handleChange}
+              placeholder="Enter reserve price"
+              aria-label="Reserve price"
+            />
+          </div>
+        </section>
+
         {/* Earnest Money Deposit */}
         <section className="formGroup">
           <label>Earnest Money Deposit:</label>
@@ -122,6 +133,19 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
               placeholder="Enter the bidding amount"
               aria-label="Bid Amount"
             />
+          </div>
+        </section>
+
+        {/* Auction Type */}
+        <section className="formGroup">
+          <label>Auction Type:</label>
+          <div className="inputWrapper">
+            <select name="auctionType" onChange={handleChange} value={formData.auctionType}>
+              <option value="">Select the type</option>
+              <option value="E-auction">E-auction</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+            </select>
           </div>
         </section>
 
@@ -186,6 +210,20 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
             />
           </div>
         </section>
+
+        {/* Important Note or Message */}
+        <section className="formGroup">
+          <label>Message:</label>
+          <div className="inputWrapper">
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Any important message for the auctioneer"
+              aria-label="Message"
+            />
+          </div>
+        </section>
       </div>
 
       {/* Action Buttons */}
@@ -205,7 +243,6 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
 
 AuctionDetailsForm.propTypes = {
   prevStep: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default AuctionDetailsForm;

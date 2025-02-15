@@ -38,7 +38,7 @@ $input-padding: 12px 20px;
     display: flex;
     align-items: center;
 
-    input {
+    input,select {
       width: 100%;
       border: none;
       border-radius: $border-radius;

@@ -74,27 +74,11 @@
         flex: 1;
         min-width: 50%; // Ensure equal width
       
-        // .breadcrumb {
-        //   display: flex;
-        //   justify-content: space-between;
-        //   margin-bottom: 20px;
-        //   padding-bottom: 10px;
-        //   border-bottom: 2px solid #e0e0e0;
-      
-        //   span {
-        //     font-weight: 500;
-        //     color: #999;
-        //     cursor: pointer;
-      
-        //     &.active {
-        //       color: #0466c8;
-        //       font-weight: 700;
-        //       border-bottom: 2px solid #0466c8;
-        //       padding-bottom: 5px;
-        //     }
-        //   }
-        // }
-      
+        border-left: 2.5px solid #bbb; /* Add right border */
+        min-height: 900px; /* Set a minimum height */
+        height: auto; /* Keep it flexible and adjustable */
+        padding-left: 30px; /* Add spacing for better visibility */
+        margin-left: -20px;
         .formContent {
           .formSection {
             display: flex;

@@ -35,7 +35,22 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {
           </div>
         </section>
 
-        {/* City */}
+         {/* Pincode  */}
+        <section className="formGroup">
+        <label>Pincode:</label>
+          <div className="inputWrapper">
+            <input
+              type="text"
+              name="pincode"
+              value={formData.address.pincode}
+              onChange={handleChange}
+              placeholder="Enter Pincode"
+              aria-label="Pincode"
+            />
+          </div>
+        </section>
+
+         {/* City */}
         <section className="formGroup">
           <label>City:</label>
           <div className="inputWrapper">
@@ -64,27 +79,29 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {
             />
           </div>
         </section>
-
-        {/* Pincode */}
+      
+        {/* Asset Longitude , Latitude */}
+        <div className="form-row">
         <section className="formGroup">
-          <label>Pincode:</label>
-          <div className="inputWrapper">
-            <input
-              type="text"
-              name="pincode"
-              value={formData.address.pincode}
-              onChange={handleChange}
-              placeholder="Enter Pincode"
-              aria-label="Pincode"
-            />
-          </div>
+           <label>Longitude:</label>
+           <div className="inputWrapper">
+            <input type="text" placeholder="Enter Asset longitude" />
+           </div>
         </section>
+
+        <section className="formGroup">
+           <label>Latitude:</label>
+           <div className="inputWrapper">
+            <input type="text" placeholder="Enter Asset longitude" />
+           </div>
+        </section>
+        </div>
 
         {/* Nearby Place */}
         <section className="formGroup">
           <label>Nearby Place:</label>
           <div className="inputWrapper">
-            <input
+            <textarea 
               type="text"
               name="nearbyPlaces"
               value={formData.nearbyPlaces}

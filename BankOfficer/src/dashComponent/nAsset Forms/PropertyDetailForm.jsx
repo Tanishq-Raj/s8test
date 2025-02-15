@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import "./propertyDetailForm.scss";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { AppContext } from "../../context/context";
 
 const PropertyDetailsForm = ({ nextStep }) => {
@@ -16,6 +17,14 @@ const PropertyDetailsForm = ({ nextStep }) => {
   const nextStep1 = () => {
     nextStep();
     console.log(formData);
+  };
+
+  const [area, setArea] = useState("");
+
+  const handleAreaBlur = () => {
+    if (area && !area.includes("sq ft")) {
+      setArea(`${area} Sq ft`);
+    }
   };
 
   return (
@@ -98,6 +107,21 @@ const PropertyDetailsForm = ({ nextStep }) => {
               onChange={handleChange}
               placeholder="Enter Price here"
               aria-label="Price"
+            />
+          </div>
+        </section>
+
+         {/* Area */}
+         <section className="formGroup">
+          <label>Area:</label>
+          <div className="inputWrapper">
+            <input
+              type="text"
+              placeholder="Enter Area here"
+              aria-label="Area"
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+              onBlur={handleAreaBlur}
             />
           </div>
         </section>

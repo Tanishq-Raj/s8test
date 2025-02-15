@@ -103,9 +103,16 @@ margin-top: -5px;
   gap: 10px;
   color: rgba(0, 70, 99, 1);
   font-weight: 400;
-  padding: 3px 5px;
+  padding: 5px 7px;
   border: 1px solid rgba(0, 70, 99, 1);
   margin-right: 50px;
+  width: 80px;
+  text-align: center;
+
+  &:hover {
+    background-color: #00334a;
+    color: white;
+    cursor: pointer;}
 }
 
 @media (max-width: 991px) {
