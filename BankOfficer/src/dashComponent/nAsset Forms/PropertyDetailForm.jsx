@@ -13,6 +13,10 @@ const PropertyDetailsForm = ({ nextStep }) => {
       [name]: value
     });
   };
+  const nextStep1 = () => {
+    nextStep();
+    console.log(formData);
+  };
 
   return (
     <main className="propertyFormContainer">
@@ -117,7 +121,7 @@ const PropertyDetailsForm = ({ nextStep }) => {
           <img src="/delete2.svg" className="buttonIcon" alt="Cancel" />
           Cancel
         </button>
-        <button className="nextButton" onClick={nextStep}>
+        <button className="nextButton" onClick={nextStep1}>
           <img src="/check2.svg" className="buttonIcon" alt="Next" />
           Next
         </button>

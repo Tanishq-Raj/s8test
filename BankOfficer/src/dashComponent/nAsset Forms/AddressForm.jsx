@@ -88,7 +88,7 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {
               type="text"
               name="nearbyPlaces"
               value={formData.nearbyPlaces}
-              onChange={handleChange}
+              onChange={(e) => setFormData({ ...formData, nearbyPlaces: e.target.value })}
               placeholder="Enter Nearby Place"
               aria-label="Nearby Place"
             />

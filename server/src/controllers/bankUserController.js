@@ -4,6 +4,7 @@ import { sendToken } from "../utils/sendToken.js";
 import passport from "passport";
 import bankUser from "../models/bankUserModel.js";
 import propertyModel from "../models/PropertiesModel.js";
+import cloudinary from "cloudinary";
 
 // bankUser Registration
 export const bankUserRegister = async (req, res) => {
@@ -318,18 +319,19 @@ export const googleAuthCallback = (req, res) => {
 // Add the Property
 export const addProperties = async function (req, res) {
   try {
+    const userId = req.userId;
     const {
-      userId,
+      title,
       category,
       auctionDate,
       auctionTime,
-      areaPerSqFt,
+      // areaPerSqFt,
       price,
       description,
-      enquiryUrl,
+      auctionUrl,
       nearbyPlaces,
       address,
-      auctionType,
+      // auctionType,
       contact,
       borrower,
       amountDue,
@@ -337,44 +339,47 @@ export const addProperties = async function (req, res) {
       bidInc,
       inspectDate,
       inspectTime,
-      message,
-      latitude,
-      longitude,
+      // message,
+      // latitude,
+      // longitude,
     } = req.body;
 
-    const { files } = req.files;
+    const  files  = req.files;
 
     if (!userId) {
       return res.json({ success: false, message: "Unauthorized Access, Login Again" });
     }
 
     if (
+      !title ||
       !category ||
       !auctionDate ||
       !auctionTime ||
-      !areaPerSqFt ||
+      // !areaPerSqFt ||
       !price ||
       !description ||
-      !enquiryUrl ||
+      !auctionUrl ||
       !nearbyPlaces ||
       !address ||
-      !auctionType ||
+      // !auctionType ||
       !contact ||
       !borrower ||
       !amountDue ||
       !deposit ||
       !bidInc ||
       !inspectDate ||
-      !inspectTime ||
-      !latitude ||
-      !longitude
+      !inspectTime 
+      // !latitude ||
+      // !longitude
     ) {
       return res.json({ success: false, message: "Provide all the fields" });
     }
 
     if (!files || files.length === 0) {
+      console.log("No files uploaded");
       return res.status(400).json({ success: false, message: "No files uploaded" });
     }
+
 
     // Upload new files and store public_id
     const uploadedFiles = await Promise.all(
@@ -392,20 +397,22 @@ export const addProperties = async function (req, res) {
 
     const propertyData = {
       userId,
+      title,
       category,
       auctionDate,
       auctionTime,
-      areaPerSqFt,
+      // areaPerSqFt,
       price,
       description,
-      enquiryUrl,
+      auctionUrl,
       nearbyPlaces,
-      mapLocation: {
-        latitude,
-        longitude,
-      },
-      address,
-      auctionType,
+      // mapLocation: {
+      //   latitude,
+      //   longitude,
+      // },
+      address: JSON.parse(address),
+      // address,
+      // auctionType,
       contact,
       borrower,
       amountDue,
@@ -413,7 +420,7 @@ export const addProperties = async function (req, res) {
       bidInc,
       inspectDate,
       inspectTime,
-      message,
+      // message,
       image: uploadedFiles,
       bankName: user.bankName,
     };

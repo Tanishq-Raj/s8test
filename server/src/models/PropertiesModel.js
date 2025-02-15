@@ -2,11 +2,11 @@ import mongoose, { Schema } from "mongoose";
 
 const propertySchema = new Schema(
   {
-    // title: {
-    //   type: String,
-    //   required: true,
-    //   trim: true,
-    // },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     // location: {
     //   type: String,
     //   required: true,
@@ -37,6 +37,7 @@ const propertySchema = new Schema(
         address: "",
         city: "",
         state: "",
+        pincode: "",
       },
     },
     image: [
@@ -59,11 +60,11 @@ const propertySchema = new Schema(
       type: String, // HH:mm:ss
       required: true,
     },
-    auctionType: {
-      type: String,
-      required: true,
-      enum: ["Normal", "E-auction"],
-    },
+    // auctionType: {
+    //   type: String,
+    //   required: true,
+    //   enum: ["Normal", "E-auction"],
+    // },
     contact: {
       type: String,
       required: true,
@@ -94,42 +95,43 @@ const propertySchema = new Schema(
       type: String, // HH:mm:ss
       required: true,
     },
-    message: {
-      type: String,
-      default: "",
-      trim: true,
-    },
+    // message: {
+    //   type: String,
+    //   default: "",
+    //   trim: true,
+    // },
     // contactNo: {
     //   type: String,
     //   required: true,
     //   match: [/^\+91\d{10}$/, "Invalid contact number"],
     //   trim: true,
     // },
-    areaPerSqFt: {
-      type: Number,
-      required: true,
-    },
+    // areaPerSqFt: {
+    //   type: Number,
+    //   required: true,
+    // },
     nearbyPlaces: {
-      type: [String],
-      default: [],
+      type: String,
+      default: "",
     },
-    mapLocation: {
-      latitude: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      longitude: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-    },
-    enquiryUrl: {
+    // mapLocation: {
+    //   latitude: {
+    //     type: String,
+    //     required: true,
+    //     trim: true,
+    //   },
+      // longitude: {
+      //   type: String,
+      //   required: true,
+      //   trim: true,
+      // },
+    // },
+    auctionUrl: {
       type: String,
       required: true,
       trim: true,
     },
+
     // addedby: userid //////////////////////////////////////////////////////////////////////////
     // active //******************************************* */
   },

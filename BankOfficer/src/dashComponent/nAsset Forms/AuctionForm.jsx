@@ -15,7 +15,7 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleFormSubmit = async () => {
     try {
       const newFormData = new FormData();
       newFormData.append("title", formData.title);
@@ -38,14 +38,27 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
       newFormData.append("bidInc", formData.bidInc);
       newFormData.append("inspectDate", formData.inspectDate);
       newFormData.append("inspectTime", formData.inspectTime);
-      // newFormData.append("message", formData.message);
-      uploadedFiles && newFormData.append("files", uploadedFiles);
+      console.log(uploadedFiles);
+      console.log("this");
+      console.log(uploadedFiles);
 
-      console.log(newFormData);
-      // const {data} = await axios.post( serverUrl + "/api/v1/bank-user/add-property", newFormData, {withCredentials: true});
-
-    } catch (error) {
+      // uploadedFiles.forEach(({ file }, index) => {
+      //   console.log(`File ${index} is instance of File:`, file instanceof File);
+      //   console.log(`File Type: ${file.type}`); // Should now show correct type
+      // });
       
+      uploadedFiles.forEach((file) => newFormData.append("files", file));
+
+      console.log([...newFormData]);
+      
+      const {data} = await axios.post( serverUrl + "/api/v1/bank-user/add-property", newFormData, {headers: { "Content-Type": "multipart/form-data" }, withCredentials: true}, );
+      // {headers: { "Content-Type": "multipart/form-data" }}
+      console.log(data);
+      if (data.success) {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -181,7 +194,7 @@ const AuctionDetailsForm = ({ prevStep, handleSubmit }) => {
           <img src="/back.svg" className="buttonIcon" alt="Back" />
           Back
         </button>
-        <button className="nextButton" onClick={handleSubmit}>
+        <button className="nextButton" onClick={handleFormSubmit}>
           <img src="/check2.svg" className="buttonIcon" alt="Submit" />
           Submit
         </button>
