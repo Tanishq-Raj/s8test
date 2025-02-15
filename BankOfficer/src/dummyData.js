@@ -1,7 +1,7 @@
 const properties = [
     {
       id: 1,
-      title: "Luxury Apartment",
+      title: "Plot No. 39, G. No.286, S. No. 107/2 B/h Punjab aba Govardhan College",
       address: "Flat No. 705 , 7th floor, V. N. Pride, Nashik City-422003",
       price: 120000,
       category: "Residential",

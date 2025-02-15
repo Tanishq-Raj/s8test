@@ -13,14 +13,14 @@ export const PropertyCards = ({
   bankName,
   area,
   auctionDate,
-  imageUrl,
+  image,
 }) => {
   return (
     <article className="propertyCard">
       <div className="imageContainer">
         <img
           loading="lazy"
-          src={imageUrl}
+          src={image}
           alt={`Property view of ${title}`}
           className="propertyImage"
         />
@@ -62,6 +62,8 @@ export const PropertyCards = ({
           View Details
         </button>
         </Link>
+        {/* <a href={`/property/${id}`} className="viewButton">View Details</a> */}
+
       </div>
     </article>
   );
@@ -76,5 +78,5 @@ PropertyCards.propTypes = {
   bankName: PropTypes.string.isRequired,
   area: PropTypes.string.isRequired,
   auctionDate: PropTypes.any.isRequired,
-  imageUrl: PropTypes.any.isRequired,
+  image: PropTypes.any.isRequired,
 };

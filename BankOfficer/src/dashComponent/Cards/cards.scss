@@ -30,7 +30,7 @@
   }
 
   .cardsScrollContainer {
-    margin-top: -13px;
+    margin-top: -18px;
     margin-left: 10px;
     width: calc(100% - 20px);
     overflow-x: auto;
@@ -62,7 +62,7 @@
 
   .assetCard {
     background-color: #ffffff;
-    border: 1px solid #e0e0e0;
+    border: 1.5px solid #a5a4a4;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -119,14 +119,20 @@
     }
 
     h4 {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
       color: #333;
       margin: 0 0 10px 0;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* Limit to 2 lines */
+      line-clamp: 2; /* Standard property for compatibility */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     p {
-      font-size: 14px;
+      font-size: 13px;
       color: #555;
       margin: 0 0 10px 0;
     }
@@ -135,20 +141,20 @@
   .viewButton {
     display: inline-block;
     padding: 8px 16px;
-    background-color: #004663;
+    background-color: #00334a ;
     color: #fff;
     border-radius: 5px;
     text-decoration: none;
     font-size: 14px;
     transition: background-color 0.3s ease;
-    margin-top: 10px; /* Adjust the gap between button and auction date */
+    margin-top: 5px; /* Adjust the gap between button and auction date */
     width: 100%; /* Adjust the width of the "View now" button */
     max-width: 100px; /* Set a max-width if you want to limit the button size */
     z-index: 10;
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: #004f6e;
     }
   }
 

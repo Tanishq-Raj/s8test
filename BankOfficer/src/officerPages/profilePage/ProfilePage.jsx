@@ -6,26 +6,32 @@ import Sidebar from "../../dashComponent/Sidebar/Sidebar";
 import News from "../../dashComponent/News & Updates/newsUpdate";
 import Header from "../../dashComponent/nav/header/Header";
 import CardsContainer from "../../dashComponent/Cards/Cards";
+import AddNewAsset from "../../dashComponent/Add Asset/AddNewAsset";
 
 // Dummy data for assets
-import { singlePostData } from "../../dummyData"; import AddNewAsset from "../../dashComponent/Add Asset/AddNewAsset";
+import { singlePostData } from "../../dummyData"; 
 
 const Profilepage = () => {
   const userAssets = singlePostData; // Initialize directly with the properties data
 
   // Function to get the latest asset based on auction date
   const getLatestAuctionAsset = () => {
-    const currentDate = new Date(); // Get the current date
-    const upcomingAssets = userAssets.filter(asset => {
-      const auctionDate = new Date(asset.auctionDate); // Convert auction date to Date object
-      return auctionDate >= currentDate; // Filter only upcoming auctions
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Ensure we compare only the date part
+    
+    const upcomingOrOngoingAssets = userAssets.filter(asset => {
+      const auctionDate = new Date(asset.auctionDate);
+      auctionDate.setHours(0, 0, 0, 0); // Remove time for accurate date comparison
+      return auctionDate >= currentDate; // Include both today’s and future auctions
     });
 
-    // Sort the assets by auction date in ascending order (soonest auction first)
-    const sortedAssets = upcomingAssets.sort((a, b) => new Date(a.auctionDate) - new Date(b.auctionDate));
+  // Sort the assets by auction date in ascending order (soonest first)
+  const sortedAssets = upcomingOrOngoingAssets.sort(
+    (a, b) => new Date(a.auctionDate) - new Date(b.auctionDate)
+  );
 
-    return sortedAssets.length > 0 ? sortedAssets[0] : null; // Return the first asset (soonest auction)
-  };
+  return sortedAssets.length > 0 ? sortedAssets[0] : null; 
+};
 
   const latestAsset = getLatestAuctionAsset(); // Get the latest auction asset
 

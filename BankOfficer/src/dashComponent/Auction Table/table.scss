@@ -29,7 +29,6 @@ width: 1200px;}
   color: black; 
 }
 
-
 .auction-actions {
   display: flex;
   gap: 8px;
@@ -80,10 +79,14 @@ width: 1200px;}
   display: flex;
   align-items: center;
   gap: 4px;
-  background-color: #004f6e;
+  background-color: #00334a;
   color: white;
   padding: 8px 16px;
   border-radius: 8px;
+  
+  &:hover {
+    background-color: #004f6e;
+  }
 }
 
 //table section
@@ -176,6 +179,9 @@ td span {
   &.closed {color: #dc3545;}
 }
 
+.highlight {
+  background-color: yellow; /* Highlight color */
+}
 
 .action-buttons {
   display: flex;

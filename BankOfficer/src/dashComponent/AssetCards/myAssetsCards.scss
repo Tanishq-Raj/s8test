@@ -1,5 +1,4 @@
 .myAssetsCardsContainer {
-  // font-family: "Roboto";
   font-family: "Poppins", sans-serif;
 
   flex: 4;
@@ -134,14 +133,20 @@
       justify-content: space-between;  // Ensure content is spaced out, and button stays at the bottom
      
       h4 {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 600;
         color: #333;
         margin: 0 0 10px 0;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Limit to 2 lines */
+        line-clamp: 2; /* Standard property for compatibility */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       p {
-        font-size: 14px;
+        font-size: 13px;
         color: #555;
         margin: 0 0 10px 0;
       }
@@ -150,7 +155,7 @@
       .viewButton {
         display: inline-block;
     padding: 8px 16px;
-    background-color: #004663;
+    background-color: #00334a;
     color: #fff;
     border-radius: 5px;
     text-decoration: none;
@@ -163,7 +168,7 @@
     transition: background-color 0.3s ease;
 
         &:hover {
-          background-color: #0056b3;
+          background-color: #004f6e;
         }
     }
   

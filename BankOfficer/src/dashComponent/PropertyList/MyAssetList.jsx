@@ -1,5 +1,5 @@
 import "./MyAssetList.scss";
-import properties from "../../dummyData";
+import { singlePostData } from "../../dummyData";
 import { PropertyCards } from "../auction Cards/PropertyCards";
 
 const MyAssetList = () => {
@@ -23,23 +23,23 @@ const MyAssetList = () => {
     <div className="propertyCardsWrapper">
        <div className="sectionTitle">
          <h2>My Assets</h2>
-         <h3>Showing {properties.length} results</h3>
+         <h3>Showing {singlePostData.length} results</h3>
        </div>
       <div className="cardsContainer2">
-        {properties.map((property) => (
+        {singlePostData.map((asset) => (
           <PropertyCards
-            key={property.id}
-            id={property.id}
-            title={property.title}
-            address={property.address}
-            price={formatPrice(property.price)}
-            category={property.category}
-            bankName={property.bankName}
-            area={property.area}
-            auctionDate={formatDate(property.auctionDate)}
-            imageUrl={property.imageUrl}
-          />
-        ))}
+          key={asset.id}
+          id={asset.id}
+          title={asset.title}
+          address={asset.address}
+          price={formatPrice(asset.price.replace(/,/g, ''))} // Ensure price is formatted properly            category={asset.category}
+          bankName={asset.bankName}
+          category={asset.category}
+            area={asset.area}
+            auctionDate={formatDate(asset.auctionDate)}
+            image={asset.media && asset.media.length > 0 ? asset.media[0] : "default-image.jpg"} // Fixed syntax
+            />
+          ))}       
       </div>
     </div>
   );
