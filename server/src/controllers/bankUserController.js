@@ -323,15 +323,15 @@ export const addProperties = async function (req, res) {
     const {
       title,
       category,
+      auctionType,
       auctionDate,
       auctionTime,
-      // areaPerSqFt,
+      area,
       price,
       description,
       auctionUrl,
       nearbyPlaces,
       address,
-      // auctionType,
       contact,
       borrower,
       amountDue,
@@ -339,9 +339,10 @@ export const addProperties = async function (req, res) {
       bidInc,
       inspectDate,
       inspectTime,
-      // message,
-      // latitude,
-      // longitude,
+      reservPrice,
+      message,
+      latitude,
+      longitude,
     } = req.body;
 
     const  files  = req.files;
@@ -355,22 +356,24 @@ export const addProperties = async function (req, res) {
       !category ||
       !auctionDate ||
       !auctionTime ||
-      // !areaPerSqFt ||
+      !area ||
       !price ||
       !description ||
       !auctionUrl ||
       !nearbyPlaces ||
       !address ||
-      // !auctionType ||
+      !auctionType ||
       !contact ||
       !borrower ||
       !amountDue ||
       !deposit ||
       !bidInc ||
       !inspectDate ||
-      !inspectTime 
-      // !latitude ||
-      // !longitude
+      !inspectTime ||
+      !reservPrice ||
+      !message ||
+      !latitude ||
+      !longitude
     ) {
       return res.json({ success: false, message: "Provide all the fields" });
     }
@@ -401,18 +404,17 @@ export const addProperties = async function (req, res) {
       category,
       auctionDate,
       auctionTime,
-      // areaPerSqFt,
+      area,
       price,
       description,
       auctionUrl,
       nearbyPlaces,
-      // mapLocation: {
-      //   latitude,
-      //   longitude,
-      // },
+      mapLocation: {
+        latitude,
+        longitude,
+      },
       address: JSON.parse(address),
-      // address,
-      // auctionType,
+      auctionType,
       contact,
       borrower,
       amountDue,
@@ -420,7 +422,8 @@ export const addProperties = async function (req, res) {
       bidInc,
       inspectDate,
       inspectTime,
-      // message,
+      reservPrice,
+      message,
       image: uploadedFiles,
       bankName: user.bankName,
     };

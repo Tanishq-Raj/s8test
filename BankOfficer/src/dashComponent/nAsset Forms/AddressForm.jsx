@@ -85,14 +85,18 @@ const AddressDetailsForm = ({ nextStep, prevStep }) => {
         <section className="formGroup">
            <label>Longitude:</label>
            <div className="inputWrapper">
-            <input type="text" placeholder="Enter Asset longitude" />
+            <input name="longitude" value={formData.longitude} 
+              onChange={(e) => setFormData({ ...formData, longitude: e.target.value })}
+            type="text" placeholder="Enter Asset longitude" />
            </div>
         </section>
 
         <section className="formGroup">
            <label>Latitude:</label>
            <div className="inputWrapper">
-            <input type="text" placeholder="Enter Asset longitude" />
+            <input name="latitude" value={formData.latitude} 
+            onChange={(e) => setFormData({ ...formData, latitude: e.target.value })}
+            type="text" placeholder="Enter Asset longitude" />
            </div>
         </section>
         </div>

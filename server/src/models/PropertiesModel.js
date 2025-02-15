@@ -53,22 +53,18 @@ const propertySchema = new Schema(
       trim: true,
     },
     auctionDate: {
-      type: Date,
+      // type: Date,
+      type: String, // DD/MM/YYYY
       required: true,
     },
     auctionTime: {
       type: String, // HH:mm:ss
       required: true,
     },
-    // auctionType: {
-    //   type: String,
-    //   required: true,
-    //   enum: ["Normal", "E-auction"],
-    // },
-    contact: {
+    auctionType: {
       type: String,
       required: true,
-      trim: true,
+      // enum: ["Normal", "E-auction"],
     },
     borrower: {
       type: String,
@@ -80,7 +76,8 @@ const propertySchema = new Schema(
       required: true,
     },
     deposit: {
-      type: Number,
+      // type: Number,
+      type: String,
       required: true,
     },
     bidInc: {
@@ -88,48 +85,57 @@ const propertySchema = new Schema(
       required: true,
     },
     inspectDate: {
-      type: Date,
+      // type: Date,
+      type: String, // DD/MM/YYYY
       required: true,
     },
     inspectTime: {
       type: String, // HH:mm:ss
       required: true,
     },
-    // message: {
-    //   type: String,
-    //   default: "",
-    //   trim: true,
-    // },
-    // contactNo: {
-    //   type: String,
-    //   required: true,
-    //   match: [/^\+91\d{10}$/, "Invalid contact number"],
-    //   trim: true,
-    // },
-    // areaPerSqFt: {
-    //   type: Number,
-    //   required: true,
-    // },
+    message: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    contact: {
+      type: String,
+      required: true,
+      // match: [/^\+91\d{10}$/, "Invalid contact number"],
+      trim: true,
+    },
+    area: {
+      type: Number,
+      required: true,
+    },
     nearbyPlaces: {
       type: String,
       default: "",
     },
-    // mapLocation: {
-    //   latitude: {
-    //     type: String,
-    //     required: true,
-    //     trim: true,
-    //   },
-      // longitude: {
-      //   type: String,
-      //   required: true,
-      //   trim: true,
-      // },
-    // },
+    mapLocation: {
+      latitude: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      longitude: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+    },
     auctionUrl: {
       type: String,
       required: true,
       trim: true,
+    },
+    viewCount: {
+      type: Number,
+      default: 0,
+    },
+    reservPrice: {
+      type: Number,
+      required: true,
     },
 
     // addedby: userid //////////////////////////////////////////////////////////////////////////

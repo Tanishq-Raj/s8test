@@ -21,12 +21,16 @@ const AuctionDetailsForm = ({ prevStep }) => {
       const newFormData = new FormData();
       newFormData.append("title", formData.title);
       newFormData.append("category", formData.category);
+      newFormData.append("auctionType", formData.auctionType);
       newFormData.append("auctionDate", formData.auctionDate);
       newFormData.append("auctionTime", formData.auctionTime);
+      newFormData.append("area", formData.area);
       newFormData.append("price", formData.price);
       newFormData.append("description", formData.description);
       newFormData.append("contact", formData.contact);
       newFormData.append("nearbyPlaces", formData.nearbyPlaces);
+      newFormData.append("latitude", formData.latitude);
+      newFormData.append("longitude", formData.longitude);
       newFormData.append("address", JSON.stringify(formData.address));
       newFormData.append("auctionUrl", formData.auctionUrl);
       newFormData.append("borrower", formData.borrower);
@@ -35,6 +39,8 @@ const AuctionDetailsForm = ({ prevStep }) => {
       newFormData.append("bidInc", formData.bidInc);
       newFormData.append("inspectDate", formData.inspectDate);
       newFormData.append("inspectTime", formData.inspectTime);
+      newFormData.append("reservPrice", formData.reservPrice);
+      newFormData.append("message", formData.message);
 
       uploadedFiles.forEach((file) => newFormData.append("files", file));
 

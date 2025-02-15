@@ -10,21 +10,21 @@ const ImageUpload = () => {
   // Function to handle file selection
   const handleFileUpload = (event) => {
     const files = Array.from(event.target.files);
-    setUploadedFiles(files);
-    // processFiles(files);
+    // setUploadedFiles(files);
+    processFiles(files);
   };
 
   // Function to process dropped or selected files
   const processFiles = (files) => {
-    const newFiles = files.map((file) => ({
-      file, // Store the actual File object inside
-      name: file.name,
-      size: (file.size / 1024).toFixed(2), // Convert to KB
-      type: file.type, // Keep the type
-      status: "Completed",
-    }));
-  
-    setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles]);
+    // const newFiles = files.map((file) => ({
+    //   file, // Store the actual File object inside
+    //   name: file.name,
+    //   size: (file.size / 1024).toFixed(2), // Convert to KB
+    //   type: file.type, // Keep the type
+    //   status: "Completed",
+    // }));
+    // setUploadedFiles(files);
+    setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
     // Show popup message
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 3000);

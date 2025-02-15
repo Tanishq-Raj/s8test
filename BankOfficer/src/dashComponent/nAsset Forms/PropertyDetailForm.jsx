@@ -119,8 +119,9 @@ const PropertyDetailsForm = ({ nextStep }) => {
               type="text"
               placeholder="Enter Area here"
               aria-label="Area"
-              value={area}
-              onChange={(e) => setArea(e.target.value)}
+              name="area"
+              value={formData.area}
+              onChange={handleChange}
               onBlur={handleAreaBlur}
             />
           </div>
