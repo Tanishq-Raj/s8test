@@ -616,11 +616,23 @@ export const deleteProperty = async function (req, res) {
 // To get the properties of their respective bank
 export const getProperties = async (req, res) => {
   try {
-    const { userId } = req.body;
-    const user = await bankUser.find({ _id: userId });
-    const properties = await propertyModel.find({ bankName: user.bankName }); // ----------------
-
+    const userId = req.userId;
+    const userBank = await propertyModel.findOne({ userId }); 
+    const bankName = userBank?.bankName
+    const properties = await propertyModel.find({ bankName }); 
     res.json({ success: true, properties });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Get the property by ID
+export const getPropertyById = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const property = await propertyModel.findById("67b0df10321e1f57fd794c05");
+    res.json({ success: true, property });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });

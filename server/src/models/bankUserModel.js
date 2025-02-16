@@ -46,6 +46,10 @@ const bankUserSchema = new Schema(
       lowercase: true,
       index: true,
     },
+    // bankProfileImage: {
+    //   type: String, // URL
+    //   //   required: true,
+    // },
     designation: {
       type: String,
       //   required: true,
