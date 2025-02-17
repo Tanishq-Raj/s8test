@@ -157,7 +157,7 @@ export default function AuctionLanding() {
         <div className="shrink-0 self-end max-w-full h-px border border-black border-solid w-[1312px]" />
         <div className="flex gap-5 items-center mt-16 max-w-full leading-none w-[401px] max-md:mt-10">
           {/* <div className="text-xl text-black">Bid on item</div> */}
-          <div className="text-xl text-black">
+          {/* <div className="text-xl text-black">
           <button 
                 onClick={() => {
                   window.scrollTo(0, 0);
@@ -177,9 +177,9 @@ export default function AuctionLanding() {
                 className="text-xl text-black">
                 Become a Seller
               </button>
-            </div>
+            </div> */}
         </div>
-        <div className="self-center mt-28 ml-7 text-2xl font-semibold leading-9 text-center text-sky-900 w-[1022px] max-md:mt-10 max-md:max-w-full">
+        <div className="self-center mt-5 ml-7 text-2xl font-semibold leading-9 text-center text-sky-900 w-[1022px] max-md:mt-10 max-md:max-w-full">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pulvinar
           interdum enim a vestibulum, nunc cras. Gravida morbi sit sed egestas
           cursus risus imperdiet bibendum nisl enim.

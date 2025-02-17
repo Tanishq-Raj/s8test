@@ -23,7 +23,7 @@ export default function ContactInfo() {
   ];
 
   return (
-    <div className="flex flex-wrap gap-10 items-start max-md:max-w-full">
+    <div className="flex flex-wrap gap-10 items-start max-md:max-w-full pt-4 pb-8">
       {contactDetails.map((detail, index) => (
         <div key={index} className="flex gap-4 items-center">
           <img
