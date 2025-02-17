@@ -631,7 +631,7 @@ export const getProperties = async (req, res) => {
 export const getPropertyById = async (req, res) => {
   try {
     const { id } = req.body;
-    const property = await propertyModel.findById("67b0df10321e1f57fd794c05");
+    const property = await propertyModel.findById(id);
     res.json({ success: true, property });
   } catch (error) {
     console.log(error);

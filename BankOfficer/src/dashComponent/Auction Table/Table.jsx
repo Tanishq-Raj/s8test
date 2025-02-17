@@ -1,14 +1,40 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useContext } from "react";
 import { Search, Users } from "lucide-react";
 import { Link } from "react-router-dom"; // Import Link component for routing
 import { singlePostData } from "../../dummyData"; // Adjust the path accordingly
 import * as XLSX from "xlsx"; // Import xlsx library
 import "./table.scss";
+import axios from "axios";
+import { AppContext } from "../../context/context";
 
 const AuctionHistory = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
+  const [properties, setProperties] = useState([]);
+  const { serverUrl } = useContext(AppContext);
+
+  useEffect(() => {
+    getProperties();
+    
+  }, []);
+
+  // Function to get properties
+  const getProperties = async () => {
+    try {
+      const { data } = await axios.get( serverUrl + "/api/v1/bank-user/get-property", {
+        withCredentials: true,
+      });
+      if (data.success) {
+        setProperties(data.properties);
+      }else{
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
 
   const totalPages = Math.ceil(singlePostData.length / itemsPerPage);
 
@@ -167,24 +193,24 @@ const AuctionHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {currentData.map((item, index) => (
-                <tr key={item.id}>
+              {properties.map((item, index) => (
+                <tr key={item._id}>
                   <td>{index + 1}</td>
                   <td>{highlightText(item.title, searchQuery)}</td>
                   <td>{highlightText(item.borrower, searchQuery)}</td>
                   <td>{highlightText(item.price, searchQuery)}</td>
                   <td>{highlightText(item.auctionDate, searchQuery)}</td>
                   <td>{highlightText(item.category, searchQuery)}</td>
-                  <td className="address-column">{highlightText(item.address, searchQuery)}</td>
-                  <td>{highlightText(item.city, searchQuery)}</td>
-                  <td>{highlightText(item.state, searchQuery)}</td>
+                  <td className="address-column">{highlightText(<p>{item.address?.address}, - {item.address?.pincode}</p>, searchQuery)}</td>
+                  <td>{highlightText(item.address?.city, searchQuery)}</td>
+                  <td>{highlightText(item.address?.state, searchQuery)}</td>
                   <td>
                     <span className={getStatus(item.auctionDate) === "Closed" ? "closed" : getStatus(item.auctionDate) === "Ongoing" ? "ongoing" : "upcoming"}>
                       {getStatus(item.auctionDate)}
                     </span>
                   </td>
                   <td className="action-buttons">
-                    <Link to={`/property/${item.id}`} className="view-button">
+                    <Link to={`/property/${item._id}`} className="view-button">
                       <img src="/goTo.svg" alt="View" width={16} height={16} />
                     </Link>
                     <button className="edit-button">

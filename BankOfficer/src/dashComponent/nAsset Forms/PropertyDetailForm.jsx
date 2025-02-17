@@ -16,7 +16,6 @@ const PropertyDetailsForm = ({ nextStep }) => {
   };
   const nextStep1 = () => {
     nextStep();
-    console.log(formData);
   };
 
   const [area, setArea] = useState("");
