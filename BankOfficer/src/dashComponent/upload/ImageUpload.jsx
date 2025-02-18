@@ -3,26 +3,40 @@ import "./imageUpload.scss";
 import { AppContext } from "../../context/context";
 
 const ImageUpload = () => {
-  const {uploadedFiles, setUploadedFiles} = useContext(AppContext);
+  const {uploadedFiles, setUploadedFiles, newImages, setNewImages, removedImages, setRemovedImages, editProperty} = useContext(AppContext);
   const [showPopup, setShowPopup] = useState(false);
   const fileInputRef = useRef(null); // Reference for file input
+
+  // Handle file input (for adding new images)
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setNewImages([...newImages, ...files]); // Track newly added images
+  };
+
+  // Handle removing an image
+  const handleRemoveImage = (image) => {
+    setRemovedImages([...removedImages, image.public_id]); // Track removed images by public_id
+    setUploadedFiles(uploadedFiles.filter((img) => img.public_id !== image.public_id));
+  };
 
   // Function to handle file selection
   const handleFileUpload = (event) => {
     const files = Array.from(event.target.files);
+    // setUploadedFiles(files);
     processFiles(files);
   };
 
   // Function to process dropped or selected files
   const processFiles = (files) => {
-    const newFiles = files.map((file) => ({
-      name: file.name,
-      size: (file.size / 1024).toFixed(2), // Convert to KB
-      status: "Completed",
-    }));
-
-    setUploadedFiles((prevFiles) => [...prevFiles, ...newFiles]);
-
+    // const newFiles = files.map((file) => ({
+    //   file, // Store the actual File object inside
+    //   name: file.name,
+    //   size: (file.size / 1024).toFixed(2), // Convert to KB
+    //   type: file.type, // Keep the type
+    //   status: "Completed",
+    // }));
+    // setUploadedFiles(files);
+    setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
     // Show popup message
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 3000);

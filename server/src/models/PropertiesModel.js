@@ -2,11 +2,11 @@ import mongoose, { Schema } from "mongoose";
 
 const propertySchema = new Schema(
   {
-    // title: {
-    //   type: String,
-    //   required: true,
-    //   trim: true,
-    // },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     // location: {
     //   type: String,
     //   required: true,
@@ -37,6 +37,7 @@ const propertySchema = new Schema(
         address: "",
         city: "",
         state: "",
+        pincode: "",
       },
     },
     image: [
@@ -52,7 +53,8 @@ const propertySchema = new Schema(
       trim: true,
     },
     auctionDate: {
-      type: Date,
+      // type: Date,
+      type: String, // DD/MM/YYYY
       required: true,
     },
     auctionTime: {
@@ -62,12 +64,7 @@ const propertySchema = new Schema(
     auctionType: {
       type: String,
       required: true,
-      enum: ["Normal", "E-auction"],
-    },
-    contact: {
-      type: String,
-      required: true,
-      trim: true,
+      // enum: ["Normal", "E-auction"],
     },
     borrower: {
       type: String,
@@ -79,7 +76,8 @@ const propertySchema = new Schema(
       required: true,
     },
     deposit: {
-      type: Number,
+      // type: Number,
+      type: String,
       required: true,
     },
     bidInc: {
@@ -87,7 +85,8 @@ const propertySchema = new Schema(
       required: true,
     },
     inspectDate: {
-      type: Date,
+      // type: Date,
+      type: String, // DD/MM/YYYY
       required: true,
     },
     inspectTime: {
@@ -99,19 +98,19 @@ const propertySchema = new Schema(
       default: "",
       trim: true,
     },
-    // contactNo: {
-    //   type: String,
-    //   required: true,
-    //   match: [/^\+91\d{10}$/, "Invalid contact number"],
-    //   trim: true,
-    // },
-    areaPerSqFt: {
+    contact: {
+      type: String,
+      required: true,
+      // match: [/^\+91\d{10}$/, "Invalid contact number"],
+      trim: true,
+    },
+    area: {
       type: Number,
       required: true,
     },
     nearbyPlaces: {
-      type: [String],
-      default: [],
+      type: String,
+      default: "",
     },
     mapLocation: {
       latitude: {
@@ -125,11 +124,20 @@ const propertySchema = new Schema(
         trim: true,
       },
     },
-    enquiryUrl: {
+    auctionUrl: {
       type: String,
       required: true,
       trim: true,
     },
+    viewCount: {
+      type: Number,
+      default: 0,
+    },
+    reservPrice: {
+      type: Number,
+      required: true,
+    },
+
     // addedby: userid //////////////////////////////////////////////////////////////////////////
     // active //******************************************* */
   },

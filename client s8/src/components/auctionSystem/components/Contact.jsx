@@ -4,17 +4,17 @@ import ContactInfo from './ContactInfo';
 
 export function Contact() {
   return (
-    <div className="overflow-hidden self-center pl-20 mt-32 ml-20 max-w-full bg-white border-zinc-500 w-[1298px] max-md:pl-5 max-md:mt-10">
+    <div className="overflow-hidden self-center pl-20 mt-10 ml-20 max-w-full bg-white border-zinc-500 w-[1298px] max-md:pl-5 max-md:mt-10">
       <div className="flex gap-5 max-md:flex-col">
-        <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
-          <div className="flex flex-col self-stretch my-auto max-md:mt-10 max-md:max-w-full">
-            <div className="flex flex-col max-md:max-w-full">
-              <div className="flex flex-col max-w-full text-black w-[545px]">
-                <div className="text-6xl max-md:text-4xl">
+        <div className="flex flex-col items-center w-full max-w-2xl mx-auto max-md:w-full">
+          <div className="flex flex-col items-center w-full max-md:mt-10 max-md:max-w-full">
+            <div className="flex flex-col items-center w-full max-md:max-w-full">
+              <div className="flex flex-col items-center text-black w-full max-w-[545px]">
+                <div className="text-6xl max-md:text-4xl text-center">
                   <span className="font-bold">Get in </span>
                   <span className="font-bold text-sky-900">Touch</span>
                 </div>
-                <div className="mt-5 text-sm font-semibold tracking-normal leading-6 max-md:max-w-full">
+                <div className="mt-5 text-sm font-semibold tracking-normal leading-6 text-center max-md:max-w-full">
                   Enim tempor eget pharetra facilisis sed maecenas adipiscing. Eu leo molestie vel, ornare non id blandit netus.
                 </div>
               </div>
@@ -23,7 +23,7 @@ export function Contact() {
             <ContactInfo />
           </div>
         </div>
-        <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
+        {/* <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
           <div className="grow max-md:mt-10 max-md:max-w-full">
             <div className="flex flex-col">
               <div className="text-3xl font-bold text-sky-900 mb-4">
@@ -42,7 +42,7 @@ export function Contact() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

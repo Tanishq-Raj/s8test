@@ -1,13 +1,11 @@
 import './userAvatar.scss';
 import PropTypes from 'prop-types';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppContext } from '../../../context/context';
 
 export const UserAvatar = ({ imageSrc, name, address, size = 'small' }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate(); // Hook for programmatic navigation
-  const {avatar, userDetails} = useContext(AppContext)
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -22,13 +20,13 @@ export const UserAvatar = ({ imageSrc, name, address, size = 'small' }) => {
   return (
     <div className="avatarContainer">
       <img
-        src={avatar}
+        src={imageSrc}
         alt={`${name}'s profile picture`}
         className={`${'avatarImage'} ${[size]}`}
       />
       {name && address && (
         <div className="userInfo">
-          <span className="userName">{userDetails.firstName}</span>
+          <span className="userName">{name}</span>
           <span className="userLocation">{address}</span>
         </div>
       )}

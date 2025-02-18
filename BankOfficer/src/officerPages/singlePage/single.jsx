@@ -1,26 +1,145 @@
+import { useContext, useEffect, useState } from "react";
 import GMap from "../../dashComponent/map(Google)/Gmap";
 import Header from "../../dashComponent/nav/header/Header";
 import Sidebar from "../../dashComponent/Sidebar/Sidebar";
 import SingleHeader from "../../dashComponent/singlePage Header/singleHeader";
 import Slider from "../../dashComponent/slider/Slider";
+import axios from "axios";
 // import Map from "../../dashComponent/map/Map"; // Import Map component
 
 import { singlePostData } from "../../dummyData"; 
 import "./single.scss";
-import { useParams } from "react-router-dom"; 
+import { useNavigate, useParams } from "react-router-dom"; 
+import { AppContext } from "../../context/context";
 
 const Single = () => {
   const { id } = useParams(); // Get ID from the URL
-  const post = singlePostData.find(item => item.id === parseInt(id)); // Find matching property
+  const post = singlePostData[0]; // Find matching property
+  
+  const {serverUrl,formData,setFormData, editProperty, setEditProperty, setUploadedFiles, propertyId, setPropertyId} = useContext(AppContext);
+  const [property, setProperty] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getPropertyById();
+  }, [])
+
+  const getPropertyById = async () => {
+    try {
+      const {data} = await axios.post(serverUrl + "/api/v1/bank-user/get-property-by-id", {id}, {
+        withCredentials: true,
+      });
+
+      if (data.success) {
+        setProperty(data.property);
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }}
+
+  const handleEdit = async () => {
+    try {
+      const {data} = await axios.post(serverUrl + "/api/v1/bank-user/get-property-by-id", {id}, {
+        withCredentials: true,
+      });
+
+      if (data.success) {
+        const {
+          title,
+          category,
+          auctionType,
+          auctionDate,
+          auctionTime,
+          area,
+          price,
+          description,
+          contact,
+          nearbyPlaces,
+          mapLocation,
+          address,
+          auctionUrl,
+          borrower,
+          amountDue,
+          deposit,
+          bidInc,
+          inspectDate,
+          inspectTime,
+          reservPrice,
+          message,
+        } = data.property;
+
+        setFormData((prevState) => ({
+          ...prevState,
+          title,
+          category,
+          auctionType,
+          auctionDate,
+          auctionTime,
+          area,
+          price,
+          description,
+          contact,
+          nearbyPlaces,
+          latitude: mapLocation?.latitude || "",
+          longitude: mapLocation?.longitude || "",
+          address: {
+            address: address?.address || "",
+            city: address?.city || "",
+            state: address?.state || "",
+            pincode: address?.pincode || "",
+          },
+          auctionUrl,
+          borrower,
+          amountDue,
+          deposit,
+          bidInc,
+          inspectDate,
+          inspectTime,
+          reservPrice,
+          message,
+        }));
+        setUploadedFiles(data.property.image);
+        setEditProperty(true);
+        setPropertyId(id);
+        navigate("/addNew");
+        
+        console.log(formData);
+        console.log(data.property);
+
+
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleDeleteProperty = async () => {
+    try {
+      const {data} = await axios.post(serverUrl + "/api/v1/bank-user/delete-property", {propertyId :id}, {
+        withCredentials: true,
+      });
+      console.log(data);
+      if (data.success) {
+        navigate("/view");
+      }
+    } catch (error) {
+      console.log(error); 
+    }}
 
   if (!post) {
     return <h2>Property Not Found!</h2>; // If ID is invalid
   }
 
-  const pageName = "My Assets";
-  const title = post.title;
+  const media = property?.image?.map(item => item.url) || [];
 
-  return (
+  const pageName = "My Assets";
+
+  return property && (
     <div className="singlePage">
       <div className="sideContainerS">
         <Sidebar />
@@ -31,39 +150,44 @@ const Single = () => {
          
          <div className="mainSContainer">
         {/* Single Page Header (Centered Above Both Sections) */}
-        <SingleHeader pageName={pageName} title={title} />
+        <SingleHeader pageName={pageName} title={property.title} />
 
         {/* Main Content Container */}
          <div className="mainSinglePage">
           {/* Left Side - Property Details */}
           <div className="leftSide">
             <div className="details">
-              <Slider media={post.media} />
+              <Slider media={media} />
        <div className="info">
   <div className="info-column">
-    <h1>{post.title}</h1>
+    <h1>{property.title}</h1>
     <div className="info-item">
       <img src="/pin.svg" alt="location" className="info-icon" />
       <span className="info-label">Address:</span>
-      <span className="info-value">{post.address}</span>
+      <span className="info-value">{property.address?.address}, {property.address?.city}, {property.address?.state} - {property.address?.pincode}</span>
+      
     </div>
 
     <div className="info-item">
       <img src="/price-tag.svg" alt="price" className="info-icon" />
       <span className="info-label">Price:</span>
+<<<<<<< HEAD
       <span className="info-value highligh">₹ {post.price}</span>
+=======
+      <span className="info-value highlight">₹ {property.price}</span>
+>>>>>>> f802488c785f50c8c60e42ac31ca89fde5774d4a
     </div>
 
     <div className="info-item">
       <img src="/link.svg" alt="link" className="info-icon" />
       <span className="info-label">Enquiry URL:</span>
-      <a href={post.enquiryUrl} className="info-link">{post.enquiryUrl}</a>
+      <a href={property.auctionUrl} className="info-link">{property.auctionUrl}</a>
     </div>
 
     <div className="info-item description">
       <img src="/description.svg" alt="description" className="info-icon" />
       <span className="info-label">Description:</span>
-      <p className="info-value">{post.description}</p>
+      <p className="info-value">{property.description}</p>
     </div>
   </div>
 </div>
@@ -77,67 +201,67 @@ const Single = () => {
   <div className="auction-column">
     <div className="auctionItem">
       <span className="label">Area:</span>
-      <span className="value">{post.area} sq.ft</span>
+      <span className="value">{property.area} sq.ft</span>
     </div>
     <div className="auctionItem">
       <span className="label">Category:</span>
-      <span className="value">{post.category}</span>
+      <span className="value">{property.category}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Borrowers:</span>
-      <span className="value">{post.borrower}</span>
+      <span className="value">{property.borrower}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Bank Name:</span>
-      <span className="value">{post.bankName}</span>
+      <span className="value">{property.bankName.toUpperCase()}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Amount Due:</span>
-      <span className="value">{post.dueAmount}</span>
+      <span className="value">{property.amountDue}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Reserve Price:</span>
-      <span className="value">{post.reservPrice}</span>
+      <span className="value">{property.reservPrice}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Earnest Money Deposit:</span>
-      <span className="value">{post.deposit}</span>
+      <span className="value">{property.deposit}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Bid Increase Amount</span>
-      <span className="value">{post.bidInc}</span>
+      <span className="value">{property.bidInc}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Contact No.:</span>
-      <span className="value">{post.contactNo}</span>
+      <span className="value">{property.contact}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Auction Type:</span>
-      <span className="value">{post.auctionType}</span>
+      <span className="value">{property.auctionType}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Auction Date:</span>
-      <span className="value">{post.auctionDate}</span>
+      <span className="value">{property.auctionDate}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Auction Time:</span>
-      <span className="value">{post.time}</span>
+      <span className="value">{property.auctionTime}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Nereby Places:</span>
-      <span className="value">{post.nearbyPlace}</span>
+      <span className="value">{property.nearbyPlaces}</span>
     </div>
     <div className="auctionItem">
       <span className="label">City:</span>
-      <span className="value">{post.city}</span>
+      <span className="value">{property.address.city}</span>
     </div>
     <div className="auctionItem">
       <span className="label">State:</span>
-      <span className="value">{post.state}</span>
+      <span className="value">{property.address.state}</span>
     </div>
     <div className="auctionItem">
       <span className="label">Message:</span>
-      <span className="value highlight">{post.message}</span>
+      <span className="value highlight">{property.message}</span>
     </div>
    
   </div>
@@ -165,11 +289,11 @@ const Single = () => {
 
             {/* Action Buttons */}
             <div className="actionButtons">
-            <button className="delete">
+            <button className="delete" onClick={handleDeleteProperty} >
               <img src="/delete2.svg" alt="Delete" className="button-icon" />
               Delete
             </button>
-            <button className="edit">
+            <button onClick={handleEdit} className="edit">
               <img src="/edit.svg" alt="Edit" className="button-icon" />
                Edit
             </button>

@@ -14,6 +14,9 @@ const PropertyDetailsForm = ({ nextStep }) => {
       [name]: value
     });
   };
+  const nextStep1 = () => {
+    nextStep();
+  };
 
   const [area, setArea] = useState("");
 
@@ -115,8 +118,9 @@ const PropertyDetailsForm = ({ nextStep }) => {
               type="text"
               placeholder="Enter Area here"
               aria-label="Area"
-              value={area}
-              onChange={(e) => setArea(e.target.value)}
+              name="area"
+              value={formData.area}
+              onChange={handleChange}
               onBlur={handleAreaBlur}
             />
           </div>
@@ -141,7 +145,7 @@ const PropertyDetailsForm = ({ nextStep }) => {
           <img src="/delete2.svg" className="buttonIcon" alt="Cancel" />
           Cancel
         </button>
-        <button className="nextButton" onClick={nextStep}>
+        <button className="nextButton" onClick={nextStep1}>
           <img src="/check2.svg" className="buttonIcon" alt="Next" />
           Next
         </button>
