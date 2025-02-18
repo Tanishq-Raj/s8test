@@ -98,16 +98,23 @@ const AuctionHistory = () => {
 
   const highlightText = (text, query) => {
     if (!query) return text;
-    const parts = text.split(new RegExp(`(${query})`, "gi"));
-    return parts.map((part, index) =>
+    const regex = new RegExp(`(${query})`, "gi");
+    return text.split(regex).map((part, index) =>
       part.toLowerCase() === query.toLowerCase() ? (
-        <span key={index} className="highlight">
-          {part}
-        </span>
+        <span key={index} className="highlight">{part}</span>
       ) : (
         part
       )
     );
+  };
+
+  // Format date as dd/mm/yyyy
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
   };
 
   return (
@@ -173,14 +180,14 @@ const AuctionHistory = () => {
                   <td>{highlightText(item.title, searchQuery)}</td>
                   <td>{highlightText(item.borrower, searchQuery)}</td>
                   <td>{highlightText(item.price, searchQuery)}</td>
-                  <td>{highlightText(item.auctionDate, searchQuery)}</td>
+                  <td>{highlightText(formatDate(item.auctionDate), searchQuery)}</td>
                   <td>{highlightText(item.category, searchQuery)}</td>
                   <td className="address-column">{highlightText(item.address, searchQuery)}</td>
                   <td>{highlightText(item.city, searchQuery)}</td>
                   <td>{highlightText(item.state, searchQuery)}</td>
                   <td>
-                    <span className={getStatus(item.auctionDate) === "Closed" ? "closed" : getStatus(item.auctionDate) === "Ongoing" ? "ongoing" : "upcoming"}>
-                      {getStatus(item.auctionDate)}
+                  <span className={`status ${getStatus(item.auctionDate).toLowerCase()}`}>
+                      {highlightText(getStatus(item.auctionDate), searchQuery)}
                     </span>
                   </td>
                   <td className="action-buttons">
