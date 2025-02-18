@@ -159,7 +159,7 @@ export default properties;
   
     latitude: 20.009444549124982,
     longitude: 73.79983966123419,
-    auctionDate: "2025-02-25",
+    auctionDate: "2025-02-17",
     area: " 329 Sq. Mt.",
     bankName: "Yes Bank",
     time:"10am-12am",

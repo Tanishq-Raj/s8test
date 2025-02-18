@@ -45,7 +45,10 @@ const CardsContainer = () => {
     </button>
   )}
 </div>
-      <div className="cardsScrollContainer">
+<div className="cardsScrollContainer">
+        {properties.length === 0 ? (
+          <div className="noDataMessage">Add Assets first to see result</div>
+        ) : (
         <div className="assetsList">
           {cardsToDisplay.map((property) => (
             <div key={property._id} className="assetCard">
@@ -64,7 +67,7 @@ const CardsContainer = () => {
             </div>
           ))}
         </div>
-     
+       )}
       </div>
     </div>
   );

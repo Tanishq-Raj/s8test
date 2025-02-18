@@ -171,11 +171,7 @@ const Single = () => {
     <div className="info-item">
       <img src="/price-tag.svg" alt="price" className="info-icon" />
       <span className="info-label">Price:</span>
-<<<<<<< HEAD
       <span className="info-value highligh">₹ {post.price}</span>
-=======
-      <span className="info-value highlight">₹ {property.price}</span>
->>>>>>> f802488c785f50c8c60e42ac31ca89fde5774d4a
     </div>
 
     <div className="info-item">
