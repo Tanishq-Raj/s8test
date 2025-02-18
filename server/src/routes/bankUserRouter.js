@@ -22,7 +22,7 @@ bankUserRouter.post("login", login);
 bankUserRouter.get("/logout",bankUserAuth, logout);
 bankUserRouter.post("/add-property", bankUserAuth, upload.array('files'), addProperties)
 bankUserRouter.post("/update-property", bankUserAuth, upload.array('files'), updateProperties)
-bankUserRouter.get("/delete-property", bankUserAuth, deleteProperty)
+bankUserRouter.post("/delete-property", bankUserAuth, deleteProperty)
 bankUserRouter.get("/get-property", bankUserAuth, getProperties)
 bankUserRouter.post("/get-property-by-id", bankUserAuth, getPropertyById)
 bankUserRouter.get("/top-auctioners",bankUserAuth, topAuctioners)

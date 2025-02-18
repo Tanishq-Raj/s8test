@@ -383,18 +383,34 @@ export const addProperties = async function (req, res) {
       return res.status(400).json({ success: false, message: "No files uploaded" });
     }
 
-
-    // Upload new files and store public_id
+    // ===== Upload files to Cloudinary =====
+    const uploadToCloudinary = (fileBuffer) => {
+      return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.v2.uploader.upload_stream(
+          { folder: "properties" }, // optional: specify a folder in Cloudinary
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+        uploadStream.end(fileBuffer);
+      });
+    };
+    
+    // Upload each file and collect the results
     const uploadedFiles = await Promise.all(
-      files.map(async (file) => {
-        const uploadResponse = await cloudinary.uploader.upload(file.path);
-        return {
-          url: uploadResponse.secure_url,
-          public_id: uploadResponse.public_id,
-          fileType: file.mimetype,
-        };
-      })
+      files.map((file) => uploadToCloudinary(file.buffer))
     );
+    
+    // Map the uploaded file results to objects containing URL, public_id, and file type (from multer file metadata)
+    const imageData = uploadedFiles.map((result, index) => ({
+      url: result.secure_url,
+      public_id: result.public_id,
+      fileType: files[index].mimetype,
+    }));
 
     const user = await bankUser.findById(userId);
 
@@ -424,7 +440,7 @@ export const addProperties = async function (req, res) {
       inspectTime,
       reservPrice,
       message,
-      image: uploadedFiles,
+      image: imageData,
       bankName: user.bankName,
     };
 
@@ -633,7 +649,8 @@ export const updateProperties = async function (req, res) {
 
 export const deleteProperty = async function (req, res) {
   try {
-    const { userId, propertyId } = req.body;
+    const userId = req.userId;
+    const { propertyId } = req.body;
 
     if (!userId) {
       return res
@@ -663,12 +680,11 @@ export const deleteProperty = async function (req, res) {
       });
     }
 
-    // Delete images from Cloudinary
     if (existingProperty.image.length > 0) {
       await Promise.all(
-        existingProperty.image.map((img) =>
-          cloudinary.uploader.destroy(img.public_id)
-        )
+        existingProperty.image.map(async (img) => {
+          const result = await cloudinary.uploader.destroy(img.public_id);
+        })
       );
     }
 

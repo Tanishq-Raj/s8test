@@ -118,6 +118,19 @@ const Single = () => {
     }
   }
 
+  const handleDeleteProperty = async () => {
+    try {
+      const {data} = await axios.post(serverUrl + "/api/v1/bank-user/delete-property", {propertyId :id}, {
+        withCredentials: true,
+      });
+      console.log(data);
+      if (data.success) {
+        navigate("/view");
+      }
+    } catch (error) {
+      console.log(error); 
+    }}
+
   if (!post) {
     return <h2>Property Not Found!</h2>; // If ID is invalid
   }
@@ -272,7 +285,7 @@ const Single = () => {
 
             {/* Action Buttons */}
             <div className="actionButtons">
-            <button className="delete">
+            <button className="delete" onClick={handleDeleteProperty} >
               <img src="/delete2.svg" alt="Delete" className="button-icon" />
               Delete
             </button>
