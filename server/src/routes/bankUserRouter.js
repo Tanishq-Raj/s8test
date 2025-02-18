@@ -3,11 +3,14 @@ import {
   addProperties,
   bankUserRegister,
   deleteProperty,
+  getProfile,
   getProperties,
   getPropertyById,
   login,
   logout,
   topAuctioners,
+  updateProfile,
+  updateProfileImage,
   updateProperties,
   verifyOTP,
 } from "../controllers/bankUserController.js";
@@ -26,5 +29,8 @@ bankUserRouter.post("/delete-property", bankUserAuth, deleteProperty)
 bankUserRouter.get("/get-property", bankUserAuth, getProperties)
 bankUserRouter.post("/get-property-by-id", bankUserAuth, getPropertyById)
 bankUserRouter.get("/top-auctioners",bankUserAuth, topAuctioners)
+bankUserRouter.get("/get-profile",bankUserAuth, getProfile)
+bankUserRouter.post("/update-profile",bankUserAuth, updateProfile)
+bankUserRouter.post("/update-profile-image",bankUserAuth, upload.single('image'), updateProfileImage)
 
 export default bankUserRouter;

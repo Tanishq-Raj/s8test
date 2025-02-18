@@ -13,7 +13,7 @@ const bankUserSchema = new Schema(
     },
     lastName: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
       lowercase: true,
     },
@@ -31,12 +31,12 @@ const bankUserSchema = new Schema(
       maxLength: [32, "Password cannot have more than 32 characters."],
       select: false,
     },
-    employeeID: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-    },
+    // employeeID: {
+    //   type: String,
+    //   // required: true,
+    //   trim: true,
+    //   lowercase: true,
+    // },
     phone: {
       type: String,
       required: true,
@@ -68,8 +68,9 @@ const bankUserSchema = new Schema(
       lowercase: true,
     },
     bankProfileImage: {
-      type: String, // URL
-      //   required: true,
+      url: String,
+      public_id: String,
+      fileType: String,
     },
     designation: {
       type: String,
@@ -88,10 +89,6 @@ const bankUserSchema = new Schema(
         ref: "Properties",
       },
     ],
-    viewCount: {
-      type: Number,
-      default: 0,
-    },
     verified: { type: Boolean, default: false },
     verificationCode: Number,
     verificationCodeExpire: Date,

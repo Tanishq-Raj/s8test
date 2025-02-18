@@ -76,6 +76,22 @@ const AppContextProvider = (props) => {
 
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
+  // State for bankuser details
+  const [userDetails, setUserDetails] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    // bankName: "",
+    bankAddress: "",
+    branchZone: "",
+    bankBranch: "",
+    bankIFSC: "",
+    designation: ""
+  });
+
+  const [avatar, setAvatar] = useState(false)
+
   const value = {
     serverUrl,
     formData,
@@ -90,6 +106,8 @@ const AppContextProvider = (props) => {
     setRemovedImages,
     propertyId,
     setPropertyId,
+    userDetails,
+    setUserDetails,avatar, setAvatar
   };
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>

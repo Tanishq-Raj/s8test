@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 const bankUserAuth = (req, res, next) => {
   try {
     const s8token = req.cookies.s8Token;
+    // console.log(s8token);
     if (!s8token) {
       return res.json({ success: false, message: "Not authorized, Login First" });
     }

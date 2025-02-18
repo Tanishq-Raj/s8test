@@ -9,10 +9,10 @@ import cloudinary from "cloudinary";
 // bankUser Registration
 export const bankUserRegister = async (req, res) => {
   try {
-    const { fullName, email, phone, password, verificationMethod, bankName } =
+    const { firstName, email, phone, password, verificationMethod, bankName } =
       req.body; ////////////////////////////////
 
-    if (!fullName || !email || !phone || !password || !verificationMethod) {
+    if (!firstName || !email || !phone || !password || !verificationMethod) {
       return res.json({ success: false, message: "Missing Details" });
     }
 
@@ -74,7 +74,7 @@ export const bankUserRegister = async (req, res) => {
     }
 
     const userData = {
-      fullName,
+      firstName,
       email,
       phone,
       password,
@@ -88,7 +88,7 @@ export const bankUserRegister = async (req, res) => {
     sendVerificationCode(
       verificationMethod,
       verificationCode,
-      fullName,
+      firstName,
       phone,
       email,
       res
@@ -102,7 +102,7 @@ export const bankUserRegister = async (req, res) => {
 async function sendVerificationCode(
   verificationMethod,
   verificationCode,
-  fullName,
+  firstName,
   phone,
   email,
   res
@@ -118,7 +118,7 @@ async function sendVerificationCode(
 
       res.status(200).json({
         success: true,
-        message: `Verification email successfully sent to ${fullName}`,
+        message: `Verification email successfully sent to ${firstName}`,
       });
     } else if (verificationMethod === "phone") {
       const verificationCodeWithSpace = verificationCode
@@ -345,7 +345,7 @@ export const addProperties = async function (req, res) {
       longitude,
     } = req.body;
 
-    const  files  = req.files;
+    const files  = req.files;
 
     if (!userId) {
       return res.json({ success: false, message: "Unauthorized Access, Login Again" });
@@ -450,7 +450,6 @@ export const addProperties = async function (req, res) {
     return res.status(201).json({
       success: true,
       message: "Property added successfully",
-      data: newProperty,
     });
   } catch (error) {
     console.log(error);
@@ -707,7 +706,7 @@ export const deleteProperty = async function (req, res) {
 export const getProperties = async (req, res) => {
   try {
     const userId = req.userId;
-    const userBank = await propertyModel.findOne({ userId }); 
+    const userBank = await bankUser.findById( userId ); 
     const bankName = userBank?.bankName
     const properties = await propertyModel.find({ bankName }); 
     res.json({ success: true, properties });
@@ -728,6 +727,133 @@ export const getPropertyById = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+export const getProfile = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const user = await bankUser.findById(userId).select("-_id -verificationCode -verificationCodeExpire -verified -createdAt -updatedAt -__v");
+    res.json({ success: true, user });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Update Profile
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { firstName, lastName, email, phone, bankBranch, bankIFSC, branchZone, designation, bankAddress } = req.body;
+    console.log(req.body)
+    const user = await bankUser.findById(userId);
+    // const files = req.files;
+
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    if(!firstName || !lastName || !email || !phone || !bankBranch || !bankIFSC || !branchZone || !designation || !bankAddress) {
+      return res.json({ success: false, message: "Provide all the fields" });
+    }
+
+    // if (!files || files.length === 0) {
+    //   return res.status(400).json({ success: false, message: "No Profile" });
+    // }
+
+    // const uploadToCloudinary = (fileBuffer) => {
+    //   return new Promise((resolve, reject) => {
+    //     const uploadStream = cloudinary.v2.uploader.upload_stream(
+    //       { folder: "profile" }, // optional: specify a folder in Cloudinary
+    //       (error, result) => {
+    //         if (result) {
+    //           resolve(result);
+    //         } else {
+    //           reject(error);
+    //         }
+    //       }
+    //     );
+    //     uploadStream.end(fileBuffer);
+    //   });
+    // };
+
+    // const uploadedFiles = await Promise.all(
+    //   files.map((file) => uploadToCloudinary(file.buffer))
+    // );
+
+    // const imageData = uploadedFiles.map((result, index) => ({
+    //   url: result.secure_url,
+    //   public_id: result.public_id,
+    //   fileType: files[index].mimetype,
+    // }));
+
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      bankBranch,
+      bankIFSC,
+      branchZone,
+      designation,
+      bankAddress,
+      // image: imageData,
+    };
+
+    user.set(userData); 
+    await user.save();
+    res.json({ success: true, message: "Profile updated successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export const updateProfileImage = async (req, res) => {
+  try {
+    const file = req.file
+    const userId = req.userId
+    if (!file || file.length === 0) {
+      return res.status(400).json({ success: false, message: "No Profile" });
+    }
+
+    const uploadToCloudinary = (fileBuffer) => {
+      return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.v2.uploader.upload_stream(
+          { folder: "profile" }, // optional: specify a folder in Cloudinary
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+        uploadStream.end(fileBuffer);
+      });
+    };
+    const uploadedFile = await uploadToCloudinary(file.buffer);
+
+    const imageData = {
+      url: uploadedFile.secure_url,
+      public_id: uploadedFile.public_id,
+      fileType: file.mimetype,
+    };
+    const user = await bankUser.findById(userId)
+
+    if (user.bankProfileImage && user.bankProfileImage.public_id) {
+      
+        await cloudinary.v2.uploader.destroy(user.bankProfileImage.public_id);
+        console.log("Previous image deleted successfully");
+      }
+    user.bankProfileImage = imageData
+    user.save()
+
+    res.json({success: true, message: "Avatar Updated"})
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
 
 // Get Top auctioners
 export const topAuctioners = async (req, res) => {
