@@ -448,20 +448,97 @@ export const addProperties = async function (req, res) {
 // Update the Properties
 export const updateProperties = async function (req, res) {
   try {
+    console.log("reached")
+    const userId = req.userId;
+    console.log(userId);
     const {
-      userId,
       propertyId,
+      title,
       category,
+      auctionType,
       auctionDate,
       auctionTime,
-      areaPerSqFt,
+      area,
       price,
       description,
-      enquiryUrl,
+      auctionUrl,
       nearbyPlaces,
-      mapLocation,
       address,
+      contact,
+      borrower,
+      amountDue,
+      deposit,
+      bidInc,
+      inspectDate,
+      inspectTime,
+      reservPrice,
+      message,
+      latitude,
+      longitude,
     } = req.body;
+
+    // const  files  = req.files;
+
+    if (!userId) {
+      return res.json({ success: false, message: "Unauthorized Access, Login Again" });
+    }
+
+    if (
+      !title ||
+      !category ||
+      !auctionDate ||
+      !auctionTime ||
+      !area ||
+      !price ||
+      !description ||
+      !auctionUrl ||
+      !nearbyPlaces ||
+      !address ||
+      !auctionType ||
+      !contact ||
+      !borrower ||
+      !amountDue ||
+      !deposit ||
+      !bidInc ||
+      !inspectDate ||
+      !inspectTime ||
+      !reservPrice ||
+      !message ||
+      !latitude ||
+      !longitude
+    ) {
+      console.log(
+          propertyId,
+          title,
+          category,
+          auctionType,
+          auctionDate,
+          auctionTime,
+          area,
+          price,
+          description,
+          auctionUrl,
+          nearbyPlaces,
+          address,
+          contact,
+          borrower,
+          amountDue,
+          deposit,
+          bidInc,
+          inspectDate,
+          inspectTime,
+          reservPrice,
+          message,
+          latitude,
+          longitude,
+      )
+      return res.json({ success: false, message: "Provide all the fields" });
+    }
+
+    // if (!files || files.length === 0) {
+    //   console.log("No files uploaded");
+    //   return res.status(400).json({ success: false, message: "No files uploaded" });
+    // }
 
     if (!userId) {
       return res
@@ -475,23 +552,6 @@ export const updateProperties = async function (req, res) {
         .json({ success: false, message: "Property ID is required." });
     }
 
-    if (
-      !category ||
-      !auctionDate ||
-      !auctionTime ||
-      !areaPerSqFt ||
-      !price ||
-      !description ||
-      !enquiryUrl ||
-      !nearbyPlaces ||
-      !mapLocation ||
-      !address
-    ) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Provide all the fields" });
-    }
-
     // Get user details
     const user = await bankUser.findById(userId);
 
@@ -501,40 +561,54 @@ export const updateProperties = async function (req, res) {
       bankName: user.bankName,
     });
 
-    if (existingProperty && existingProperty.image.length > 0) {
-      // Delete old images using public_id
-      await Promise.all(
-        existingProperty.image.map((img) =>
-          cloudinary.uploader.destroy(img.public_id)
-        )
-      );
-    }
+    // if (existingProperty && existingProperty.image.length > 0) {
+    //   // Delete old images using public_id
+    //   await Promise.all(
+    //     existingProperty.image.map((img) =>
+    //       cloudinary.uploader.destroy(img.public_id)
+    //     )
+    //   );
+    // }
 
     // Upload new files and store public_id
-    const uploadedFiles = await Promise.all(
-      req.files.map(async (file) => {
-        const uploadResponse = await cloudinary.uploader.upload(file.path);
-        return {
-          url: uploadResponse.secure_url,
-          public_id: uploadResponse.public_id, // Store new public ID
-          fileType: file.mimetype,
-        };
-      })
-    );
+    // const uploadedFiles = await Promise.all(
+    //   req.files.map(async (file) => {
+    //     const uploadResponse = await cloudinary.uploader.upload(file.path);
+    //     return {
+    //       url: uploadResponse.secure_url,
+    //       public_id: uploadResponse.public_id, // Store new public ID
+    //       fileType: file.mimetype,
+    //     };
+    //   })
+    // );
 
     const updatedPropertyData = {
+      title,
       category,
       auctionDate,
       auctionTime,
-      areaPerSqFt,
+      area,
       price,
       description,
-      enquiryUrl,
+      auctionUrl,
       nearbyPlaces,
-      mapLocation,
-      image: uploadedFiles,
-      address,
-      bankName: user.bankName,
+      mapLocation: {
+        latitude,
+        longitude,
+      },
+      address: JSON.parse(address),
+      auctionType,
+      contact,
+      borrower,
+      amountDue,
+      deposit,
+      bidInc,
+      inspectDate,
+      inspectTime,
+      reservPrice,
+      message,
+      // image: uploadedFiles,
+      // bankName: user.bankName,
     };
 
     // Update property record

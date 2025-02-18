@@ -9,15 +9,17 @@ import axios from "axios";
 
 import { singlePostData } from "../../dummyData"; 
 import "./single.scss";
-import { useParams } from "react-router-dom"; 
+import { useNavigate, useParams } from "react-router-dom"; 
 import { AppContext } from "../../context/context";
 
 const Single = () => {
   const { id } = useParams(); // Get ID from the URL
   const post = singlePostData[0]; // Find matching property
   
-  const {serverUrl} = useContext(AppContext);
+  const {serverUrl,formData,setFormData, editProperty, setEditProperty, setUploadedFiles, propertyId, setPropertyId} = useContext(AppContext);
   const [property, setProperty] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getPropertyById();
@@ -37,6 +39,84 @@ const Single = () => {
     } catch (error) {
       console.log(error);
     }}
+
+  const handleEdit = async () => {
+    try {
+      const {data} = await axios.post(serverUrl + "/api/v1/bank-user/get-property-by-id", {id}, {
+        withCredentials: true,
+      });
+
+      if (data.success) {
+        const {
+          title,
+          category,
+          auctionType,
+          auctionDate,
+          auctionTime,
+          area,
+          price,
+          description,
+          contact,
+          nearbyPlaces,
+          mapLocation,
+          address,
+          auctionUrl,
+          borrower,
+          amountDue,
+          deposit,
+          bidInc,
+          inspectDate,
+          inspectTime,
+          reservPrice,
+          message,
+        } = data.property;
+
+        setFormData((prevState) => ({
+          ...prevState,
+          title,
+          category,
+          auctionType,
+          auctionDate,
+          auctionTime,
+          area,
+          price,
+          description,
+          contact,
+          nearbyPlaces,
+          latitude: mapLocation?.latitude || "",
+          longitude: mapLocation?.longitude || "",
+          address: {
+            address: address?.address || "",
+            city: address?.city || "",
+            state: address?.state || "",
+            pincode: address?.pincode || "",
+          },
+          auctionUrl,
+          borrower,
+          amountDue,
+          deposit,
+          bidInc,
+          inspectDate,
+          inspectTime,
+          reservPrice,
+          message,
+        }));
+        setUploadedFiles(data.property.image);
+        setEditProperty(true);
+        setPropertyId(id);
+        navigate("/addNew");
+        
+        console.log(formData);
+        console.log(data.property);
+
+
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   if (!post) {
     return <h2>Property Not Found!</h2>; // If ID is invalid
@@ -196,7 +276,7 @@ const Single = () => {
               <img src="/delete2.svg" alt="Delete" className="button-icon" />
               Delete
             </button>
-            <button className="edit">
+            <button onClick={handleEdit} className="edit">
               <img src="/edit.svg" alt="Edit" className="button-icon" />
                Edit
             </button>

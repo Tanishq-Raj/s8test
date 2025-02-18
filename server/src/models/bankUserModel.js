@@ -4,11 +4,17 @@ import jwt from "jsonwebtoken";
 
 const bankUserSchema = new Schema(
   {
-    fullName: {
+    firstName: {
       type: String,
       required: true,
       trim: true,
       index: true,
+      lowercase: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
       lowercase: true,
     },
     email: {
@@ -25,19 +31,16 @@ const bankUserSchema = new Schema(
       maxLength: [32, "Password cannot have more than 32 characters."],
       select: false,
     },
+    employeeID: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
     phone: {
       type: String,
       required: true,
       trim: true,
-    },
-    // **************************************************************************
-    address: {
-      type: Object,
-      default: {
-        address: "",
-        city: "",
-        state: "",
-      },
     },
     bankName: {
       type: String,
@@ -46,24 +49,39 @@ const bankUserSchema = new Schema(
       lowercase: true,
       index: true,
     },
-    // bankProfileImage: {
-    //   type: String, // URL
-    //   //   required: true,
-    // },
+    bankBranch: {
+      type: String,
+      //   required: true,
+      trim: true,
+      lowercase: true,
+    },
+    bankIFSC: {
+      type: String,
+      //   required: true,
+      trim: true,
+      lowercase: true,
+    },
+    branchZone: {
+      type: String,
+      //   required: true,
+      trim: true,
+      lowercase: true,
+    },
+    bankProfileImage: {
+      type: String, // URL
+      //   required: true,
+    },
     designation: {
       type: String,
       //   required: true,
       trim: true,
       lowercase: true,
     },
-    userAddress: {
-      type: String,
-      //   required: true,
-    },
     bankAddress: {
       type: String,
       //   required: true,
     },
+
     addedProperties: [
       {
         type: Schema.Types.ObjectId,

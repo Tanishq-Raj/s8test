@@ -1,12 +1,20 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import "./auctionForm.scss";
 import PropTypes from "prop-types";
 import { AppContext } from "../../context/context";
 import axios from "axios";
 
 const AuctionDetailsForm = ({ prevStep }) => {
-  const { formData, setFormData, uploadedFiles, serverUrl } =
-    useContext(AppContext);
+  const {
+    formData,
+    setFormData,
+    uploadedFiles,
+    setUploadedFiles,
+    serverUrl,
+    editProperty,
+    setEditProperty,
+    propertyId, setPropertyId,
+  } = useContext(AppContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,26 +49,139 @@ const AuctionDetailsForm = ({ prevStep }) => {
       newFormData.append("inspectTime", formData.inspectTime);
       newFormData.append("reservPrice", formData.reservPrice);
       newFormData.append("message", formData.message);
+      
+      if (!editProperty) {
+        uploadedFiles.forEach((file) => newFormData.append("files", file));
 
-      uploadedFiles.forEach((file) => newFormData.append("files", file));
+        const { data } = await axios.post(
+          serverUrl + "/api/v1/bank-user/add-property",
+          newFormData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+            withCredentials: true,
+          }
+        );
 
-      console.log([...newFormData]);
+        console.log(data);
+        if (data.success) {
+          console.log(data.message);
+        }
+        setFormData({
+          title: "",
+          category: "",
+          auctionType: "",
+          auctionDate: "",
+          auctionTime: "",
+          area: "",
+          price: "",
+          description: "",
+          contact: "",
+          nearbyPlaces: "",
+          latitude: "",
+          longitude: "",
+          address: {
+            address: "",
+            city: "",
+            state: "",
+            pincode: "",
+          },
+          auctionUrl: "",
+          borrower: "",
+          amountDue: "",
+          deposit: "",
+          bidInc: "",
+          inspectDate: "",
+          inspectTime: "",
+          reservPrice: "",
+          message: "",
+        });
+      } else {
+        newFormData.append("propertyId", propertyId);
+        // console.log("Updating property");
+        // let newObj
+        // console.log(formData);
+        // console.log(newFormData);
+        // for (let [key, value] of newFormData.entries()) {
+        //   console.log(`${key}: ${value}`);
+      // }
+        const { data } = await axios.post(
+          serverUrl + "/api/v1/bank-user/update-property",
+          newFormData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+            withCredentials: true,
+          }
+        );
+
+        console.log(data);
+        if (data.success) {
+          console.log(data.message);
+        }
+        setEditProperty(false);
+        setFormData({
+          title: "",
+          category: "",
+          auctionType: "",
+          auctionDate: "",
+          auctionTime: "",
+          area: "",
+          price: "",
+          description: "",
+          contact: "",
+          nearbyPlaces: "",
+          latitude: "",
+          longitude: "",
+          address: {
+            address: "",
+            city: "",
+            state: "",
+            pincode: "",
+          },
+          auctionUrl: "",
+          borrower: "",
+          amountDue: "",
+          deposit: "",
+          bidInc: "",
+          inspectDate: "",
+          inspectTime: "",
+          reservPrice: "",
+          message: "",
+        });
+        setUploadedFiles([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Function to update an existing property *******************************
+  const handleUpdateProperty = async () => {
+    try {
+      const updateFormData = new FormData();
+      Object.entries(formData).forEach(([key, value]) =>
+        updateFormData.append(key, value)
+      );
+
+      // Append new images
+      newImages.forEach((file) => updateFormData.append("files", file));
+
+      // Append removed images list
+      updateFormData.append("removedImages", JSON.stringify(removedImages));
 
       const { data } = await axios.post(
-        serverUrl + "/api/v1/bank-user/add-property",
-        newFormData,
+        `${serverUrl}/api/v1/bank-user/update-property`,
+        updateFormData,
         {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true,
         }
       );
 
-      console.log(data);
       if (data.success) {
         console.log(data.message);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error.message);
     }
   };
 
@@ -146,7 +267,11 @@ const AuctionDetailsForm = ({ prevStep }) => {
         <section className="formGroup">
           <label>Auction Type:</label>
           <div className="inputWrapper">
-            <select name="auctionType" onChange={handleChange} value={formData.auctionType}>
+            <select
+              name="auctionType"
+              onChange={handleChange}
+              value={formData.auctionType}
+            >
               <option value="">Select the type</option>
               <option value="E-auction">E-auction</option>
               <option value="B">B</option>
@@ -167,7 +292,11 @@ const AuctionDetailsForm = ({ prevStep }) => {
               placeholder="DD/MM/YYYY"
               aria-label="Property Inspection Date"
             />
-            <img src="/calendar.svg" className="inputIcon" alt="Calendar Icon" />
+            <img
+              src="/calendar.svg"
+              className="inputIcon"
+              alt="Calendar Icon"
+            />
           </div>
         </section>
 
@@ -238,10 +367,17 @@ const AuctionDetailsForm = ({ prevStep }) => {
           <img src="/back.svg" className="buttonIcon" alt="Back" />
           Back
         </button>
-        <button className="nextButton" onClick={handleFormSubmit}>
-          <img src="/check2.svg" className="buttonIcon" alt="Submit" />
-          Submit
-        </button>
+        {editProperty ? (
+          <button className="nextButton" onClick={handleFormSubmit}>
+            <img src="/check2.svg" className="buttonIcon" alt="Submit" />
+            Update
+          </button>
+        ) : (
+          <button className="nextButton" onClick={handleFormSubmit}>
+            <img src="/check2.svg" className="buttonIcon" alt="Submit" />
+            Submit
+          </button>
+        )}
       </footer>
     </main>
   );
