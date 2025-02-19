@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import properties from "../../dummyData"; // Import your dummy data
+// import properties from "../../dummyData"; // Import your dummy data
 import './cards.scss';
 import { AppContext } from '../../context/context';
 import axios from 'axios';
