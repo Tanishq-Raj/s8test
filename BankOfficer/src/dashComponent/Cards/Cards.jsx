@@ -6,8 +6,7 @@ import axios from 'axios';
 
 const CardsContainer = () => {
   const [showAll, setShowAll] = useState(false); // State to control whether to show all cards
-  const [properties, setProperties] = useState([]); // State to store properties
-    const { serverUrl } = useContext(AppContext);
+    const { serverUrl, properties, setProperties } = useContext(AppContext);
 
   const defaultCardsToShow = 3;
   const cardsToDisplay = showAll ? properties : properties.slice(0, defaultCardsToShow);
@@ -45,7 +44,10 @@ const CardsContainer = () => {
     </button>
   )}
 </div>
-      <div className="cardsScrollContainer">
+<div className="cardsScrollContainer">
+        {properties.length === 0 ? (
+          <div className="noDataMessage">Add Assets first to see result</div>
+        ) : (
         <div className="assetsList">
           {cardsToDisplay.map((property) => (
             <div key={property._id} className="assetCard">
@@ -64,7 +66,7 @@ const CardsContainer = () => {
             </div>
           ))}
         </div>
-     
+       )}
       </div>
     </div>
   );

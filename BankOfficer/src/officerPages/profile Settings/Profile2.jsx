@@ -1,56 +1,163 @@
 import "./profile2.scss";
 import Header from "../../dashComponent/nav/header/Header";
 import Sidebar from "../../dashComponent/Sidebar/Sidebar";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../../context/context";
+import axios from "axios";
 
 const Profile2 = () => {
     const [image, setImage] = useState("/user.png"); // Default avatar
+    const { serverUrl, avatar, setAvatar, userDetails, setUserDetails } = useContext(AppContext);
+    const [editAvatar, setEditAvatar] = useState(false)
     
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          const imageUrl = URL.createObjectURL(file);
-          setImage(imageUrl);
+
+    useEffect(() => {
+        // Fetch user details from the database
+        handleProfile();
+    }, []); 
+
+    const handleProfile = async () => {
+      try {
+        const { data } = await axios.get(serverUrl + "/api/v1/bank-user/get-profile", 
+          { withCredentials: true }
+        );
+        if (data.success) {
+          setUserDetails({
+            firstName: data.user.firstName,
+            lastName: data.user.lastName,
+            email: data.user.email,
+            phone: data.user.phone,
+            bankName: data.user.bankName,
+            bankAddress: data.user.bankAddress,
+            branchZone: data.user.branchZone,
+            bankBranch: data.user.bankBranch,
+            bankIFSC: data.user.bankIFSC,
+            designation: data.user.designation
+          });
+          setAvatar(data.user.bankProfileImage.url)
+        }else{
+          console.log(data.message)
         }
-      };
-  
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
+    // update user Profile
+    const handleUpdateProfile = async () => {
+      try {
+        const formData = new FormData();
+        formData.append("firstName", userUpdateDetails.firstName);
+        formData.append("lastName", userUpdateDetails.lastName);
+        formData.append("email", userUpdateDetails.email);
+        formData.append("phone", userUpdateDetails.phone);
+        formData.append("bankBranch", userUpdateDetails.bankBranch);
+        formData.append("bankIFSC", userUpdateDetails.bankIFSC);
+        formData.append("branchZone", userUpdateDetails.branchZone);
+        formData.append("designation", userUpdateDetails.designation);
+        formData.append("bankAddress", userUpdateDetails.bankAddress);
+        if (image) {
+          formData.append("files", image); // Append the image file
+        }
+
+        const { data } = await axios.post(serverUrl + "/api/v1/bank-user/update-profile", formData, 
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+            withCredentials: true,
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    const updateProfileImage = async () => {
+
+      try {
+        if (!editAvatar) {
+          document.getElementById("avatarUpload").click()
+          
+        } else {
+          
+        
+        const formData = new FormData();
+        
+        formData.append("image", image); // Append the image file
+        
+
+        const { data } = await axios.post(serverUrl + "/api/v1/bank-user/update-profile-image", formData, 
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+            withCredentials: true,
+          }
+        );
+        console.log(data)
+      }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    const handleImageChange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const imageUrl = URL.createObjectURL(file);
+        setImage(file); // Set the image file
+        setAvatar(imageUrl)
+        setEditAvatar(true)
+      }
+    };
+
     // For Pop-up Message
-      const [showPopup, setShowPopup] = useState(false); // State for popup
+    const [showPopup, setShowPopup] = useState(false); // State for popup
 
- // Handle Save Button Click
- const handleSave = () => {
-    setShowPopup(true); // Show the popup
+    // Handle Save Button Click
+    const handleSave = () => {
+      handleUpdateProfile(); // Update user profile
+      setShowPopup(true); // Show the popup
 
-    // Hide the popup after 2 seconds
-    setTimeout(() => {
-      setShowPopup(false);
-    }, 2000);
-  };
+      // Hide the popup after 2 seconds
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 2000);
+    };
 
- // State for user details
- const [userDetails, setUserDetails] = useState({
-  firstName: "",
-  lastName: "",
-  email: "",
-  mobile: "",
-  bankName: "",
-  branchAddress: "",
-  branchZone:"",
-  branchName: "",
-  ifsc: "",
-  jobTitle: ""
-});
+    
 
-// Handle input changes
-const handleInputChange = (event) => {
-  const { name, value } = event.target;
-  setUserDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: value,
-  }));
-};
+    // Update user details
+    const [userUpdateDetails, setUserUpdateDetails] = useState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      // bankName: "",
+      bankAddress: "",
+      branchZone: "",
+      bankBranch: "",
+      bankIFSC: "",
+      designation: ""
+    });
 
-    return (
+    // Handle input changes
+    const handleInputChange = (event) => {
+      const { name, value } = event.target;
+      setUserDetails((prevDetails) => ({
+          ...prevDetails,
+          [name]: value,
+      }));
+    };
+
+    const handleUpdateChange = (event) => {
+      const { name, value } = event.target;
+      setUserUpdateDetails((prevDetails) => ({
+          ...prevDetails,
+          [name]: value,
+      }));
+    };
+
+    
+
+    return userDetails.firstName && (
     <div className="profile">
       <div className="sideContainer2">
         <Sidebar />
@@ -61,9 +168,8 @@ const handleInputChange = (event) => {
         <div className="profile-container">
                {/* Avatar Section */}
       <div className="avatar-section">
-        <img src={image} alt="User Avatar" className="avatar" />
+        <img src={avatar ? avatar : "/user.png"} alt="User Avatar" className="avatar" onClick={() => document.getElementById("avatarUpload").click()}/>
         <h3>@{userDetails.firstName || "User"}</h3>
-        <p>{userDetails.email || "user@email.com"}</p>
         <input
           type="file"
           id="avatarUpload"
@@ -71,7 +177,7 @@ const handleInputChange = (event) => {
           style={{ display: "none" }}
           onChange={handleImageChange}
         />
-        <button onClick={() => document.getElementById("avatarUpload").click()} className="upload-btn">
+        <button onClick={updateProfileImage} className="upload-btn">
           Upload new avatar
         </button>
       </div>
@@ -82,16 +188,16 @@ const handleInputChange = (event) => {
           <h4>Information</h4>
           <p><strong>Name:</strong> {userDetails.firstName || "First Name"} {userDetails.lastName || "Last Name"}</p>
           <p><strong>Email:</strong> {userDetails.email || "user@email.com"}</p>
-          <p><strong>Tel:</strong> {userDetails.mobile ? `${userDetails.mobile}` : "+91 966 696 123"}</p>
+          <p><strong>Tel:</strong> {userDetails.phone ? `${userDetails.phone}` : "+91 966 696 123"}</p>
         </div>
         <div className="info2">
           <h4>Professional Details</h4>
-          <p><strong>Bank name:</strong> {userDetails.bankName || "e.g:State Bank of India"}</p>
-          <p><strong>Job Title:</strong> {userDetails.jobTitle || "e.g:Manager"}</p>
-          <p><strong>IFSC:</strong> {userDetails.ifsc || "e.g:SBIN1000511"}</p>
-          <p><strong>Branch Name:</strong> {userDetails.branchName || "e.g: Mumbai"}</p>
+          <p><strong>Bank name:</strong> {userDetails.bankName.toUpperCase() || "e.g:State Bank of India"}</p>
+          <p><strong>Job Title:</strong> {userDetails.designation || "e.g:Manager"}</p>
+          <p><strong>IFSC:</strong> {userDetails.bankIFSC || "e.g:SBIN1000511"}</p>
+          <p><strong>Branch Name:</strong> {userDetails.bankBranch || "e.g: Mumbai"}</p>
           <p><strong>Branch Zone:</strong> {userDetails.branchZone || "e.g: "}</p>
-          <p><strong>Branch Address:</strong> {userDetails.branchAddress || "e.g:18/A, Mumbai Branch"}</p>
+          <p><strong>Branch Address:</strong> {userDetails.bankAddress || "e.g:18/A, Mumbai Branch"}</p>
         </div>
        </div>
       </div>
@@ -106,23 +212,23 @@ const handleInputChange = (event) => {
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="firstName" value={userDetails.firstName} placeholder="Enter your first name..." onChange={handleInputChange} />
+                                    <input type="text" name="firstName" value={userUpdateDetails.firstName} placeholder="Enter your first name..." onChange={handleUpdateChange} />
                                 </div>
                                 <div className="form-group">
                                     <label>Last Name</label>
-                                    <input type="text" name="lastName" value={userDetails.lastName} placeholder="Enter your last name..." onChange={handleInputChange} />
+                                    <input type="text" name="lastName" value={userUpdateDetails.lastName} placeholder="Enter your last name..." onChange={handleUpdateChange} />
                                 </div>
                             </div>
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>Email</label>
-                                    <input type="email" name="email" value={userDetails.email} placeholder="Enter your email..." onChange={handleInputChange} />
+                                    <input type="email" name="email" value={userUpdateDetails.email} placeholder="Enter your email..." onChange={handleUpdateChange} />
                                 </div>
                                 <div className="form-group">
                                     <label>Mobile Number</label>
                                     <div className="mobile-input">
                                         <span className="country-code">+91</span>
-                                        <input type="text" name="mobile" value={userDetails.mobile} placeholder="Enter your number..." onChange={handleInputChange} />
+                                        <input type="text" name="phone" value={userUpdateDetails.phone} placeholder="Enter your number..." onChange={handleUpdateChange} />
                                     </div>
                                 </div>
                             </div>
@@ -137,31 +243,31 @@ const handleInputChange = (event) => {
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>Bank Name</label>
-                                    <input type="text" name="bankName" value={userDetails.bankName} placeholder="Enter your bank name..." onChange={handleInputChange} />
+                                    <input type="text" name="bankName" value={userUpdateDetails.bankName} placeholder="Enter your bank name..." onChange={handleUpdateChange} />
                                 </div>
                                 <div className="form-group">
                                     <label>Branch Name</label>
-                                    <input type="text" name="branchName" value={userDetails.branchName} placeholder="Enter branch name..." onChange={handleInputChange} />
+                                    <input type="text" name="bankBranch" value={userUpdateDetails.bankBranch} placeholder="Enter branch name..." onChange={handleUpdateChange} />
                                 </div>
                             </div>
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>IFSC Code</label>
-                                    <input type="text" name="ifsc" value={userDetails.ifsc} placeholder="Enter IFSC code..." onChange={handleInputChange} />
+                                    <input type="text" name="bankIFSC" value={userUpdateDetails.bankIFSC} placeholder="Enter IFSC code..." onChange={handleUpdateChange} />
                                 </div>
                                 <div className="form-group">
                                     <label>Job Title</label>
-                                    <input type="text" name="jobTitle" value={userDetails.jobTitle} placeholder="Enter job title..." onChange={handleInputChange} />
+                                    <input type="text" name="designation" value={userUpdateDetails.designation} placeholder="Enter job title..." onChange={handleUpdateChange} />
                                 </div>
                             </div>
                             <div className="form-row">
                             <div className="form-group">
                                     <label>Branch Zone</label>
-                                    <input type="text" name="branchZone" value={userDetails.branchZone} placeholder="Enter branch zone..." onChange={handleInputChange} />
+                                    <input type="text" name="branchZone" value={userUpdateDetails.branchZone} placeholder="Enter branch zone..." onChange={handleUpdateChange} />
                                 </div>
                             <div className="form-group">
                                     <label>Branch Address</label>
-                                    <textarea type="text" name="branchAddress" value={userDetails.branchAddress} placeholder="Enter branch address..." onChange={handleInputChange}  rows="2"/> 
+                                    <textarea type="text" name="bankAddress" value={userUpdateDetails.bankAddress} placeholder="Enter branch address..." onChange={handleUpdateChange}  rows="2"/> 
                                 </div>
                                 </div>
                         </div>

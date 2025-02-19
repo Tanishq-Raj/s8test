@@ -84,7 +84,7 @@ function AuctionLayout() {
       <SearchHeader />
       <div onClick={handlePro} className=" flex flex-wrap gap-10 items-center self-center mt-11 max-md:mt-10 max-md:max-w-full">
         {categories.map((category, index) => (
-            <div className="cursor-pointer"><CategoryCard key={index} {...category} /></div>
+            <div key={index} className="cursor-pointer"><CategoryCard  {...category} /></div>
           
         ))}
       </div>
@@ -92,9 +92,10 @@ function AuctionLayout() {
         {disCategories && (
           <>
             <div className="flex flex-wrap gap-4 justify-center items-center w-full">
-              {displayedProperties.map((property, index) => (
+              {/* {displayedProperties.map((property, index) => (
                 <PropertyCard key={index} {...property} />
-              ))}
+              ))} */}
+              <PropertyCard/>
             </div>
             {!showAll && (
               <div className="w-full flex justify-end px-17 max-md:px-4">

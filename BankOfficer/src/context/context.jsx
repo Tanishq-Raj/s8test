@@ -4,6 +4,12 @@ export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
   const serverUrl = import.meta.env.VITE_SERVER_URL;
+  const [editProperty, setEditProperty] = useState(false);
+  const [propertyId, setPropertyId] = useState(null);
+
+  // New state for tracking added and removed images
+  const [newImages, setNewImages] = useState([]);
+  const [removedImages, setRemovedImages] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "Prafull Sales Corporation:Residental Flat",
@@ -70,12 +76,41 @@ const AppContextProvider = (props) => {
 
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
+  // State for bankuser details
+  const [userDetails, setUserDetails] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    // bankName: "",
+    bankAddress: "",
+    branchZone: "",
+    bankBranch: "",
+    bankIFSC: "",
+    designation: ""
+  });
+
+  const [avatar, setAvatar] = useState(false)
+  
+  const [properties, setProperties] = useState([]); // State to store properties
+
+
   const value = {
     serverUrl,
     formData,
     setFormData,
     uploadedFiles,
     setUploadedFiles,
+    editProperty,
+    setEditProperty,
+    newImages,
+    setNewImages,
+    removedImages,
+    setRemovedImages,
+    propertyId,
+    setPropertyId,
+    userDetails,
+    setUserDetails,avatar, setAvatar, properties, setProperties
   };
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>

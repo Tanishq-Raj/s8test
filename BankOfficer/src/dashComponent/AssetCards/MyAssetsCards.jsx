@@ -43,6 +43,9 @@ const MyAssetsCards = () => {
         <h3>Showing {cardsToDisplay.length} / {properties.length} results</h3>
       </div>
       <div className="cardsScrollContainer">
+      {properties.length === 0 ? (
+          <div className="noDataMessage">There is no data to show</div>
+        ) : (
         <div className="assetsList">
           {cardsToDisplay.map((property) => (
             <div key={property._id} className="assetCard">
@@ -67,8 +70,9 @@ const MyAssetsCards = () => {
             </div>
           ))}
         </div>
-
+        )}
         {/* "View All" button outside the scrollable container */}
+        {properties.length > defaultCardsToShow && (
         <div className="viewAllButton">
           {!showAll && (
             <button onClick={() => setShowAll(true)}>
@@ -76,6 +80,7 @@ const MyAssetsCards = () => {
             </button>
           )}
         </div>
+         )}
       </div>
     </div>
   );

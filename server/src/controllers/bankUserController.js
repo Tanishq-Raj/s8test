@@ -9,10 +9,10 @@ import cloudinary from "cloudinary";
 // bankUser Registration
 export const bankUserRegister = async (req, res) => {
   try {
-    const { fullName, email, phone, password, verificationMethod, bankName } =
+    const { firstName, email, phone, password, verificationMethod, bankName } =
       req.body; ////////////////////////////////
 
-    if (!fullName || !email || !phone || !password || !verificationMethod) {
+    if (!firstName || !email || !phone || !password || !verificationMethod) {
       return res.json({ success: false, message: "Missing Details" });
     }
 
@@ -74,7 +74,7 @@ export const bankUserRegister = async (req, res) => {
     }
 
     const userData = {
-      fullName,
+      firstName,
       email,
       phone,
       password,
@@ -88,7 +88,7 @@ export const bankUserRegister = async (req, res) => {
     sendVerificationCode(
       verificationMethod,
       verificationCode,
-      fullName,
+      firstName,
       phone,
       email,
       res
@@ -102,7 +102,7 @@ export const bankUserRegister = async (req, res) => {
 async function sendVerificationCode(
   verificationMethod,
   verificationCode,
-  fullName,
+  firstName,
   phone,
   email,
   res
@@ -118,7 +118,7 @@ async function sendVerificationCode(
 
       res.status(200).json({
         success: true,
-        message: `Verification email successfully sent to ${fullName}`,
+        message: `Verification email successfully sent to ${firstName}`,
       });
     } else if (verificationMethod === "phone") {
       const verificationCodeWithSpace = verificationCode
@@ -345,7 +345,7 @@ export const addProperties = async function (req, res) {
       longitude,
     } = req.body;
 
-    const  files  = req.files;
+    const files  = req.files;
 
     if (!userId) {
       return res.json({ success: false, message: "Unauthorized Access, Login Again" });
@@ -383,18 +383,34 @@ export const addProperties = async function (req, res) {
       return res.status(400).json({ success: false, message: "No files uploaded" });
     }
 
-
-    // Upload new files and store public_id
+    // ===== Upload files to Cloudinary =====
+    const uploadToCloudinary = (fileBuffer) => {
+      return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.v2.uploader.upload_stream(
+          { folder: "properties" }, // optional: specify a folder in Cloudinary
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+        uploadStream.end(fileBuffer);
+      });
+    };
+    
+    // Upload each file and collect the results
     const uploadedFiles = await Promise.all(
-      files.map(async (file) => {
-        const uploadResponse = await cloudinary.uploader.upload(file.path);
-        return {
-          url: uploadResponse.secure_url,
-          public_id: uploadResponse.public_id,
-          fileType: file.mimetype,
-        };
-      })
+      files.map((file) => uploadToCloudinary(file.buffer))
     );
+    
+    // Map the uploaded file results to objects containing URL, public_id, and file type (from multer file metadata)
+    const imageData = uploadedFiles.map((result, index) => ({
+      url: result.secure_url,
+      public_id: result.public_id,
+      fileType: files[index].mimetype,
+    }));
 
     const user = await bankUser.findById(userId);
 
@@ -424,7 +440,7 @@ export const addProperties = async function (req, res) {
       inspectTime,
       reservPrice,
       message,
-      image: uploadedFiles,
+      image: imageData,
       bankName: user.bankName,
     };
 
@@ -434,7 +450,6 @@ export const addProperties = async function (req, res) {
     return res.status(201).json({
       success: true,
       message: "Property added successfully",
-      data: newProperty,
     });
   } catch (error) {
     console.log(error);
@@ -448,20 +463,97 @@ export const addProperties = async function (req, res) {
 // Update the Properties
 export const updateProperties = async function (req, res) {
   try {
+    console.log("reached")
+    const userId = req.userId;
+    console.log(userId);
     const {
-      userId,
       propertyId,
+      title,
       category,
+      auctionType,
       auctionDate,
       auctionTime,
-      areaPerSqFt,
+      area,
       price,
       description,
-      enquiryUrl,
+      auctionUrl,
       nearbyPlaces,
-      mapLocation,
       address,
+      contact,
+      borrower,
+      amountDue,
+      deposit,
+      bidInc,
+      inspectDate,
+      inspectTime,
+      reservPrice,
+      message,
+      latitude,
+      longitude,
     } = req.body;
+
+    // const  files  = req.files;
+
+    if (!userId) {
+      return res.json({ success: false, message: "Unauthorized Access, Login Again" });
+    }
+
+    if (
+      !title ||
+      !category ||
+      !auctionDate ||
+      !auctionTime ||
+      !area ||
+      !price ||
+      !description ||
+      !auctionUrl ||
+      !nearbyPlaces ||
+      !address ||
+      !auctionType ||
+      !contact ||
+      !borrower ||
+      !amountDue ||
+      !deposit ||
+      !bidInc ||
+      !inspectDate ||
+      !inspectTime ||
+      !reservPrice ||
+      !message ||
+      !latitude ||
+      !longitude
+    ) {
+      console.log(
+          propertyId,
+          title,
+          category,
+          auctionType,
+          auctionDate,
+          auctionTime,
+          area,
+          price,
+          description,
+          auctionUrl,
+          nearbyPlaces,
+          address,
+          contact,
+          borrower,
+          amountDue,
+          deposit,
+          bidInc,
+          inspectDate,
+          inspectTime,
+          reservPrice,
+          message,
+          latitude,
+          longitude,
+      )
+      return res.json({ success: false, message: "Provide all the fields" });
+    }
+
+    // if (!files || files.length === 0) {
+    //   console.log("No files uploaded");
+    //   return res.status(400).json({ success: false, message: "No files uploaded" });
+    // }
 
     if (!userId) {
       return res
@@ -475,23 +567,6 @@ export const updateProperties = async function (req, res) {
         .json({ success: false, message: "Property ID is required." });
     }
 
-    if (
-      !category ||
-      !auctionDate ||
-      !auctionTime ||
-      !areaPerSqFt ||
-      !price ||
-      !description ||
-      !enquiryUrl ||
-      !nearbyPlaces ||
-      !mapLocation ||
-      !address
-    ) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Provide all the fields" });
-    }
-
     // Get user details
     const user = await bankUser.findById(userId);
 
@@ -501,40 +576,54 @@ export const updateProperties = async function (req, res) {
       bankName: user.bankName,
     });
 
-    if (existingProperty && existingProperty.image.length > 0) {
-      // Delete old images using public_id
-      await Promise.all(
-        existingProperty.image.map((img) =>
-          cloudinary.uploader.destroy(img.public_id)
-        )
-      );
-    }
+    // if (existingProperty && existingProperty.image.length > 0) {
+    //   // Delete old images using public_id
+    //   await Promise.all(
+    //     existingProperty.image.map((img) =>
+    //       cloudinary.uploader.destroy(img.public_id)
+    //     )
+    //   );
+    // }
 
     // Upload new files and store public_id
-    const uploadedFiles = await Promise.all(
-      req.files.map(async (file) => {
-        const uploadResponse = await cloudinary.uploader.upload(file.path);
-        return {
-          url: uploadResponse.secure_url,
-          public_id: uploadResponse.public_id, // Store new public ID
-          fileType: file.mimetype,
-        };
-      })
-    );
+    // const uploadedFiles = await Promise.all(
+    //   req.files.map(async (file) => {
+    //     const uploadResponse = await cloudinary.uploader.upload(file.path);
+    //     return {
+    //       url: uploadResponse.secure_url,
+    //       public_id: uploadResponse.public_id, // Store new public ID
+    //       fileType: file.mimetype,
+    //     };
+    //   })
+    // );
 
     const updatedPropertyData = {
+      title,
       category,
       auctionDate,
       auctionTime,
-      areaPerSqFt,
+      area,
       price,
       description,
-      enquiryUrl,
+      auctionUrl,
       nearbyPlaces,
-      mapLocation,
-      image: uploadedFiles,
-      address,
-      bankName: user.bankName,
+      mapLocation: {
+        latitude,
+        longitude,
+      },
+      address: JSON.parse(address),
+      auctionType,
+      contact,
+      borrower,
+      amountDue,
+      deposit,
+      bidInc,
+      inspectDate,
+      inspectTime,
+      reservPrice,
+      message,
+      // image: uploadedFiles,
+      // bankName: user.bankName,
     };
 
     // Update property record
@@ -559,7 +648,8 @@ export const updateProperties = async function (req, res) {
 
 export const deleteProperty = async function (req, res) {
   try {
-    const { userId, propertyId } = req.body;
+    const userId = req.userId;
+    const { propertyId } = req.body;
 
     if (!userId) {
       return res
@@ -589,12 +679,11 @@ export const deleteProperty = async function (req, res) {
       });
     }
 
-    // Delete images from Cloudinary
     if (existingProperty.image.length > 0) {
       await Promise.all(
-        existingProperty.image.map((img) =>
-          cloudinary.uploader.destroy(img.public_id)
-        )
+        existingProperty.image.map(async (img) => {
+          const result = await cloudinary.uploader.destroy(img.public_id);
+        })
       );
     }
 
@@ -617,7 +706,7 @@ export const deleteProperty = async function (req, res) {
 export const getProperties = async (req, res) => {
   try {
     const userId = req.userId;
-    const userBank = await propertyModel.findOne({ userId }); 
+    const userBank = await bankUser.findById( userId ); 
     const bankName = userBank?.bankName
     const properties = await propertyModel.find({ bankName }); 
     res.json({ success: true, properties });
@@ -638,6 +727,133 @@ export const getPropertyById = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+export const getProfile = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const user = await bankUser.findById(userId).select("-_id -verificationCode -verificationCodeExpire -verified -createdAt -updatedAt -__v");
+    res.json({ success: true, user });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Update Profile
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { firstName, lastName, email, phone, bankBranch, bankIFSC, branchZone, designation, bankAddress } = req.body;
+    console.log(req.body)
+    const user = await bankUser.findById(userId);
+    // const files = req.files;
+
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    if(!firstName || !lastName || !email || !phone || !bankBranch || !bankIFSC || !branchZone || !designation || !bankAddress) {
+      return res.json({ success: false, message: "Provide all the fields" });
+    }
+
+    // if (!files || files.length === 0) {
+    //   return res.status(400).json({ success: false, message: "No Profile" });
+    // }
+
+    // const uploadToCloudinary = (fileBuffer) => {
+    //   return new Promise((resolve, reject) => {
+    //     const uploadStream = cloudinary.v2.uploader.upload_stream(
+    //       { folder: "profile" }, // optional: specify a folder in Cloudinary
+    //       (error, result) => {
+    //         if (result) {
+    //           resolve(result);
+    //         } else {
+    //           reject(error);
+    //         }
+    //       }
+    //     );
+    //     uploadStream.end(fileBuffer);
+    //   });
+    // };
+
+    // const uploadedFiles = await Promise.all(
+    //   files.map((file) => uploadToCloudinary(file.buffer))
+    // );
+
+    // const imageData = uploadedFiles.map((result, index) => ({
+    //   url: result.secure_url,
+    //   public_id: result.public_id,
+    //   fileType: files[index].mimetype,
+    // }));
+
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      bankBranch,
+      bankIFSC,
+      branchZone,
+      designation,
+      bankAddress,
+      // image: imageData,
+    };
+
+    user.set(userData); 
+    await user.save();
+    res.json({ success: true, message: "Profile updated successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export const updateProfileImage = async (req, res) => {
+  try {
+    const file = req.file
+    const userId = req.userId
+    if (!file || file.length === 0) {
+      return res.status(400).json({ success: false, message: "No Profile" });
+    }
+
+    const uploadToCloudinary = (fileBuffer) => {
+      return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.v2.uploader.upload_stream(
+          { folder: "profile" }, // optional: specify a folder in Cloudinary
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+        uploadStream.end(fileBuffer);
+      });
+    };
+    const uploadedFile = await uploadToCloudinary(file.buffer);
+
+    const imageData = {
+      url: uploadedFile.secure_url,
+      public_id: uploadedFile.public_id,
+      fileType: file.mimetype,
+    };
+    const user = await bankUser.findById(userId)
+
+    if (user.bankProfileImage && user.bankProfileImage.public_id) {
+      
+        await cloudinary.v2.uploader.destroy(user.bankProfileImage.public_id);
+        console.log("Previous image deleted successfully");
+      }
+    user.bankProfileImage = imageData
+    user.save()
+
+    res.json({success: true, message: "Avatar Updated"})
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
 
 // Get Top auctioners
 export const topAuctioners = async (req, res) => {
