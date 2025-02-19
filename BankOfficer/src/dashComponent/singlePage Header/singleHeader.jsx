@@ -7,7 +7,7 @@ const SingleHeader = ({ pageName, title }) => {
       <div className="header-content">
         <div className="breadcrumbs">
           <span className="page-name">{pageName}</span>
-          <span className="separator"> &gt; </span>
+          <span className="separator">&gt; </span>
           <span className="title">{title}</span>
         </div>
         <div className="sub-title">Showing {title}</div>
