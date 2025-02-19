@@ -6,8 +6,7 @@ import axios from 'axios';
 
 const CardsContainer = () => {
   const [showAll, setShowAll] = useState(false); // State to control whether to show all cards
-  const [properties, setProperties] = useState([]); // State to store properties
-    const { serverUrl } = useContext(AppContext);
+    const { serverUrl, properties, setProperties } = useContext(AppContext);
 
   const defaultCardsToShow = 3;
   const cardsToDisplay = showAll ? properties : properties.slice(0, defaultCardsToShow);
