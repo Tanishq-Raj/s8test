@@ -1,7 +1,6 @@
 import { useState, useMemo, useEffect, useContext } from "react";
 import { Search, Users } from "lucide-react";
 import { Link } from "react-router-dom"; // Import Link component for routing
-import { singlePostData } from "../../dummyData"; // Adjust the path accordingly
 import * as XLSX from "xlsx"; // Import xlsx library
 import "./table.scss";
 import axios from "axios";
@@ -16,45 +15,53 @@ const AuctionHistory = () => {
 
   useEffect(() => {
     getProperties();
-    
   }, []);
 
   // Function to get properties
   const getProperties = async () => {
     try {
-      const { data } = await axios.get( serverUrl + "/api/v1/bank-user/get-property", {
+      const { data } = await axios.get(serverUrl + "/api/v1/bank-user/get-property", {
         withCredentials: true,
       });
       if (data.success) {
         setProperties(data.properties);
-      }else{
+      } else {
         console.log(data.message);
       }
     } catch (error) {
       console.log(error);
-      
     }
-  }
+  };
 
-  const totalPages = Math.ceil(singlePostData.length / itemsPerPage);
+  // Calculate total pages
+  const totalPages = Math.ceil(properties.length / itemsPerPage);
 
+  // Calculate start and end entries
   const startEntry = (currentPage - 1) * itemsPerPage + 1;
-  const endEntry = Math.min(currentPage * itemsPerPage, singlePostData.length);
+  const endEntry = Math.min(currentPage * itemsPerPage, properties.length);
 
+  // Filter data based on search query
   const filteredData = useMemo(() => {
-    if (!searchQuery) return singlePostData;
-    return singlePostData.filter((item) =>
-      Object.values(item).some((value) =>
-        String(value).toLowerCase().includes(searchQuery.toLowerCase())
-      )
+    if (!searchQuery) return properties;
+    return properties.filter((item) =>
+      Object.values(item).some((value) => {
+        try {
+          return String(value).toLowerCase().includes(searchQuery.toLowerCase());
+        } catch (error) {
+          console.error("Error filtering data:", error);
+          return false;
+        }
+      })
     );
-  }, [searchQuery]);
+  }, [searchQuery, properties]);
 
+  // Get current data for the current page
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
+  // Get pagination pages
   const getPagination = () => {
     const pages = [];
     const range = 2; // Number of page numbers to show before and after the current page
@@ -97,7 +104,7 @@ const AuctionHistory = () => {
   // Export data to Excel
   const exportToExcel = () => {
     // Map data to a flat format for Excel
-    const exportData = singlePostData.map((item, index) => ({
+    const exportData = properties.map((item, index) => ({
       "SR. NO.": index + 1,
       "PROPERTY NAME": item.title,
       PRICE: item.price,
@@ -122,6 +129,7 @@ const AuctionHistory = () => {
     XLSX.writeFile(workbook, "AuctionHistory.xlsx");
   };
 
+  // Highlight search text
   const highlightText = (text, query) => {
     if (!query) return text;
     const regex = new RegExp(`(${query})`, "gi");
@@ -200,7 +208,7 @@ const AuctionHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {properties.map((item, index) => (
+              {currentData.map((item, index) => (
                 <tr key={item._id}>
                   <td>{index + 1}</td>
                   <td>{highlightText(item.title, searchQuery)}</td>
@@ -208,11 +216,11 @@ const AuctionHistory = () => {
                   <td>{highlightText(item.price, searchQuery)}</td>
                   <td>{highlightText(formatDate(item.auctionDate), searchQuery)}</td>
                   <td>{highlightText(item.category, searchQuery)}</td>
-                  <td className="address-column">{highlightText(<p>{item.address?.address}, - {item.address?.pincode}</p>, searchQuery)}</td>
+                  <td className="address-column">{highlightText(`${item.address?.address}, - ${item.address?.pincode}`, searchQuery)}</td>
                   <td>{highlightText(item.address?.city, searchQuery)}</td>
                   <td>{highlightText(item.address?.state, searchQuery)}</td>
                   <td>
-                  <span className={`status ${getStatus(item.auctionDate).toLowerCase()}`}>
+                    <span className={`status ${getStatus(item.auctionDate).toLowerCase()}`}>
                       {highlightText(getStatus(item.auctionDate), searchQuery)}
                     </span>
                   </td>

@@ -95,6 +95,21 @@
       margin-left: 10px;
       }
   
+      .update-details-btn{
+        background-color:#00324a;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 55px;
+        width: 60%;
+      }
+      .update-details-btn:hover {
+        background-color:#004663;
+      }
+      
       .info2 {
         // flex: 1;
         font-size: 15px;

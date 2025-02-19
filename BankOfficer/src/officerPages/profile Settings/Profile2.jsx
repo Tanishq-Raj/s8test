@@ -9,7 +9,7 @@ const Profile2 = () => {
     const [image, setImage] = useState("/user.png"); // Default avatar
     const { serverUrl, avatar, setAvatar, userDetails, setUserDetails } = useContext(AppContext);
     const [editAvatar, setEditAvatar] = useState(false)
-    
+    const [showForm, setShowForm] = useState(false); // State to control form visibility
 
     useEffect(() => {
         // Fetch user details from the database
@@ -178,7 +178,7 @@ const Profile2 = () => {
           onChange={handleImageChange}
         />
         <button onClick={updateProfileImage} className="upload-btn">
-          Upload new avatar
+          Upload Bank Logo
         </button>
       </div>
 
@@ -189,6 +189,9 @@ const Profile2 = () => {
           <p><strong>Name:</strong> {userDetails.firstName || "First Name"} {userDetails.lastName || "Last Name"}</p>
           <p><strong>Email:</strong> {userDetails.email || "user@email.com"}</p>
           <p><strong>Tel:</strong> {userDetails.phone ? `${userDetails.phone}` : "+91 966 696 123"}</p>
+          <button className="update-details-btn" onClick={() => setShowForm(!showForm)} >
+            Update Details
+          </button>
         </div>
         <div className="info2">
           <h4>Professional Details</h4>
@@ -202,7 +205,8 @@ const Profile2 = () => {
        </div>
       </div>
 
-           {/* User Settings Form */}
+          {/* Show form only when showForm is true */}
+          {showForm && (
            <div className="form-container">
                             <h3 className="form-title">User Settings</h3>
 
@@ -299,6 +303,7 @@ const Profile2 = () => {
             <button className="save-btn" onClick={handleSave}>Save changes</button>
 
            </div>
+           )}
         </div>
       </div>
 
