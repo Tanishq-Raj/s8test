@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import { useState } from "react";
 
 const Profile = () => {
-    const [image, setImage] = useState("../../../assets/user.png"); // Default avatar
+    const [image, setImage] = useState("/user.png"); // Default avatar
     
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -51,9 +51,9 @@ const handleInputChange = (event) => {
 
     return (
     <div className="profile">
-      <div className="sideContainer2">
+      {/* <div className="sideContainer2">
         <Sidebar />
-      </div>
+      </div> */}
       <div className="mainContent">
         <Header />
         <div className="mainWrapper">

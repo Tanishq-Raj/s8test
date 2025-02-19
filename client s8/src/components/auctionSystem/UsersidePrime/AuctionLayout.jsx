@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import SearchHeader from './SearchHeader';
 import CategoryCard from './CategoryCard';
 import PropertyCard from './PropertyCard';
-import { PropertyGrid } from '../UserSide/PropertyGrid';
+import { PropertyGrid } from './PropertyGrid';
 // import PropertyAuctions from '../components/PropertyAuctions';
 import PropertyDiscription from './PropertyCard copy';
+import { PropertyCardList } from './PropertyCard1';
 
 const categories = [
   { title: 'INDUSTRIAL', image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/79f55df53452d15f44fba67b67e84656bc7f77caac885b0d9f1ae0efca81e3ec?placeholderIfAbsent=true&apiKey=643dc8ae27ef4b1eb644562c7626beaf' },
@@ -83,7 +84,7 @@ function AuctionLayout() {
       <SearchHeader />
       <div onClick={handlePro} className=" flex flex-wrap gap-10 items-center self-center mt-11 max-md:mt-10 max-md:max-w-full">
         {categories.map((category, index) => (
-            <div className="cursor-pointer"><CategoryCard key={index} {...category} /></div>
+            <div key={index} className="cursor-pointer"><CategoryCard  {...category} /></div>
           
         ))}
       </div>
@@ -91,9 +92,10 @@ function AuctionLayout() {
         {disCategories && (
           <>
             <div className="flex flex-wrap gap-4 justify-center items-center w-full">
-              {displayedProperties.map((property, index) => (
+              {/* {displayedProperties.map((property, index) => (
                 <PropertyCard key={index} {...property} />
-              ))}
+              ))} */}
+              <PropertyCard/>
             </div>
             {!showAll && (
               <div className="w-full flex justify-end px-17 max-md:px-4">
@@ -114,6 +116,7 @@ function AuctionLayout() {
         )}
         {disProperties && <PropertyGrid/>}
       </div>
+      
         
     </div>
   );

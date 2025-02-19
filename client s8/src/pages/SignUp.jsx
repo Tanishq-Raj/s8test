@@ -11,7 +11,10 @@ const userInputs = [
     { label: "Password", placeholder: "Enter your Password", type: "password" },
     { label: "Confirm Password", placeholder: "Confirm your password", type: "password" },
     { label: "Phone Number", placeholder: "Enter your Phone Number", type: "tel" },
-    { label: "Address", placeholder: "Enter your Address", type: "text", isTextArea: true },
+    { label: "Flat No, Building Name, Street Name", placeholder: "Enter your Flat No, Building Name, Street Name", type: "text"},
+    { label: "City", placeholder: "Enter your City", type: "text" },
+    { label: "State", placeholder: "Enter your State", type: "text" },
+    { label: "Pincode", placeholder: "Enter your Pincode", type: "text" },
 ];
 
 const bankOfficerSteps = [

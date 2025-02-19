@@ -10,9 +10,34 @@ import AddNewAsset from "../../dashComponent/Add Asset/AddNewAsset";
 
 // Dummy data for assets
 import { singlePostData } from "../../dummyData"; 
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../../context/context";
+import axios from "axios";
 
 const Profilepage = () => {
   const userAssets = singlePostData; // Initialize directly with the properties data
+  const [properties, setProperties] = useState([]); // State to store properties
+  const { serverUrl } = useContext(AppContext);
+
+  useEffect(() => {
+      getProperties();
+    }, []);
+
+  const getProperties = async () => {
+    try {
+      const { data } = await axios.get( serverUrl + "/api/v1/bank-user/get-property", {
+        withCredentials: true,
+      });
+      if (data.success) {
+        setProperties(data.properties);
+      }else{
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
 
   // Function to get the latest asset based on auction date
   const getLatestAuctionAsset = () => {
@@ -33,7 +58,8 @@ const Profilepage = () => {
   return sortedAssets.length > 0 ? sortedAssets[0] : null; 
 };
 
-  const latestAsset = getLatestAuctionAsset(); // Get the latest auction asset
+  // const latestAsset = properties ? properties[0] : false
+  const latestAsset = false
 
   return (
     <div className="home">
@@ -47,7 +73,7 @@ const Profilepage = () => {
         {/* <div className="separator2"></div> */}
 
         <div className="latestAssetContainer">
-          {latestAsset ? <Latest asset={latestAsset} /> : <AddNewAsset />}
+          { latestAsset && latestAsset ? <Latest asset={latestAsset} /> : <AddNewAsset />}
           <News />
         </div>
         <div className="auctionersContainer">

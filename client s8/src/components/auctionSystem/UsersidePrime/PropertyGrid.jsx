@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PropertyCard } from "./PropertyCard";
+import { PropertyCard } from "./PropertyCard1";
 
 const properties = [
   { image: "https://cdn.builder.io/api/v1/image/assets/TEMP/7f2a0577aa5d00bf3d594607c69140963d434eaefff3629a693861f46e77a7dd?placeholderIfAbsent=true&apiKey=643dc8ae27ef4b1eb644562c7626beaf" },

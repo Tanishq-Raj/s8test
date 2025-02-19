@@ -91,6 +91,9 @@ const AppContextProvider = (props) => {
   });
 
   const [avatar, setAvatar] = useState(false)
+  
+  const [properties, setProperties] = useState([]); // State to store properties
+
 
   const value = {
     serverUrl,
@@ -107,7 +110,7 @@ const AppContextProvider = (props) => {
     propertyId,
     setPropertyId,
     userDetails,
-    setUserDetails,avatar, setAvatar
+    setUserDetails,avatar, setAvatar, properties, setProperties
   };
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>

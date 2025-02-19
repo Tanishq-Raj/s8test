@@ -4,7 +4,8 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 function Latest({ asset }) {
-
+  console.log("Properties", asset.image[0].url[0])
+  
   const daysLeft = useMemo(() => {
     const auctionDate = new Date(asset.auctionDate);
     const today = new Date();
@@ -18,7 +19,7 @@ function Latest({ asset }) {
       <div className="cardImageContainer">
         <img
           loading="lazy"
-          src={asset.media?.[0] || "default-image.jpg"} // ✅ Use first image from media array
+          src={asset.image[0].url[0] || "default-image.jpg"} // ✅ Use first image from media array
           className="cardImage"
           alt={asset.title}
         />
