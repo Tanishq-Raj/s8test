@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import SearchHeader from './SearchHeader';
 import CategoryCard from './CategoryCard';
 import PropertyCard from './PropertyCard';
-import { PropertyGrid } from '../UserSide/PropertyGrid';
+import { PropertyGrid } from './PropertyGrid';
 // import PropertyAuctions from '../components/PropertyAuctions';
 import PropertyDiscription from './PropertyCard copy';
+import { PropertyCardList } from './PropertyCard1';
 
 const categories = [
   { title: 'INDUSTRIAL', image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/79f55df53452d15f44fba67b67e84656bc7f77caac885b0d9f1ae0efca81e3ec?placeholderIfAbsent=true&apiKey=643dc8ae27ef4b1eb644562c7626beaf' },
@@ -114,6 +115,7 @@ function AuctionLayout() {
         )}
         {disProperties && <PropertyGrid/>}
       </div>
+      
         
     </div>
   );

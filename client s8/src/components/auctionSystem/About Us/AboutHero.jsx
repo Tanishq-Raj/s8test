@@ -24,24 +24,17 @@ function AboutHero() {
             </h1>
           </div>
           <div className="flex flex-col ml-5 w-[74%] max-md:ml-0 max-md:w-full">
-            <p className="relative text-lg leading-7 text-neutral-800 max-md:mt-10 max-md:max-w-full">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suscipit tortor lobortis purus elit amet aliquam amet,
-              pellentesque aenean. Amet eget tortor, ut faucibus vitae elit
-              rhoncus. Velit augue nec, urna leo, amet quam. Sit fames at
-              proin congue odio. Tristique hendrerit vitae amet arcu commodo
-              augue cras non. Semper in massa morbi imperdiet in mattis ac sit
-              lectus. Sed tristique eu neque sem pellentesque nisi ultrices.
-              Porttitor sed pellentesque phasellus amet turpis. A lacus,
-              sagittis eget vehicula. Cursus in nibh felis at a. Metus,
-              egestas potenti a etiam cursus duis.
+          <p className="relative text-lg leading-7 text-neutral-800 mt-7 max-md:max-w-full">
+            S8 is an innovative digital platform designed to streamline the listing and assessment of distressed assets owned by banks and financial institutions, making them easily accessible to the market and potential buyers. By providing a centralized and transparent marketplace, S8 empowers entrepreneurs and investors with comprehensive property insights, enabling them to evaluate opportunities with confidence and ease.
             </p>
             <p className="relative text-lg leading-7 text-neutral-800 mt-7 max-md:max-w-full">
-              Nulla phasellus vitae amet, molestie. Dignissim augue in rhoncus
-              eget nibh adipiscing. Magna feugiat proin semper convallis
-              pretium auctor condimentum lorem lobortis. Pretium, facilisis
-              amet enim hac. In ut sit gravida quam eu vitae, ultrices
-              rhoncus. Viverra quis libero nulla egestas quis ornare vitae.
+            More than just a platform, S8 is a game-changer for both buyers and banks navigating the complex world of distressed assets. We simplify the process by seamlessly connecting financial institutions looking to offload assets with investors eager to discover hidden opportunities.
+            </p>
+            <p className="relative text-lg leading-7 text-neutral-800 mt-7 max-md:max-w-full">
+            Our platform aggregates listings from multiple banks and their branches, creating a robust database of distressed assets for prospective buyers. With an intuitive and user-friendly interface, investors can efficiently explore, compare, and assess properties that align with their investment goals and risk appetite. S8 enhances the evaluation process by providing in-depth property insights, valuation data, and essential documentation—empowering buyers to make well-informed decisions before placing their bids in the auction.
+            </p>
+            <p className="relative text-lg leading-7 text-neutral-800 mt-7 max-md:max-w-full">
+            By bridging the gap between financial institutions and investors, S8 fosters a more efficient, transparent, and competitive marketplace for distressed asset transactions, ultimately driving better outcomes for all stakeholders.
             </p>
           </div>
         </div>
