@@ -29,10 +29,10 @@ function PropertyCard({ image, title, location, bidPrice, bank }) {
     fetchProperties();
   }, []);
 
-  const handleSeeDetails = () => {
-    window.scrollTo(0, 0);
-    navigate("/property");
-  };
+  // const handleSeeDetails = () => {
+  //   window.scrollTo(0, 0);
+  //   navigate("/property");
+  // };
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -67,8 +67,9 @@ function PropertyCard({ image, title, location, bidPrice, bank }) {
                 {property.bankName}
               </div>
             </div>
-            <div className="flex flex-col justify-center px-12 py-0.5 mt-8 w-full text-xl font-medium text-center text-zinc-50 max-md:px-5">           <button 
-            onClick={handleSeeDetails}
+            <div className="flex flex-col justify-center px-12 py-0.5 mt-8 w-full text-xl font-medium text-center text-zinc-50 max-md:px-5">           
+              <button 
+            onClick={navigate(`#`)}
             className="flex-1 shrink gap-2.5 self-stretch p-2 w-full bg-sky-900 rounded hover:bg-sky-800 transition-colors duration-300"
           >
             See Details
