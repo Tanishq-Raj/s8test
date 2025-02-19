@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useContext } from "react";
+import { useState, useMemo, useContext, useEffect } from "react";
 import { Search, Users } from "lucide-react";
 import { Link } from "react-router-dom"; // Import Link component for routing
 import * as XLSX from "xlsx"; // Import xlsx library
@@ -15,7 +15,7 @@ const AuctionHistory = () => {
 
   useEffect(() => {
     getProperties();
-  }, []);
+    }, []); 
 
   // Function to get properties
   const getProperties = async () => {
