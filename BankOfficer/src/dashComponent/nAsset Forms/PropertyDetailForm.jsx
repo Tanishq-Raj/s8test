@@ -59,7 +59,7 @@ const PropertyDetailsForm = ({ nextStep }) => {
               <option value="Residential">Residential</option>
               <option value="Commercial">Commercial</option>
               <option value="Industrial">Industrial</option>
-              <option value="Agricultural">Agricultural</option>
+              <option value="Agricultural">Land</option>
             </select>
           </div>
         </section>

@@ -6,22 +6,25 @@ import "./dashCharts.scss";
 import { AppContext } from "../../context/context";
 
 const DashCharts = () => {
-  // **State for Assets and City Filter**
+  // **State for Assets & Filters**
   const [assets, setAssets] = useState([]);
-  const [selectedCity, setSelectedCity] = useState("All");
   const [loading, setLoading] = useState(true);
-  const { serverUrl } = useContext(AppContext); // Get API base URL
+  const [selectedCity, setSelectedCity] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedStatus, setSelectedStatus] = useState("All");
+
+  const { serverUrl } = useContext(AppContext);
 
   // **Fetch Data from API**
   useEffect(() => {
     const fetchAssets = async () => {
       try {
-        const { data } = await axios.get(serverUrl + "/api/v1/bank-user/get-property", {
+        const { data } = await axios.get(`${serverUrl}/api/v1/bank-user/get-property`, {
           withCredentials: true,
         });
 
         if (data.success) {
-          setAssets(data.properties); // Assuming API returns { properties: [...] }
+          setAssets(data.properties);
         } else {
           console.log("Error:", data.message);
         }
@@ -33,13 +36,18 @@ const DashCharts = () => {
     };
 
     fetchAssets();
-  }, []);
+  }, [serverUrl]);
 
-  // **Extract Unique City Names**
-  const cityOptions = ["All", ...new Set(assets.map(item => item.address?.city))];
+  // **Extract Unique City Names & Categories**
+  const cityOptions = ["All", ...new Set(assets.map(item => item.address?.city).filter(Boolean))];
+  const categoryOptions = ["All", ...new Set(assets.map(item => item.category).filter(Boolean))];
 
-  // **Filter Data by Selected City**
-  const filteredData = selectedCity === "All" ? assets : assets.filter(item => item.address?.city === selectedCity);
+  // **Filter Data Based on Selection**
+  const filteredData = assets.filter(asset =>
+    (selectedCity === "All" || asset.address?.city === selectedCity) &&
+    (selectedCategory === "All" || asset.category === selectedCategory) &&
+    (selectedStatus === "All" || asset.status?.toLowerCase() === selectedStatus.toLowerCase())
+  );
 
   // **Total Assets Calculation**
   const totalAssets = filteredData.length;
@@ -63,9 +71,9 @@ const DashCharts = () => {
       Residential: "#60A5FA",
       Commercial: "#A78BFA",
       Industrial: "#FB923C",
-      Agricultural: " #86EFAC",
+      Land: "#86EFAC", // Fixed "Land" to "Agricultural"
     };
-    return colors[category] || "#F472B6"; // Default color if category not listed
+    return colors[category] || "#F472B6"; // Default color if category is missing
   }
 
   // **User Interactions Line Chart Data (Placeholder)**
@@ -84,12 +92,11 @@ const DashCharts = () => {
         <p>Loading data...</p>
       ) : (
         <>
-          {/* Total Assets Section */}
+          {/* ✅ Total Assets & Asset Analytics (1st Row) */}
           <div className="total-assets">
             <div className="asset-card">
               <h3>Total Assets:</h3>
               <h2>{totalAssets}</h2>
-              {/* <p>Present</p> */}
             </div>
             <div className="asset-list">
               {pieData.map((item, index) => (
@@ -101,58 +108,33 @@ const DashCharts = () => {
             </div>
           </div>
 
-          {/* My Asset Analytics (Donut Pie Chart) */}
           <div className="asset-analytics">
             <h3>My Asset Analytics</h3>
             <div className="filters">
-              {/* Location Filter */}
               <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
                 {cityOptions.map((city, index) => (
                   <option key={index} value={city}>{city}</option>
                 ))}
               </select>
-
-              {/* Date Filter */}
               <select>
                 <option>Today</option>
               </select>
             </div>
-            <div className="donut-chart">
-              <ResponsiveContainer width="100%" height={250}>
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60} // Donut effect
-                    outerRadius={90}
-                    paddingAngle={3}
-                    dataKey="value"
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-              {/* Centered Text for Total Assets */}
-              <div className="donut-center">
-                <h2>{totalAssets}</h2>
-                <p>Total</p>
-              </div>
-            </div>
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie data={pieData} cx="50%" cy="50%" innerRadius={60} outerRadius={90} paddingAngle={3} dataKey="value">
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
 
-          {/* User Interactions (Line Chart) */}
+          {/* ✅ User Interactions & Price Range Analysis (2nd Row) */}
           <div className="user-interactions">
-            <div className="chart-header">
-              <h3>User Interactions</h3>
-              <select>
-                <option>Monthly</option>
-              </select>
-            </div>
-            <h2>5,000</h2>
+            <h3>User Interactions</h3>
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={userData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -164,7 +146,6 @@ const DashCharts = () => {
             </ResponsiveContainer>
           </div>
 
-          {/*Analysis using price range Chart */}
           <div className="price-range-analysis">
             <h3>Analysis using price range</h3>
             <div className="filters">
@@ -175,19 +156,11 @@ const DashCharts = () => {
                 <option>Upcoming</option>
                 <option>Ongoing</option>
                 <option>Closed</option>
-
               </select>
             </div>
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={90}
-                  paddingAngle={3}
-                  dataKey="value"
-                >
+                <Pie data={pieData} cx="50%" cy="50%" outerRadius={90} paddingAngle={3} dataKey="value">
                   {pieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
@@ -195,6 +168,53 @@ const DashCharts = () => {
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
+          </div>
+
+          {/* ✅ Assets Table (3rd Row, Full Width) */}
+          <div className="assets-table">
+            <h3>Assets Table</h3>
+            <div className="filters">
+              <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
+                {cityOptions.map((city, index) => (
+                  <option key={index} value={city}>{city}</option>
+                ))}
+              </select>
+              <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                {categoryOptions.map((category, index) => (
+                  <option key={index} value={category}>{category}</option>
+                ))}
+              </select>
+              <select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
+                <option value="All">All Status</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Sr.no</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>City / State</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredData.map((asset, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{asset.title}</td>
+                    <td>{asset.category}</td>
+                    <td>{asset.address?.city}</td>
+                    <td>{asset.auctionDate}</td>
+                    <td>{asset.status || "Unknown"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </>
       )}
