@@ -61,9 +61,9 @@ const DashCharts = () => {
   function getCategoryColor(category) {
     const colors = {
       Residential: "#60A5FA",
-      Commercial: "#86EFAC",
+      Commercial: "#A78BFA",
       Industrial: "#FB923C",
-      Agricultural: "#A78BFA",
+      Agricultural: " #86EFAC",
     };
     return colors[category] || "#F472B6"; // Default color if category not listed
   }
@@ -87,9 +87,9 @@ const DashCharts = () => {
           {/* Total Assets Section */}
           <div className="total-assets">
             <div className="asset-card">
-              <h3>Total Assets</h3>
+              <h3>Total Assets:</h3>
               <h2>{totalAssets}</h2>
-              <p>Current Assets</p>
+              {/* <p>Present</p> */}
             </div>
             <div className="asset-list">
               {pieData.map((item, index) => (
@@ -161,6 +161,39 @@ const DashCharts = () => {
                 <Tooltip />
                 <Line type="monotone" dataKey="views" stroke="#2563EB" strokeWidth={2} />
               </LineChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/*Analysis using price range Chart */}
+          <div className="price-range-analysis">
+            <h3>Analysis using price range</h3>
+            <div className="filters">
+              <input type="text" placeholder="From" />
+              <input type="text" placeholder="To" />
+              <select>
+                <option>Status</option>
+                <option>Upcoming</option>
+                <option>Ongoing</option>
+                <option>Closed</option>
+
+              </select>
+            </div>
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={90}
+                  paddingAngle={3}
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Legend />
+              </PieChart>
             </ResponsiveContainer>
           </div>
         </>

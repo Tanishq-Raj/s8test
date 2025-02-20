@@ -244,7 +244,7 @@ const Single = () => {
       <span className="value">{property.auctionTime}</span>
     </div>
     <div className="auctionItem">
-      <span className="label">Nereby Places:</span>
+      <span className="label">Nearby Places:</span>
       <span className="value">{property.nearbyPlaces}</span>
     </div>
     <div className="auctionItem">
