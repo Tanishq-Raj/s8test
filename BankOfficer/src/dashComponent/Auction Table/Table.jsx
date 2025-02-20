@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useContext } from "react";
+import { useState, useMemo, useContext, useEffect } from "react";
 import { Search, Users } from "lucide-react";
 import { Link } from "react-router-dom"; // Import Link component for routing
 import * as XLSX from "xlsx"; // Import xlsx library
@@ -15,7 +15,7 @@ const AuctionHistory = () => {
 
   useEffect(() => {
     getProperties();
-  }, []);
+    }, []); 
 
   // Function to get properties
   const getProperties = async () => {
@@ -227,12 +227,15 @@ const AuctionHistory = () => {
                   <td className="action-buttons">
                     <Link to={`/property/${item._id}`} className="view-button">
                       <img src="/goTo.svg" alt="View" width={16} height={16} />
+                      <span className="tooltip">View</span>
                     </Link>
                     <button className="edit-button">
                       <img src="/edit2.svg" alt="edit" width={16} height={16} />
+                      <span className="tooltip">Edit</span>
                     </button>
                     <button className="delete-button">
                       <img src="/delete2.svg" alt="delete" width={16} height={16} />
+                      <span className="tooltip">Delete</span>
                     </button>
                   </td>
                 </tr>

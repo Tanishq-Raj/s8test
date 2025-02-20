@@ -8,6 +8,7 @@ import AssetsViwe from './officerPages/my Assets/AssetsView';
 import AddAsset from './officerPages/add new asset/AddAsset';
 import Profilepage from './officerPages/profilePage/ProfilePage';
 import Profile2 from './officerPages/profile Settings/Profile2';
+import Dashboard from './officerPages/dashboard/dashboard';
 // import PropertyDetailsForm from './dashComponent/nAsset Forms/PropertyDetailForm';
 // import AddressDetailsForm from './dashComponent/nAsset Forms/AddressForm';
 // import AuctionDetailsForm from './dashComponent/nAsset Forms/AuctionForm';
@@ -26,6 +27,7 @@ function App() {
        <Route path="/view" element={<AssetsViwe />} />
        <Route path="/property/:id" element={<Single />} />
        <Route path="/addNew" element={<AddAsset/>} />
+       <Route path="/dashboard" element={<Dashboard/>} />
 
        {/* <Route path="/property-details" element={<PropertyDetailsForm />} />
        <Route path="/address-details" element={<AddressDetailsForm/> } />

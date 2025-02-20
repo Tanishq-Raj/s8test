@@ -58,7 +58,7 @@ const MyAssetsCards = () => {
               </div>
               <div className="cardBody">
                 <h4>{property.title}</h4>
-                <p>{property.address?.address}, {property.address?.city}, {property.address?.state} - {property.address?.pincode}</p>
+                <p className="propertyAddress">{property.address?.address}, {property.address?.city}, {property.address?.state} - {property.address?.pincode}</p>
                 <p>{property.auctionDate}</p>
                 <div onClick={() => navigate(`/property/${property._id}`)} className="viewButton">View now</div>
                 {/* Corrected Link for navigation */}

@@ -185,21 +185,34 @@
     height: 16px;
   }
 
-  .edit {
-    border: 2px solid #004663;
-    color: #004663;
-
-    &:hover {
-      background-color: #88fa6b;
+  .edit,.delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px; // Adjust as needed
+    height: 100%; // Adjust to match button size
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #004f6e;
+    cursor: pointer;
+    background-color: transparent;
+    color: #004f6e;
+    transition: background-color 0.3s ease, color 0.3s ease, filter 0.3s ease;
+    
+    img {
+      width: 16px;
+      height: 16px;
+      transition: filter 0.3s ease;
     }
-  }
-
-  .delete {
-    border: 2px solid #004663;
-    color: #004663;
-
+  
     &:hover {
-      background-color: rgba(233, 34, 34, 0.1);
+      background-color: #004f6e;
+      color: white;
+  
+      img {
+        filter: brightness(0) invert(1); // Turns icon white
+      }
     }
   }
 

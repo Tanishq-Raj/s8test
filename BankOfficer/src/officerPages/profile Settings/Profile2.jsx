@@ -7,41 +7,29 @@ import axios from "axios";
 
 const Profile2 = () => {
     const [image, setImage] = useState("/user.png"); // Default avatar
-    const { serverUrl, avatar, setAvatar, userDetails, setUserDetails } = useContext(AppContext);
+    const { serverUrl, avatar, setAvatar, userDetails, setUserDetails, handleProfile } = useContext(AppContext);
     const [editAvatar, setEditAvatar] = useState(false)
     const [showForm, setShowForm] = useState(false); // State to control form visibility
+    const [userUpdateDetails, setUserUpdateDetails] = useState({})
 
     useEffect(() => {
         // Fetch user details from the database
-        handleProfile();
-    }, []); 
-
-    const handleProfile = async () => {
-      try {
-        const { data } = await axios.get(serverUrl + "/api/v1/bank-user/get-profile", 
-          { withCredentials: true }
-        );
-        if (data.success) {
-          setUserDetails({
-            firstName: data.user.firstName,
-            lastName: data.user.lastName,
-            email: data.user.email,
-            phone: data.user.phone,
-            bankName: data.user.bankName,
-            bankAddress: data.user.bankAddress,
-            branchZone: data.user.branchZone,
-            bankBranch: data.user.bankBranch,
-            bankIFSC: data.user.bankIFSC,
-            designation: data.user.designation
-          });
-          setAvatar(data.user.bankProfileImage.url)
-        }else{
-          console.log(data.message)
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
+        
+        console.log(userDetails)
+            // Update user details
+    setUserUpdateDetails({
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
+      email: userDetails.email,
+      phone: userDetails.phone,
+      bankName: userDetails.bankName,
+      bankAddress: userDetails.bankAddress,
+      branchZone: userDetails.branchZone,
+      bankBranch: userDetails.bankBranch,
+      bankIFSC: userDetails.bankIFSC,
+      designation: userDetails.designation
+    });
+    }, [showForm]); 
 
     // update user Profile
     const handleUpdateProfile = async () => {
@@ -56,16 +44,30 @@ const Profile2 = () => {
         formData.append("branchZone", userUpdateDetails.branchZone);
         formData.append("designation", userUpdateDetails.designation);
         formData.append("bankAddress", userUpdateDetails.bankAddress);
-        if (image) {
-          formData.append("files", image); // Append the image file
-        }
+        // if (image) {
+        //   formData.append("files", image); // Append the image file
+        // }
 
-        const { data } = await axios.post(serverUrl + "/api/v1/bank-user/update-profile", formData, 
+        const { data } = await axios.post(serverUrl + "/api/v1/bank-user/update-profile", userUpdateDetails, 
           {
-            headers: { "Content-Type": "multipart/form-data" },
+            // headers: { "Content-Type": "multipart/form-data" },
             withCredentials: true,
           }
         );
+
+        console.log(data)
+        setUserDetails({
+          firstName: data.user.firstName,
+          lastName: data.user.lastName,
+          email: data.user.email,
+          phone: data.user.phone,
+          bankName: data.user.bankName,
+          bankAddress: data.user.bankAddress,
+          branchZone: data.user.branchZone,
+          bankBranch: data.user.bankBranch,
+          bankIFSC: data.user.bankIFSC,
+          designation: data.user.designation
+        });
       } catch (error) {
         console.log(error);
       }
@@ -124,19 +126,7 @@ const Profile2 = () => {
 
     
 
-    // Update user details
-    const [userUpdateDetails, setUserUpdateDetails] = useState({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      // bankName: "",
-      bankAddress: "",
-      branchZone: "",
-      bankBranch: "",
-      bankIFSC: "",
-      designation: ""
-    });
+
 
     // Handle input changes
     const handleInputChange = (event) => {
@@ -186,21 +176,21 @@ const Profile2 = () => {
       <div className="details-section">
         <div className="info">
           <h4>Information</h4>
-          <p><strong>Name:</strong> {userDetails.firstName || "First Name"} {userDetails.lastName || "Last Name"}</p>
-          <p><strong>Email:</strong> {userDetails.email || "user@email.com"}</p>
-          <p><strong>Tel:</strong> {userDetails.phone ? `${userDetails.phone}` : "+91 966 696 123"}</p>
+          <p><strong>Name:</strong> {userDetails.firstName} {userDetails.lastName}</p>
+          <p><strong>Email:</strong> {userDetails.email}</p>
+          <p><strong>Tel:</strong> {userDetails.phone}</p>
           <button className="update-details-btn" onClick={() => setShowForm(!showForm)} >
             Update Details
           </button>
         </div>
         <div className="info2">
           <h4>Professional Details</h4>
-          <p><strong>Bank name:</strong> {userDetails.bankName.toUpperCase() || "e.g:State Bank of India"}</p>
-          <p><strong>Job Title:</strong> {userDetails.designation || "e.g:Manager"}</p>
-          <p><strong>IFSC:</strong> {userDetails.bankIFSC || "e.g:SBIN1000511"}</p>
-          <p><strong>Branch Name:</strong> {userDetails.bankBranch || "e.g: Mumbai"}</p>
-          <p><strong>Branch Zone:</strong> {userDetails.branchZone || "e.g: "}</p>
-          <p><strong>Branch Address:</strong> {userDetails.bankAddress || "e.g:18/A, Mumbai Branch"}</p>
+          <p><strong>Bank name:</strong> {userDetails.bankName.toUpperCase()}</p>
+          <p><strong>Job Title:</strong> {userDetails.designation}</p>
+          <p><strong>IFSC:</strong> {userDetails.bankIFSC }</p>
+          <p><strong>Branch Name:</strong> {userDetails.bankBranch }</p>
+          <p><strong>Branch Zone:</strong> {userDetails.branchZone}</p>
+          <p><strong>Branch Address:</strong> {userDetails.bankAddress }</p>
         </div>
        </div>
       </div>

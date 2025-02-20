@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import axios from "axios";
 
 export const AppContext = createContext();
 
@@ -94,6 +95,50 @@ const AppContextProvider = (props) => {
   
   const [properties, setProperties] = useState([]); // State to store properties
 
+  // Get Profile Details
+  const handleProfile = async () => {
+    try {
+      const { data } = await axios.get(serverUrl + "/api/v1/bank-user/get-profile", 
+        { withCredentials: true }
+      );
+      if (data.success) {
+        setUserDetails({
+          firstName: data.user.firstName,
+          lastName: data.user.lastName,
+          email: data.user.email,
+          phone: data.user.phone,
+          bankName: data.user.bankName,
+          bankAddress: data.user.bankAddress,
+          branchZone: data.user.branchZone,
+          bankBranch: data.user.bankBranch,
+          bankIFSC: data.user.bankIFSC,
+          designation: data.user.designation
+        });
+        setAvatar(data.user.bankProfileImage.url)
+      }else{
+        console.log(data.message)
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  handleProfile();
+
+  // Update user details
+  const [userUpdateDetails, setUserUpdateDetails] = useState({
+    firstName: userDetails.firstName,
+    lastName: userDetails.lastName,
+    email: userDetails.email,
+    phone: userDetails.phone,
+    bankName: userDetails.bankName,
+    bankAddress: userDetails.bankAddress,
+    branchZone: userDetails.branchZone,
+    bankBranch: userDetails.bankBranch,
+    bankIFSC: userDetails.bankIFSC,
+    designation: userDetails.designation
+  });
+
 
   const value = {
     serverUrl,
@@ -110,7 +155,7 @@ const AppContextProvider = (props) => {
     propertyId,
     setPropertyId,
     userDetails,
-    setUserDetails,avatar, setAvatar, properties, setProperties
+    setUserDetails,avatar, setAvatar, properties, setProperties, handleProfile, userUpdateDetails, setUserUpdateDetails
   };
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
