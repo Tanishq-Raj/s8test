@@ -33,7 +33,7 @@ const DashCharts = () => {
     };
 
     fetchAssets();
-  }, [serverUrl]);
+  }, []);
 
   // **Extract Unique City Names**
   const cityOptions = ["All", ...new Set(assets.map(item => item.address?.city))];
