@@ -42,29 +42,51 @@
       display: flex;
       flex-direction: column;
       margin-left: 20px;
-
+      width: 100%;
+    
       .asset-item {
         display: flex;
         align-items: center;
+        position: relative;
         justify-content: space-between;
-        padding: 10px;
-        border-left: 5px solid;
         margin-bottom: 8px;
         width: 250px;
-        background: #f8f8f8;
+        height: 40px;
         border-radius: 5px;
-
+        background: #e1e0e0;
+        // border-left: 5px solid transparent;
+        border-radius: 5px;
+        overflow: hidden;
+    
+        .fill-bar {
+          position: absolute;
+          left: 0;
+          height: 100%;
+          transition: width 0.3s ease-in-out;
+        }
+    
+        .text-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          padding: 0 10px;
+          position: relative;
+          z-index: 1;
+        }
+    
         h3 {
           font-size: 18px;
           margin: 0;
         }
-
+    
         p {
           font-size: 14px;
           color: #555;
         }
       }
     }
+    
   }
 
   .asset-analytics {
@@ -134,8 +156,9 @@
 
   .user-interactions {
     h3 {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
+      margin-bottom: 40px;
     }
 
     .chart-header {
@@ -159,6 +182,7 @@
     }
   }
 
+  //price-range-analysis
   .price-range-analysis {
     text-align: center;
 
@@ -190,26 +214,26 @@
     }
   }
 
-  /* ✅ Full-Width Assets Table (3rd Row) */
-  .assets-table {
+  .dash-table {
     grid-column: span 2;
     background: white;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
 
+  
     h3 {
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 1.5rem;
+      color: #333;
       margin-bottom: 15px;
     }
-
-    /* Filters */
-    .filters {
+  
+    .table-filters {
       display: flex;
-      gap: 15px;
+      align-items: center;
+      gap: 10px;
       margin-bottom: 15px;
-
+  
       select {
         padding: 8px;
         border: 1px solid #ccc;
@@ -217,49 +241,61 @@
         background: white;
         cursor: pointer;
       }
-    }
-
-    /* Table */
-    table {
-      width: 90%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 14px;
-    }
-
-    thead {
-      background-color: #e0e0e0;
-
-      th {
-        padding: 12px;
-        font-weight: bold;
+      input[type="date"] {
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
       }
     }
+  
+    .table-container {
+      overflow-x: auto;
+      border-radius: 20px;
+      border:1px solid #ddd;
+      table {
+        width: 100%;
+        border-collapse: collapse;
 
-    tbody {
-      tr {
-        border-bottom: 1px solid #ddd;
-        &:nth-child(even) {
-          background-color: #f9f9f9;
+        
+        thead {
+          background-color: #B0BAC3;
+          color: white;
+          
+          th {
+            padding: 12px;
+            text-align: center;
+          }
+        }
+  
+        tbody {
+          tr {
+            &:nth-child(even) {
+              background-color: #f8f9fa;
+            }
+  
+            &:hover {
+              background-color: #e3f2fd;
+            }
+  
+            td {
+              padding: 10px;
+              border-bottom: 1px solid #ddd;
+            }
+
+            
+  
+            .status {
+              font-weight: bold;
+              text-transform: capitalize;
+              text-align: center;
+              &.upcoming { color: #ff9800; }
+              &.ongoing { color: #4caf50; }
+              &.closed { color: #f44336; }
+              &.unknown { color: #757575; }
+            }
+          }
         }
       }
-
-      td {
-        padding: 10px;
-      }
-    }
-
-    /* ✅ Status Colors */
-    .status {
-      font-weight: bold;
-    }
-
-    .completed {
-      color: green;
-    }
-
-    .upcoming {
-      color: red;
     }
   }
 }
