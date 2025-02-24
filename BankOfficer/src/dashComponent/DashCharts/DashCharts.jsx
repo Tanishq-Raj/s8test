@@ -5,6 +5,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts"
 import "./dashCharts.scss";
 import { AppContext } from "../../context/context";
 import * as XLSX from "xlsx"; // Import XLSX for Excel export
+import { Link } from "react-router-dom";
 
 const DashCharts = () => {
   // **State for Assets & Filters**
@@ -176,8 +177,8 @@ const DashCharts = () => {
           {/* ✅ Total Assets & Asset Analytics (1st Row) */}
           <div className="total-assets">
             <div className="asset-card">
-              <h3>Total Assets:</h3>
-              <h2>{totalAssets}</h2>
+              <div className="total-card">Total Assets:</div>
+              <div className="total-value">{totalAssets}</div>
             </div>
             <div className="asset-list">
             {Object.keys(categoryCount).map((category, index) => {
@@ -235,6 +236,13 @@ const DashCharts = () => {
           {/* ✅ User Interactions & Price Range Analysis (2nd Row) */}
           <div className="user-interactions">
             <h4>User Interactions</h4>
+            <div className="filters">
+              <select>
+                <option>Today</option>
+                <option>Weekly</option>
+                <option>Monthly</option>
+              </select>
+            </div>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={userData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -349,7 +357,7 @@ const DashCharts = () => {
             <thead>
               <tr>
               <th style={{ width: "50px",wordWrap: "break-word", whiteSpace: "normal", overflowWrap: "break-word"}}>Sr.no</th>
-              <th style={{ width: "200px" }}>Title</th>
+              <th style={{ width: "250px" }}>Title</th>
               <th style={{ width: "150px" }}>BORROWER</th>
               <th style={{ width: "100px" }}>PRICE</th>
               <th style={{ width: "150px" }}>Category</th>
@@ -364,7 +372,10 @@ const DashCharts = () => {
                 filteredData.map((asset, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{asset.title}</td>
+                    <td>
+                       <Link to={`/property/${asset._id}`} className="asset-link">
+                      {asset.title}</Link>
+                    </td>                    
                     <td>{asset.borrower}</td>
                     <td>{asset.price}</td>
                     <td>{asset.category}</td>

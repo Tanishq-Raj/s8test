@@ -14,22 +14,36 @@
     // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
     align-items: center;
+    
 
     .asset-card {
-      background: #e9d5ff;
-      padding: 20px;
-      border-radius: 10px;
+     display: flex;
+     flex-direction: column;
+      // padding: 20px;
+      border-radius: 20px;
       text-align: center;
-      width: 250px;
+      border: 1px solid #DCD6FA;
+      width: 270px;
+      height: 200px;
+      margin-bottom: 20px;
+      margin-left: 40px;
 
-      h3 {
-        font-size: 16px;
+      .total-card {
+        background: #e9d5ff;
+        font-size: 18px;
+        border-radius: 20px 20px 0 0;
         color: #5a4b8c;
+        height: 80px;
+        align-content: center;
       }
 
-      h2 {
-        font-size: 36px;
+      .total-value {
+        font-size: 30px;
         color: #3f3d56;
+        background: white;
+        align-content: center;
+        overflow: hidden;
+        margin-top: 25px;
       }
 
       p {
@@ -49,7 +63,7 @@
         align-items: center;
         position: relative;
         justify-content: space-between;
-        margin-bottom: 8px;
+        margin-bottom: 20px;
         width: 250px;
         height: 40px;
         border-radius: 5px;
@@ -157,36 +171,51 @@
   }
 
   .user-interactions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     h4 {
       font-size: 18px;
       font-weight: bold;
-      margin-bottom: 60px;
+      margin-bottom: 20px;
     }
-
-    .chart-header {
+    .filters {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+      flex-wrap: wrap; // Allows filters to wrap if they overflow
+      gap: 15px; // Increased gap for better separation
+      margin-bottom: 20px; // More space below filters for clarity
 
       select {
-        padding: 5px;
-        border: 1px solid #ccc;
+        padding: 8px; // Slightly increased padding for better UI
+        border: 1px solid #ddd;
         border-radius: 5px;
       }
     }
 
-    h2 {
-      font-size: 24px;
-      font-weight: bold;
-      color: #2563eb;
-      margin-bottom: 10px;
-    }
+    // .chart-header {
+    //   display: flex;
+    //   justify-content: space-between;
+    //   align-items: center;
+    //   margin-bottom: 10px;
+
+    //   select {
+    //     padding: 5px;
+    //     border: 1px solid #ccc;
+    //     border-radius: 5px;
+    //   }
+    // }
+
+    // h2 {
+    //   font-size: 24px;
+    //   font-weight: bold;
+    //   color: #2563eb;
+    //   margin-bottom: 10px;
+    // }
   }
 
   //price-range-analysis
   .price-range-analysis {
-    text-align: center;
+    text-align: start;
 
     h4 {
       font-size: 18px;
@@ -196,7 +225,7 @@
 
     .filters {
       display: flex;
-      justify-content: center;
+      justify-items: start;
       gap: 10px;
       margin-bottom: 10px;
 
@@ -281,11 +310,11 @@
           
           th {
             padding: 10px;
-  text-align: center;
-  word-wrap: break-word;
-  white-space: normal;
-  overflow-wrap: break-word;
-  max-width: 250px; // Adjust as needed
+            text-align: center;
+            word-wrap: break-word;
+            white-space: normal;
+            overflow-wrap: break-word;
+            max-width: 250px; // Adjust as needed
           }
         }
   
@@ -332,7 +361,20 @@
 //               font-size: 12px;
             }
             
-  
+            .asset-link {
+              text-decoration: none;
+              // color: #0466c8; // Primary color
+              font-weight: 500;
+              transition: all 0.3s ease-in-out;
+            
+              &:hover {
+                // color: #0353a4;  // Darker shade on hover
+                font-weight: 600; // Make it bold
+                font-size: 16px; // Slightly bigger
+              }
+            }
+            
+
             .status {
               font-weight: bold;
               text-transform: capitalize;
