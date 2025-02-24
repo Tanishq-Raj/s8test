@@ -137,6 +137,10 @@ const propertySchema = new Schema(
       type: Number,
       required: true,
     },
+    status: {
+      type: Number,
+      enum: ["Close", "Open"],
+    }
 
     // addedby: userid //////////////////////////////////////////////////////////////////////////
     // active //******************************************* */

@@ -855,6 +855,44 @@ export const updateProfileImage = async (req, res) => {
   }
 }
 
+// Search 
+export const searchProperty = async (req, res) => {
+  try {
+    const userId = "67b0df3d321e1f57fd794c1a"
+    const { searchString } = req.body;
+    
+    // Validate search string length
+    if (!searchString || searchString.length < 3) {
+      return res.json({ success: false, message: "Search String is short" });
+    }
+
+    // Step 1: Check if any document matches the search string for the given user
+    const foundDocs = await propertyModel.find({
+      userId,
+      $or: [
+        { title: { $regex: searchString, $options: "i" } },
+        { category: { $regex: searchString, $options: "i" } },
+        { bankName: { $regex: searchString, $options: "i" } },
+        { address: { $regex: searchString, $options: "i" } },
+        { description: { $regex: searchString, $options: "i" } },
+        { nearbyPlaces: { $regex: searchString, $options: "i" } }
+      ]
+    });
+    
+    if (foundDocs && foundDocs.length > 0) {
+      // Step 2: If at least one matching document exists, retrieve all documents for that user
+      const allDocs = await propertyModel.find({ userId });
+      return res.json({ success: true, data: allDocs });
+    } else {
+      return res.json({ success: false, message: "No documents contain the search string." });
+    }
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+
+
 // Get Top auctioners
 export const topAuctioners = async (req, res) => {
   try {

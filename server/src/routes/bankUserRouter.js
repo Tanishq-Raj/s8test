@@ -8,6 +8,7 @@ import {
   getPropertyById,
   login,
   logout,
+  searchProperty,
   topAuctioners,
   updateProfile,
   updateProfileImage,
@@ -32,5 +33,6 @@ bankUserRouter.get("/top-auctioners",bankUserAuth, topAuctioners)
 bankUserRouter.get("/get-profile",bankUserAuth, getProfile)
 bankUserRouter.post("/update-profile",bankUserAuth, updateProfile)
 bankUserRouter.post("/update-profile-image",bankUserAuth, upload.single('image'), updateProfileImage)
+bankUserRouter.post("/searchProperties", searchProperty)
 
 export default bankUserRouter;
