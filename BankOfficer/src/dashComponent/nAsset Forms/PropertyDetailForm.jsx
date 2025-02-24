@@ -73,7 +73,7 @@ const PropertyDetailsForm = ({ nextStep }) => {
               name="auctionDate"
               value={formData.auctionDate}
               onChange={handleChange}
-              placeholder="DD/MM/YYYY"
+              placeholder="DD-MM-YYYY"
               aria-label="Auction Date"
             />
             <img src="/calendar.svg" className="inputIcon" alt="Calendar" />

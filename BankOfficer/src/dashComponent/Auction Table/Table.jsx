@@ -126,7 +126,7 @@ const AuctionHistory = () => {
     const worksheet = XLSX.utils.json_to_sheet(exportData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Auction Data");
-    XLSX.writeFile(workbook, "AuctionHistory.xlsx");
+    XLSX.writeFile(workbook, "Auction List.xlsx");
   };
 
   // Highlight search text
@@ -142,7 +142,7 @@ const AuctionHistory = () => {
     );
   };
 
-  // Format date as dd/mm/yyyy
+  // Format date as dd-mm-yyyy
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, '0');

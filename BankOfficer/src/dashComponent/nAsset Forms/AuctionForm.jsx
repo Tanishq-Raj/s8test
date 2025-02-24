@@ -16,6 +16,9 @@ const AuctionDetailsForm = ({ prevStep }) => {
     propertyId, setPropertyId,
   } = useContext(AppContext);
 
+  const [showPopup, setShowPopup] = useState(false); // State for popup message
+  const [popupMessage, setPopupMessage] = useState(""); // State for popup message content
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -64,7 +67,9 @@ const AuctionDetailsForm = ({ prevStep }) => {
 
         console.log(data);
         if (data.success) {
-          console.log(data.message);
+          setPopupMessage("Asset information has been submitted!");
+          setShowPopup(true);
+          setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
         }
         setFormData({
           title: "",
@@ -115,7 +120,9 @@ const AuctionDetailsForm = ({ prevStep }) => {
 
         console.log(data);
         if (data.success) {
-          console.log(data.message);
+          setPopupMessage("Asset information has been updated!");
+          setShowPopup(true);
+          setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
         }
         setEditProperty(false);
         setFormData({
@@ -289,7 +296,7 @@ const AuctionDetailsForm = ({ prevStep }) => {
               name="inspectDate"
               value={formData.inspectDate}
               onChange={handleChange}
-              placeholder="DD/MM/YYYY"
+              placeholder="DD-MM-YYYY"
               aria-label="Property Inspection Date"
             />
             <img
@@ -379,6 +386,13 @@ const AuctionDetailsForm = ({ prevStep }) => {
           </button>
         )}
       </footer>
+
+       {/* Popup Message */}
+       {showPopup && (
+        <div className="popupMessage">
+          <p>{popupMessage}</p>
+        </div>
+      )}
     </main>
   );
 };
