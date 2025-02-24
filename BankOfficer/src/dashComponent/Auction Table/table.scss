@@ -157,7 +157,11 @@ th:nth-child(6), td:nth-child(6) { width: 150px; }
 th:nth-child(8), td:nth-child(8) { width: 120px; }
 th:nth-child(9), td:nth-child(9) { width: 120px; }
 th:nth-child(10), td:nth-child(10) { width: 120px; }
-th:nth-child(11), td:nth-child(11) { width: 180px; }
+th:nth-child(11) , td:nth-child(11) { width: 180px;}
+
+// td:nth-child(11):last-child {
+//   border-bottom: 1px solid #ccc;
+// }
 
 .date-column {
   width: 100px;
@@ -189,7 +193,9 @@ td span.status {
   align-items: center;
   gap: 8px; // Maintain spacing between buttons
   height: 100%; // Make buttons adapt to the row height
+  position: relative; // Ensures tooltips position correctly inside the column
   flex-wrap: wrap; // Ensure buttons adjust if the row expands
+  border-bottom: #fff;
 }
 
 .view-button, .edit-button, .delete-button {
@@ -220,8 +226,29 @@ td span.status {
     img {
       filter: brightness(0) invert(1); // Turns icon white
     }
+    .tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 }
+
+.tooltip {
+  position: absolute;
+  top: 100%; /* Position below button */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #004f6e;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+ }
+
 
 .download-button{
   font-size: 16px; /* Ensure font size is consistent */
