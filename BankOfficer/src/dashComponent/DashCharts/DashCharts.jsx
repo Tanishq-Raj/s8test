@@ -4,6 +4,8 @@ import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import "./dashCharts.scss";
 import { AppContext } from "../../context/context";
+import * as XLSX from "xlsx"; // Import XLSX for Excel export
+import { Link } from "react-router-dom";
 
 const DashCharts = () => {
   // **State for Assets & Filters**
@@ -13,6 +15,8 @@ const DashCharts = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedDate, setSelectedDate] = useState(""); // State for selected date
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   const { serverUrl } = useContext(AppContext);
 
@@ -48,7 +52,9 @@ const DashCharts = () => {
     (selectedCity === "All" || asset.address?.city === selectedCity) &&
     (selectedCategory === "All" || asset.category === selectedCategory) &&
     (selectedStatus === "All" || asset.status?.toLowerCase() === selectedStatus.toLowerCase()) &&
-    (selectedDate === "" || new Date(asset.auctionDate).toISOString().split("T")[0] === selectedDate)
+    (selectedDate === "" || new Date(asset.auctionDate).toISOString().split("T")[0] === selectedDate)&&
+    (!minPrice || asset.price >= parseFloat(minPrice)) &&
+    (!maxPrice || asset.price <= parseFloat(maxPrice))
   );
 
   // **Total Assets Calculation**
@@ -88,6 +94,80 @@ const DashCharts = () => {
     { month: "Jun", views: 27 },
   ];
 
+  // **Price Range Analysis**
+  const priceRangeData = filteredData.reduce((acc, asset) => {
+    acc[asset.category] = (acc[asset.category] || 0) + 1;
+    return acc;
+  }, {});
+  
+  const pricePieData = Object.keys(priceRangeData).map(category => ({
+    name: category,
+    value: priceRangeData[category],
+    color: getCategoryColor(category),
+  }));
+
+
+  //Table Page Pagination
+
+  // const PaginatedTable = ({ filteredData }) => {
+    // State for Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10; // Change this for more/less rows per page
+  
+    // Calculate total pages
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  
+    // Get current page data
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  
+    // Pagination Handlers
+    const nextPage = () => {
+      if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    };
+
+    const prevPage = () => {
+      if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
+    const goToPage = (page) => {
+      setCurrentPage(page);
+    };
+  
+     // Export data to Excel
+     const exportToExcel = () => {
+      // Map data to a flat format for Excel
+      const worksheet = XLSX.utils.json_to_sheet(
+        filteredData.map((asset, index) => ({
+          "SR. NO.": index + 1,
+          "PROPERTY NAME": asset.title,
+          PRICE: asset.price,
+          DATE: asset.auctionDate,
+          ADDRESS: asset.address?.street || "N/A",
+          CITY: asset.address?.city || "N/A",
+          STATE: asset.address?.state || "N/A",
+          STATUS: asset.auctionDate,
+          AUCTION_TYPE: asset.auctionType,
+          CATEGORY: asset.category,
+          BORROWER: asset.borrower,
+          "DUE AMOUNT": asset.dueAmount,
+          DEPOSIT: asset.deposit,
+          "BID INC AMT": asset.bidInc,
+          "INSPECTION DATE": asset.inspectDate,
+          "INSPECTION TIME": asset.inspectTime,
+        }))
+      );
+
+      if (worksheet.length === 0) {
+        alert("No data available for export.");
+        return;
+      }
+    
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Assets Data");
+      XLSX.writeFile(workbook, "Assets List.xlsx");
+    };
+
   return (
     <div className="dashboard-charts">
       {loading ? (
@@ -97,8 +177,8 @@ const DashCharts = () => {
           {/* ✅ Total Assets & Asset Analytics (1st Row) */}
           <div className="total-assets">
             <div className="asset-card">
-              <h3>Total Assets:</h3>
-              <h2>{totalAssets}</h2>
+              <div className="total-card">Total Assets:</div>
+              <div className="total-value">{totalAssets}</div>
             </div>
             <div className="asset-list">
             {Object.keys(categoryCount).map((category, index) => {
@@ -121,7 +201,7 @@ const DashCharts = () => {
 
  {/* My Asset Analytics (Donut Pie Chart) */}
           <div className="asset-analytics">
-            <h3>My Asset Analytics</h3>
+            <h4>My Asset Analytics</h4>
             <div className="filters">
               <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
               <option value="All">All Location</option>
@@ -155,8 +235,15 @@ const DashCharts = () => {
 
           {/* ✅ User Interactions & Price Range Analysis (2nd Row) */}
           <div className="user-interactions">
-            <h3>User Interactions</h3>
-            <ResponsiveContainer width="100%" height={250}>
+            <h4>User Interactions</h4>
+            <div className="filters">
+              <select>
+                <option>Today</option>
+                <option>Weekly</option>
+                <option>Monthly</option>
+              </select>
+            </div>
+            <ResponsiveContainer width="100%" height={300}>
               <LineChart data={userData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
@@ -168,33 +255,59 @@ const DashCharts = () => {
           </div>
 
           {/* price Range Analysis (2nd Row) */}
-          <div className="price-range-analysis">
-            <h3>Analysis using price range</h3>
-            <div className="filters">
-              <input type="text" placeholder="From" />
-              <input type="text" placeholder="To" />
-              <select>
-                <option>Status</option>
-                <option>Upcoming</option>
-                <option>Ongoing</option>
-                <option>Closed</option>
-              </select>
-            </div>
-            <ResponsiveContainer width="100%" height={250}>
-              <PieChart>
-                <Pie data={pieData} cx="50%" cy="50%" outerRadius={90} paddingAngle={3} dataKey="value">
-                  {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
+      <div className="price-range-analysis">
+       <h4>Analysis using price range</h4>
+       <div className="filters">
+        <input
+         type="number"
+         placeholder="Min Price"
+         value={minPrice}
+         onChange={(e) => setMinPrice(e.target.value)}
+        />
+        <input
+         type="number"
+         placeholder="Max Price"
+         value={maxPrice}
+         onChange={(e) => setMaxPrice(e.target.value)}
+        />
+        <select value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
+          <option value="All">All Status</option>
+          <option value="Upcoming">Upcoming</option>
+          <option value="Ongoing">Ongoing</option>
+          <option value="Closed">Closed</option>
+        </select>
+       </div>
+
+  {pricePieData.length > 0 ? (
+    <ResponsiveContainer width="100%" height={300}>
+      <PieChart>
+        <Pie
+          data={pricePieData}
+          cx="50%"
+          cy="50%"
+          outerRadius={90}
+          paddingAngle={3}
+          dataKey="value"
+          label={({ percent }) => `${(percent * 100).toFixed(1)}%`} // Show percentage
+        >
+          {pricePieData.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.color} />
+          ))}
+        </Pie>
+        <Legend />
+     </PieChart>
+    </ResponsiveContainer>
+             ) : (
+             <p style={{ textAlign: "center", marginTop: "20px", color: "red" }}>
+                No assets found within this price range
+             </p>
+         )}
+      </div>
+
 
           {/* Table (3rd Row) */}
           <div className="dash-table">
-      <h3>Assets Table</h3>
+      <h4>Assets Table</h4>
       
       {/* City Filter Dropdown */}
       <div className="table-filters">
@@ -225,7 +338,16 @@ const DashCharts = () => {
                 onChange={(e) => setSelectedDate(e.target.value)}
                 placeholder="Select Date"
               />
+              <button className="download-button" onClick={exportToExcel}>
+                Download Excel
+              </button>
             </div>
+
+            {/* <div className="download" style={{ display: "flex", justifyContent: "flex-end" }}>
+              <button className="download-button" style={{ marginBottom: "25px" }} onClick={exportToExcel}>
+               Download Excel
+              </button>
+            </div> */}
 
 
       {/* Table Display */}
@@ -234,12 +356,15 @@ const DashCharts = () => {
           <table>
             <thead>
               <tr>
-              <th style={{ width: "30px",wordWrap: "break-word", whiteSpace: "normal", overflowWrap: "break-word"}}>Sr.no</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th>City / State</th>
-                <th>Date</th>
-                <th>Status</th>
+              <th style={{ width: "50px",wordWrap: "break-word", whiteSpace: "normal", overflowWrap: "break-word"}}>Sr.no</th>
+              <th style={{ width: "250px" }}>Title</th>
+              <th style={{ width: "150px" }}>BORROWER</th>
+              <th style={{ width: "100px" }}>PRICE</th>
+              <th style={{ width: "150px" }}>Category</th>
+              <th style={{ width: "120px" }}>Date</th>
+              <th style={{ width: "250px" }}>ADDRESS</th>
+              <th style={{ width: "120px" }}>City</th>
+              <th style={{ width: "100px" }}>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -247,14 +372,39 @@ const DashCharts = () => {
                 filteredData.map((asset, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{asset.title}</td>
+                    <td>
+                       <Link to={`/property/${asset._id}`} className="asset-link">
+                      {asset.title}</Link>
+                    </td>                    
+                    <td>{asset.borrower}</td>
+                    <td>{asset.price}</td>
                     <td>{asset.category}</td>
-                    <td>{asset.address?.city || "N/A"}</td>
                     <td>{asset.auctionDate || "N/A"}</td>
+                    <td>{asset.address?.address || "N/A"}</td>
+                    <td>{asset.address?.city || "N/A"}</td>
                     <td className={`status ${asset.status?.toLowerCase() || "unknown"}`}>
                       {asset.status || "Unknown"}
                     </td>
                   </tr>
+
+                  // with tooltip
+                //   <tr key={index}>
+                //   <td title={index + 1}>{index + 1}</td>
+                //   <td title={asset.title}>{asset.title}</td>
+                //   <td title={asset.borrower}>{asset.borrower}</td>
+                //   <td title={asset.price}>{asset.price}</td>
+                //   <td title={asset.category}>{asset.category}</td>
+                //   <td title={asset.auctionDate || "N/A"}>{asset.auctionDate || "N/A"}</td>
+                //   <td title={asset.address?.address || "N/A"}>{asset.address?.address || "N/A"}</td>
+                //   <td title={asset.address?.city || "N/A"}>{asset.address?.city || "N/A"}</td>
+                //   <td 
+                //     title={asset.status || "Unknown"} 
+                //     className={`status ${asset.status?.toLowerCase() || "unknown"}`}
+                //   >
+                //     {asset.status || "Unknown"}
+                //   </td>
+                // </tr>
+
                 ))
               ) : (
                 <tr>
@@ -264,6 +414,24 @@ const DashCharts = () => {
             </tbody>
           </table>
       </div>
+
+ {/* Pagination Controls */}
+ <div className="pagination">
+        <button onClick={prevPage} disabled={currentPage === 1}>Prev</button>
+
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button 
+            key={i + 1} 
+            onClick={() => goToPage(i + 1)} 
+            className={currentPage === i + 1 ? "active" : ""}
+          >
+            {i + 1}
+          </button>
+        ))}
+
+        <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
+      </div>
+
     </div>
         </>
       )}
