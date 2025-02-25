@@ -285,7 +285,7 @@ const AuctionDetailsForm = ({ prevStep }) => {
             >
               <option value="">Select the type</option>
               <option value="E-auction">E-auction</option>
-              <option value="B">B</option>
+              <option value="B">Normal</option>
               <option value="C">C</option>
             </select>
           </div>
@@ -296,18 +296,18 @@ const AuctionDetailsForm = ({ prevStep }) => {
           <label>Property Inspection Date:</label>
           <div className="inputWrapper">
             <input
-              type="text"
+              type="date"
               name="inspectDate"
               value={formData.inspectDate}
               onChange={handleChange}
               placeholder="DD-MM-YYYY"
               aria-label="Property Inspection Date"
             />
-            <img
+            {/* <img
               src="/calendar.svg"
               className="inputIcon"
               alt="Calendar Icon"
-            />
+            /> */}
           </div>
         </section>
 

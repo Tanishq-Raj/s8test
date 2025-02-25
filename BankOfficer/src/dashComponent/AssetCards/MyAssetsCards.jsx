@@ -39,17 +39,13 @@ const MyAssetsCards = () => {
                 <p className="propertyAddress">{property.address?.address}, {property.address?.city}, {property.address?.state} - {property.address?.pincode}</p>
                 <p>{property.auctionDate}</p>
                 <div onClick={() => navigate(`/property/${property._id}`)} className="viewButton">View now</div>
-                {/* Corrected Link for navigation */}
-                {/* <Link to={`/property/${property.id}`} className="viewButton">View now</Link> */}
+               
               </div>
-              {/* <div className="cardFooter">
-                 <Link to={`/property/${property.id}`} className="viewButton">View now</Link>
-              </div> */}
+             
             </div>
           ))}
         </div>
         )}
-        {/* "View All" button outside the scrollable container */}
         {properties.length > defaultCardsToShow && (
         <div className="viewAllButton">
           {!showAll && (
