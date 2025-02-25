@@ -4,25 +4,8 @@ import { AppContext } from "../../../context/context";
 import PropertyCard from './PropertyCard';
 
 export function PropertyGrid() {
-  const { serverUrl } = useContext(AppContext);
-  const [properties, setProperties] = useState([]);
+  const { serverUrl, properties, setProperties } = useContext(AppContext);
   const [showAllProperties, setShowAllProperties] = useState(false);
-
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const { data } = await axios.get(
-          serverUrl + "/api/v1/user/get-properties", 
-          {withCredentials: true}
-        );
-        setProperties(data.properties);
-      } catch (error) {
-        console.error("Error fetching properties:", error);
-      }
-    };
-
-    fetchProperties();
-  }, [serverUrl]);
 
   const handleViewAll = () => {
     setShowAllProperties(true);

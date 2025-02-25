@@ -6,31 +6,11 @@ import axios from 'axios';
 
 const CardsContainer = () => {
   const [showAll, setShowAll] = useState(false); // State to control whether to show all cards
-    const { serverUrl, properties, setProperties } = useContext(AppContext);
+    const { properties, avatar } = useContext(AppContext);
 
   const defaultCardsToShow = 3;
   const cardsToDisplay = showAll ? properties : properties.slice(0, defaultCardsToShow);
 
-  useEffect(() => {
-    getProperties();
-  }, []);
-
-  // Function to get properties
-  const getProperties = async () => {
-    try {
-      const { data } = await axios.get( serverUrl + "/api/v1/bank-user/get-property", {
-        withCredentials: true,
-      });
-      if (data.success) {
-        setProperties(data.properties);
-      }else{
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.log(error);
-      
-    }
-  }
 
 
   return (
@@ -54,7 +34,7 @@ const CardsContainer = () => {
               <div className="cardHeader">
                 <img src={property.image[0].url} alt={property.title} className="propertyImage" />
                 <div className="userImageContainer">
-                  <img src={property.profileImage} alt="User" className="userImage" />
+                  <img src={avatar} alt="User" className="userImage" />
                 </div>
               </div>
               <div className="cardBody">

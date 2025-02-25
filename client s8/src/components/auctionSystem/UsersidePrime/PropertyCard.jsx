@@ -5,26 +5,9 @@ import axios from "axios";
 
 function PropertyCard({ image, title, location, bidPrice, bank }) {
   const navigate = useNavigate();
-  const { serverUrl } = useContext(AppContext);
-  const [properties, setProperties] = useState([]);
+  const { serverUrl, properties, setProperties } = useContext(AppContext);
   const [showAllProperties, setShowAllProperties] = useState(false);
 
-  useEffect(() => {
-    // Fetch properties from your backend API when the component mounts
-    const fetchProperties = async () => {
-      try {
-        const { data } = await axios.get(
-          serverUrl + "/api/v1/user/get-properties", 
-          {withCredentials: true}
-        ); // Replace with your API endpoint
-        setProperties(data.properties);
-      } catch (error) {
-        console.error("Error fetching properties:", error);
-      }
-    };
-
-    fetchProperties();
-  }, []);
 
   const handleSeeDetails = (propertyId) => {
     window.scrollTo(0, 0);

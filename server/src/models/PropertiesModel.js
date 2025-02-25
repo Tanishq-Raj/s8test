@@ -148,6 +148,19 @@ const propertySchema = new Schema(
   { timestamps: true }
 );
 
+propertySchema.index({
+  title: "text",
+  category: "text",
+  bankName: "text",
+  "address.address": "text",
+  "address.city": "text",
+  "address.state": "text",
+  "address.pincode": "text",
+  description: "text",
+  nearbyPlaces: "text"
+});
+
+
 const propertyModel =
   mongoose.models.Properties || mongoose.model("Properties", propertySchema);
 

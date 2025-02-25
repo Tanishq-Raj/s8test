@@ -16,28 +16,8 @@ import axios from "axios";
 
 const Profilepage = () => {
   const userAssets = singlePostData; // Initialize directly with the properties data
-  const [properties, setProperties] = useState([]); // State to store properties
-  const { serverUrl } = useContext(AppContext);
+  const { serverUrl, properties, setProperties } = useContext(AppContext);
 
-  useEffect(() => {
-      getProperties();
-    }, []);
-
-  const getProperties = async () => {
-    try {
-      const { data } = await axios.get( serverUrl + "/api/v1/bank-user/get-property", {
-        withCredentials: true,
-      });
-      if (data.success) {
-        setProperties(data.properties);
-      }else{
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.log(error);
-      
-    }
-  }
 
   // Function to get the latest asset based on auction date
   const getLatestAuctionAsset = () => {
@@ -59,7 +39,7 @@ const Profilepage = () => {
 };
 
   // const latestAsset = properties ? properties[0] : false
-  const latestAsset = false
+  const latestAsset = true
 
   return (
     <div className="home">
@@ -73,7 +53,7 @@ const Profilepage = () => {
         {/* <div className="separator2"></div> */}
 
         <div className="latestAssetContainer">
-          { latestAsset && latestAsset ? <Latest asset={latestAsset} /> : <AddNewAsset />}
+          { latestAsset && latestAsset ? <Latest /> : <AddNewAsset />}
           <News />
         </div>
         <div className="auctionersContainer">

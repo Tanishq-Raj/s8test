@@ -1,10 +1,13 @@
+import { useContext } from 'react';
 import './Sidebar.scss';
 import { useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import { AppContext } from '../../context/context';
 
 
   const Sidebar = () => {
     const location = useLocation(); // Get current route
+    const {setSearchString} = useContext(AppContext)
 
   const menuItems = [
     {
@@ -45,7 +48,7 @@ import { Link } from "react-router-dom";
       <ul className="menu">
         {menuItems.map((item, index) => (
           <li key={index} className={`menu-item ${location.pathname === item.route ? 'active' : ''}`}>
-            <Link to={item.route} className="menu-link">
+            <Link to={item.route} className="menu-link" onClick={() => setSearchString(null)}>
               <img src={item.icon} alt={item.text} className="icon" />
               <div className="text">{item.text}</div>
             </Link>

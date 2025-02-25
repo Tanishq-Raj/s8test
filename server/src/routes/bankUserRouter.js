@@ -33,6 +33,6 @@ bankUserRouter.get("/top-auctioners",bankUserAuth, topAuctioners)
 bankUserRouter.get("/get-profile",bankUserAuth, getProfile)
 bankUserRouter.post("/update-profile",bankUserAuth, updateProfile)
 bankUserRouter.post("/update-profile-image",bankUserAuth, upload.single('image'), updateProfileImage)
-bankUserRouter.post("/searchProperties", searchProperty)
+bankUserRouter.post("/searchProperties",bankUserAuth, searchProperty)
 
 export default bankUserRouter;

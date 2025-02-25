@@ -10,28 +10,7 @@ const AuctionHistory = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
-  const [properties, setProperties] = useState([]);
-  const { serverUrl } = useContext(AppContext);
-
-  useEffect(() => {
-    getProperties();
-    }, []); 
-
-  // Function to get properties
-  const getProperties = async () => {
-    try {
-      const { data } = await axios.get(serverUrl + "/api/v1/bank-user/get-property", {
-        withCredentials: true,
-      });
-      if (data.success) {
-        setProperties(data.properties);
-      } else {
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { serverUrl, properties, setProperties } = useContext(AppContext);
 
   // Calculate total pages
   const totalPages = Math.ceil(properties.length / itemsPerPage);

@@ -3,6 +3,7 @@ import "./auctionForm.scss";
 import PropTypes from "prop-types";
 import { AppContext } from "../../context/context";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AuctionDetailsForm = ({ prevStep }) => {
   const {
@@ -15,6 +16,7 @@ const AuctionDetailsForm = ({ prevStep }) => {
     setEditProperty,
     propertyId, setPropertyId,
   } = useContext(AppContext);
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -95,6 +97,7 @@ const AuctionDetailsForm = ({ prevStep }) => {
           reservPrice: "",
           message: "",
         });
+        navigate('/view')
       } else {
         newFormData.append("propertyId", propertyId);
         // console.log("Updating property");
@@ -148,6 +151,7 @@ const AuctionDetailsForm = ({ prevStep }) => {
           message: "",
         });
         setUploadedFiles([]);
+        navigate(`/property/${propertyId}`)
       }
     } catch (error) {
       console.log(error);
