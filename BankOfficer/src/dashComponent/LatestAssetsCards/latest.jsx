@@ -11,7 +11,7 @@ function Latest() {
     const auctionDate = new Date(latestProperty?.auctionDate);
     const today = new Date();
     const timeDiff = auctionDate - today;
-    const daysDiff = Math.ceil(timeDiff / (1 * 60 * 60 * 24));
+    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
     return daysDiff;
   }, [latestProperty?.auctionDate]);
 

@@ -69,7 +69,7 @@ const PropertyDetailsForm = ({ nextStep }) => {
           <label>Auction Date:</label>
           <div className="inputWrapper">
             <input
-              type="text"
+              type="date"
               name="auctionDate"
               value={formData.auctionDate}
               onChange={handleChange}
