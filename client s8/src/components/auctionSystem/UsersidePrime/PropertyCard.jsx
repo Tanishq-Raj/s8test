@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/context";
 import axios from "axios";
 
-function PropertyCard({ image, title, location, bidPrice, bank }) {
+function PropertyCard() {
   const navigate = useNavigate();
   const { serverUrl } = useContext(AppContext);
   const [properties, setProperties] = useState([]);
@@ -39,8 +39,26 @@ function PropertyCard({ image, title, location, bidPrice, bank }) {
   const displayProperties = showAllProperties ? properties : properties.slice(0, 4);
 
   return (
-    <>
-      <div className="flex flex-wrap gap-5 justify-start">
+    <div>
+      {/* View All button */}
+      {!showAllProperties && properties.length > 4 && (
+        <div className="flex justify-center mt-8">
+          <button 
+            onClick={handleViewAll}
+            className="flex gap-2 justify-center items-center px-6 py-3 text-xl font-medium rounded-2xl bg-sky-900 bg-opacity-5 hover:bg-opacity-10 transition-all duration-300"
+          >
+            <div className="text-slate-600">View all...</div>
+            <div className="flex gap-1 justify-center items-center self-stretch px-1 my-auto w-8 h-8 rounded-lg bg-sky-900 bg-opacity-5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-slate-600">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+            </div>
+          </button>
+        </div>
+      )}
+
+      {/* Property Cards */}
+      <div className="flex flex-wrap gap-5 justify-center">
         {displayProperties.map((property) => (
           <div 
             key={property._id} 
@@ -79,7 +97,7 @@ function PropertyCard({ image, title, location, bidPrice, bank }) {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
