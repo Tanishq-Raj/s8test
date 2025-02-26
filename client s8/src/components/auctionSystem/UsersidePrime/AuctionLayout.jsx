@@ -1,84 +1,58 @@
 import React, { useState } from 'react';
 import SearchHeader from './SearchHeader';
 import CategoryCard from './CategoryCard';
-import PropertyCard from './PropertyCard'; // Importing PropertyCard
+import PropertyCard from './PropertyCard';
 import { PropertyCardList } from './PropertyCard1';
 
 const categories = [
-  { title: 'INDUSTRIAL', image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/79f55df53452d15f44fba67b67e84656bc7f77caac885b0d9f1ae0efca81e3ec?placeholderIfAbsent=true&apiKey=643dc8ae27ef4b1eb644562c7626beaf' },
-  { title: 'LAND', image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/59ea53c8e6b9178a814ecb3192432b96b90e4404b660a72c651413b2cee1c10f?placeholderIfAbsent=true&apiKey=643dc8ae27ef4b1eb644562c7626beaf' },
-  { title: 'COMMERCIAL', image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/b110cbe65b0ee4b3ff4a0c079afb56314a0a104403b875370e9eb8afcab9c20a?placeholderIfAbsent=true&apiKey=643dc8ae27ef4b1eb644562c7626beaf' },
-  { title: 'RESIDENTIAL', image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/6b1629408ec0a67067984f7a3671ffd768fc989a8b2e5578c32567c3ad8f2235?placeholderIfAbsent=true&apiKey=643dc8ae27ef4b1eb644562c7626beaf' }
+  { title: 'INDUSTRIAL', image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/79f55df53452d15f44fba67b67e84656bc7f77caac885b0d9f1ae0efca81e3ec?apiKey=643dc8ae27ef4b1eb644562c7626beaf' },
+  { title: 'LAND', image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/59ea53c8e6b9178a814ecb3192432b96b90e4404b660a72c651413b2cee1c10f?apiKey=643dc8ae27ef4b1eb644562c7626beaf' },
+  { title: 'COMMERCIAL', image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/b110cbe65b0ee4b3ff4a0c079afb56314a0a104403b875370e9eb8afcab9c20a?apiKey=643dc8ae27ef4b1eb644562c7626beaf' },
+  { title: 'RESIDENTIAL', image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/6b1629408ec0a67067984f7a3671ffd768fc989a8b2e5578c32567c3ad8f2235?apiKey=643dc8ae27ef4b1eb644562c7626beaf' }
 ];
 
 const allProperties = [
-  {
-    image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/32e195df577c08c77be34af1fdad21c5d86d1ae6192e287e3269e7c017d176c8?placeholderIfAbsent=true&apiKey=643dc8ae27ef4b1eb644562c7626beaf',
-    title: 'Thakur Complex',
-    location: 'Aviasales.ru Seaview Phuket office, Phuket, Thailand',
-    bidPrice: '65,03,099',
-    bank: 'State Bank of India'
-  },
-  {
-    image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/32e195df577c08c77be34af1fdad21c5d86d1ae6192e287e3269e7c017d176c8?placeholderIfAbsent=true&apiKey=643dc8ae27ef4b1eb644562c7626beaf',
-    title: 'Diamond Plaza',
-    location: '123 Business District, Mumbai',
-    bidPrice: '85,00,000',
-    bank: 'HDFC Bank'
-  },
-  {
-    image: 'https://cdn.builder.io/api/v1/image/assets/TEMP/32e195df577c08c77be34af1fdad21c5d86d1ae6192e287e3269e7c017d176c8?placeholderIfAbsent=true&apiKey=643dc8ae27ef4b1eb644562c7626beaf',
-    title: 'Sunshine Towers',
-    location: '456 Marine Drive, Mumbai',
-    bidPrice: '95,50,000',
-    bank: 'ICICI Bank'
-  }
+  { title: 'Thakur Complex', location: 'Phuket, Thailand', bidPrice: '65,03,099', bank: 'State Bank of India', category: 'RESIDENTIAL' },
+  { title: 'Diamond Plaza', location: 'Mumbai', bidPrice: '85,00,000', bank: 'HDFC Bank', category: 'COMMERCIAL' },
+  { title: 'Sunshine Towers', location: 'Marine Drive, Mumbai', bidPrice: '95,50,000', bank: 'ICICI Bank', category: 'INDUSTRIAL' }
 ];
 
 function AuctionLayout() {
-  const [showAll, setShowAll] = useState(false);
-  const displayedProperties = showAll ? allProperties : allProperties.slice(0, 3);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const handleViewAll = () => {
-    setShowAll(true);
-    // Smooth scroll to the properties section
-    const propertiesSection = document.getElementById('properties-section');
-    propertiesSection?.scrollIntoView({ behavior: 'smooth' });
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
   };
 
+  const displayedProperties = selectedCategory
+    ? allProperties.filter((property) => property.category === selectedCategory)
+    : allProperties;
+
   return (
-    <div className="flex overflow-hidden flex-col pt-7 pb-14 bg-white">
+    <div className="flex flex-col pt-7 pb-14 bg-white">
       <SearchHeader />
-      <div className="flex flex-wrap gap-10 items-center self-center mt-11 max-md:mt-10 max-md:max-w-full">
+      <div className="flex flex-wrap gap-10 items-center self-center mt-11">
         {categories.map((category, index) => (
-          <div key={index} className="cursor-pointer"><CategoryCard  {...category} /></div>
+          <div key={index} className="cursor-pointer" onClick={() => handleCategoryClick(category.title)}>
+            <CategoryCard {...category} />
+          </div>
         ))}
       </div>
 
-      <div id="properties-section" className="flex flex-col items-center self-center mt-20 w-full max-w-[1381px] max-md:mt-10 max-md:max-w-full">
-        <div className="flex flex-wrap gap-4 justify-center items-center w-full">
-          <div className="text-4xl text-slate-900 mb-6">Recently Added</div> {/* Added 'Recently Added' Text here */}
-          {/* {displayedProperties.map((property, index) => (
-            <PropertyCard key={index} {...property} />
-          ))} */}
-          <PropertyCard/>
+      <div id="properties-section" className="flex flex-col items-center mt-20 w-full max-w-[1381px]">
+        <div className="text-4xl text-slate-900 mb-6">
+          {selectedCategory ? `${selectedCategory} Properties` : 'Recently Added'}
         </div>
-
-        {!showAll && (
-          <div className="w-full flex justify-end px-17 max-md:px-4">
-            <button 
-              onClick={handleViewAll}
-              className="flex gap-2 justify-center items-center px-6 py-3 mt-8 text-xl font-medium rounded-2xl bg-sky-900 bg-opacity-5 hover:bg-opacity-10 transition-all duration-300"
-            >
-              <div className="text-slate-600">View all...</div>
-              <div className="flex gap-1 justify-center items-center self-stretch px-1 my-auto w-8 h-8 rounded-lg bg-sky-900 bg-opacity-5">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-slate-600">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                </svg>
-              </div>
-            </button>
-          </div>
-        )}
+        <div className="flex flex-wrap gap-4 justify-center items-center w-full pl-24">
+          {displayedProperties.length > 0 ? 
+          <PropertyCard/>
+          // (
+          //   displayedProperties.map((property, index) => <PropertyCard key={index} {...property} />)
+          // )
+           : (
+            <p>No properties available in this category.</p>
+          )}
+        </div>
       </div>
     </div>
   );
