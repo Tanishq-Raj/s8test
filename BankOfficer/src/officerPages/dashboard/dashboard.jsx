@@ -1,4 +1,4 @@
-import DashCharts from "../../dashComponent/DashCharts/dashCharts";
+import DashCharts from "../../dashComponent/DashCharts/DashCharts.jsx";
 import Header from "../../dashComponent/nav/header/Header";
 import Sidebar from "../../dashComponent/Sidebar/Sidebar";
 import "./dashboard.scss"
