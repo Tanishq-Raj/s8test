@@ -76,7 +76,7 @@ const PropertyDetailsForm = ({ nextStep }) => {
               placeholder="DD-MM-YYYY"
               aria-label="Auction Date"
             />
-            <img src="/calendar.svg" className="inputIcon" alt="Calendar" />
+            {/* <img src="/calendar.svg" className="inputIcon" alt="Calendar" /> */}
           </div>
         </section>
 

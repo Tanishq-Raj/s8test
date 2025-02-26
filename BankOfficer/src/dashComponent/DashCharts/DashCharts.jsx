@@ -343,13 +343,6 @@ const DashCharts = () => {
               </button>
             </div>
 
-            {/* <div className="download" style={{ display: "flex", justifyContent: "flex-end" }}>
-              <button className="download-button" style={{ marginBottom: "25px" }} onClick={exportToExcel}>
-               Download Excel
-              </button>
-            </div> */}
-
-
       {/* Table Display */}
       <div className="table-container">
      

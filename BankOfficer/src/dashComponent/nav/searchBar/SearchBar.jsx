@@ -28,7 +28,7 @@ export function SearchBar() {
     <form role="search" className="searchInputWrapper" onSubmit={handleSubmit}>
       <img
         loading="lazy"
-        src="search.png"
+        src="/search.png"
         className="searchIcon"
         alt="Search Icon"
       />
@@ -39,7 +39,7 @@ export function SearchBar() {
         type="search"
         id="searchInput"
         className="searchInput"
-        placeholder="Search for anything..."
+        placeholder="Search location/pincode..."
         aria-label="Search for anything"
         value={searchString}
         onChange={(e) => setSearchString(e.target.value)}
