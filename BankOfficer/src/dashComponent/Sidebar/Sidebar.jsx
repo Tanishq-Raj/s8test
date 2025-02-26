@@ -27,7 +27,7 @@ import { AppContext } from '../../context/context';
       route: '/myAssets',
     },
     {
-      icon: 'profileS.svg',
+      icon: '/profileS.svg',
       text: 'Profile Settings',
       route: '/profile',
     },

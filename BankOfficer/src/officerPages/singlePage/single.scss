@@ -230,8 +230,8 @@
 
 //bank-officer-card
 .bank-officer-card {
-  width: 350px;
-  background: #efc66d;
+  width: 635px;
+  background: #004663;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
@@ -268,37 +268,45 @@
   .officer-info {
     h2 {
       font-size: 18px;
-      color: #7d8597;
+      color: white;
       font-weight: 500;
       margin-bottom: 2px;
     }
 
     .designation {
-      font-size: 14px;
-      color: #7d8597;
+      font-size: 16px;
+      color: white;
     }
   }
 
   /* Bank Details */
   .bank-details {
-    text-align: left;
-    margin-top: 10px;
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      padding: 5px 0;
-
-      .label {
-        font-size: 14px;
-        font-weight: bold;
-        color: #7d8597;
-      }
-
-      .value {
-        font-size: 14px;
-        color: #7d8597;
-      }
-    }
+    width: 100%;
   }
+  
+  .bank-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 10px 25px; /* Row gap and column gap */
+    max-width: 600px; /* Adjust width as needed */
+  }
+  
+  .row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .label {
+    font-weight: 500;
+    color: black;
+    min-width: 120px;
+  }
+  
+  .value {
+    font-size: 16px;
+    color: white;
+    font-weight: 400;
+    word-break: break-word;
+  }
+  
 }

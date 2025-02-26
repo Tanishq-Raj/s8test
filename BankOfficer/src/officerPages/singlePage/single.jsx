@@ -156,46 +156,48 @@ const Single = () => {
                 <div className="info">
                   <div className="info-column">
                     <h1>{property.title}</h1>
+
+                     {/* Bank info card*/}
+                     <div className="bank-officer-card">
+
+<div className="top-section">
+  <div className="profile-image">
+  <img src={avatar} alt="User" className="userImage" />
+  </div>
+  <div className="officer-info">
+    <h2>{userDetails.firstName} {userDetails.lastName}</h2>
+    <p className="designation">{userDetails.designation}</p>
+  </div>
+</div>
+
+<div className="bank-details">
+  <div className="bank-grid">
+    <div className="row">
+      <p className="label">Bank Name:</p>
+      <p className="value">{userDetails.bankName}</p>
+    </div>
+    <div className="row">
+      <p className="label">IFSC:</p>
+      <p className="value">{userDetails.bankIFSC}</p>
+    </div>
+    <div className="row">
+      <p className="label">Zone:</p>
+      <p className="value">{userDetails.branchZone}</p>
+    </div>
+    <div className="row">
+      <p className="label">Branch Name:</p>
+      <p className="value">{userDetails.bankBranch}</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
                     <div className="info-item">
                       <img src="/pin.svg" alt="location" className="info-icon" />
                       <span className="info-label">Address:</span>
                       <span className="info-value">{property.address?.address}, {property.address?.city}, {property.address?.state} - {property.address?.pincode}</span>
                     </div>
-
-                
-                  {/* Bank info card*/}
-                  <div className="bank-officer-card">
-      {/* Top Section: Image & Name */}
-      <div className="top-section">
-        <div className="profile-image">
-        <img src={avatar} alt="User" className="userImage" />
-        </div>
-        <div className="officer-info">
-          <h2>{userDetails.firstName} {userDetails.lastName}</h2>
-          <p className="designation">{userDetails.designation}</p>
-        </div>
-      </div>
-
-      {/* Bank Details Section */}
-      <div className="bank-details">
-        <div className="row">
-          <p className="label">Bank Name :</p>
-          <p className="value">{userDetails.bankName}</p>
-        </div>
-        <div className="row">
-          <p className="label">IFSC :</p>
-          <p className="value">{userDetails.bankIFSC}</p>
-        </div>
-        <div className="row">
-          <p className="label">Zone :</p>
-          <p className="value">{userDetails.branchZone}</p>
-        </div>
-        <div className="row">
-          <p className="label">Branch Name :</p>
-          <p className="value">{userDetails.bankBranch}</p>
-        </div>
-      </div>
-    </div>
 
                     <div className="info-item">
                       <img src="/price-tag.svg" alt="price" className="info-icon" />

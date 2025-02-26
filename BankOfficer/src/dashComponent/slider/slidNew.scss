@@ -1,6 +1,5 @@
 .slider {
   font-family: "Poppins", sans-serif;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,7 +71,7 @@
   }
 
   .bigMedia {
-    width: 70%;
+    width: 90%;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
 
@@ -93,7 +92,7 @@
 
   /* Scrollable Thumbnails (Always Visible Scrollbar) */
   .smallMediaContainer {
-    width: 70%;
+    width: 85%;
     overflow-x: auto;
     white-space: nowrap;
     display: flex;
