@@ -2,6 +2,7 @@ import express from "express";
 import {
   addProperties,
   bankUserRegister,
+  checkAuth,
   deleteProperty,
   getProfile,
   getProperties,
@@ -22,7 +23,7 @@ const bankUserRouter = express.Router();
 
 bankUserRouter.post("/register", bankUserRegister);
 bankUserRouter.post("/otp-verification", verifyOTP);
-bankUserRouter.post("login", login);
+bankUserRouter.post("/login", login);
 bankUserRouter.get("/logout",bankUserAuth, logout);
 bankUserRouter.post("/add-property", bankUserAuth, upload.array('files'), addProperties)
 bankUserRouter.post("/update-property", bankUserAuth, upload.array('files'), updateProperties)
@@ -34,5 +35,6 @@ bankUserRouter.get("/get-profile",bankUserAuth, getProfile)
 bankUserRouter.post("/update-profile",bankUserAuth, updateProfile)
 bankUserRouter.post("/update-profile-image",bankUserAuth, upload.single('image'), updateProfileImage)
 bankUserRouter.post("/searchProperties",bankUserAuth, searchProperty)
+bankUserRouter.get("/check-auth",bankUserAuth, checkAuth)
 
 export default bankUserRouter;

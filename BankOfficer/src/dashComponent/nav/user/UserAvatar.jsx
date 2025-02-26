@@ -3,20 +3,29 @@ import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../../context/context';
+import axios from 'axios';
 
 export const UserAvatar = ({ imageSrc, name, address, size = 'small' }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate(); // Hook for programmatic navigation
   const {avatar, userDetails} = useContext(AppContext)
+  const {serverUrl} = useContext(AppContext)
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // Perform logout actions here (e.g., clearing tokens, state)
-    localStorage.removeItem('authToken'); // Example: Clearing token
-    window.location.href = 'https://s8-client.vercel.app/'; // Redirect to login page
+    // localStorage.removeItem('authToken'); // Example: Clearing token
+    // window.location.href = 'https://s8-client.vercel.app/'; // Redirect to login page
+    try {
+      await axios.get(serverUrl + "/api/v1/bank-user/logout", {
+        withCredentials: true, 
+      })
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (

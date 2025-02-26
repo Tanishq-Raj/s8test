@@ -293,8 +293,8 @@ export const login = async function (req, res) {
 
 // User Logout
 export const logout = (req, res) => {
-  res
-    .cookie("s8token", "", { expires: new Date(Date.now), httpOnly: true })
+  return res
+    .cookie("s8token", "", { expires: new Date(Date.now()) })
     .json({
       success: true,
       message: "Logged out successfully.",
@@ -994,3 +994,18 @@ export const topAuctioners = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+// Check Auth
+export const checkAuth = async (req, res) => {
+  try {
+    const userId = req.userId
+    const user = await bankUser.findById(userId)
+    if (!user){
+      return res.json({success: false, message: "Login first"})
+    }
+    return res.json({success: true})
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
