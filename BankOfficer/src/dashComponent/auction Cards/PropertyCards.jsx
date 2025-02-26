@@ -30,6 +30,7 @@ export const PropertyCards = ({
         <div className="propertyDetails">
           <div className="propertyDetail">
             <span className="label">Address:</span>
+            {/* <td title={asset.address?.address || "N/A"}>{asset.address?.address || "N/A"}</td> */}
             <span className="value addressValue">{address}</span>
           </div>
           <div className="propertyDetail">
@@ -47,7 +48,7 @@ export const PropertyCards = ({
         </div>
         <div className="areaInfo">
           <span className="areaLabel">Area:</span>
-          <span className="areaValue">{area}</span>
+          <span className="areaValue">{area} sq.ft</span>
         </div>
         <div className="dateInfo">
           <span className="dateLabel">Auction Date:</span>

@@ -293,8 +293,8 @@ export const login = async function (req, res) {
 
 // User Logout
 export const logout = (req, res) => {
-  res
-    .cookie("s8token", "", { expires: new Date(Date.now), httpOnly: true })
+  return res
+    .cookie("s8token", "", { expires: new Date(Date.now()) })
     .json({
       success: true,
       message: "Logged out successfully.",
@@ -855,6 +855,119 @@ export const updateProfileImage = async (req, res) => {
   }
 }
 
+// Search Property
+// export const searchProperty = async (req, res) => {
+//   try {
+//     const userId = "67b0df3d321e1f57fd794c1a"
+//     const { searchString } = req.body;
+    
+//     // Validate search string length
+//     if (!searchString || searchString.length < 3) {
+//       return res.json({ success: false, message: "Search String is short" });
+//     }
+
+//     // Step 1: Check if any document matches the search string for the given user
+//     const foundDocs = await propertyModel.find({
+//       userId,
+//       $or: [
+//         { title: { $regex: searchString, $options: "i" } },
+//         { category: { $regex: searchString, $options: "i" } },
+//         { bankName: { $regex: searchString, $options: "i" } },
+//         { address: { $regex: searchString, $options: "i" } },
+//         { description: { $regex: searchString, $options: "i" } },
+//         { nearbyPlaces: { $regex: searchString, $options: "i" } }
+//       ]
+//     });
+    
+//     if (foundDocs && foundDocs.length > 0) {
+//       // Step 2: If at least one matching document exists, retrieve all documents for that user
+//       const allDocs = await propertyModel.find({ userId });
+//       return res.json({ success: true, data: allDocs });
+//     } else {
+//       return res.json({ success: false, message: "No documents contain the search string." });
+//     }
+//   } catch (error) {
+//     return res.json({ success: false, message: error.message });
+//   }
+// };
+
+// export const searchProperty = async (req, res) => {
+//   try {
+//     // Get userId from authenticated user
+//     const userId = "67b0df3d321e1f57fd794c1a"
+//     const { searchString } = req.body;
+
+//     // Validate search string length
+//     if (!searchString || searchString.length < 3) {
+//       return res.json({ success: false, message: "Search string must be at least 3 characters." });
+//     }
+
+//     // Escape special regex characters to prevent injection
+//     const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+//     const escapedSearch = escapeRegex(searchString);
+//     // const foundProperties = await propertyModel.find()
+
+//     // Search across specified fields with regex
+//     const foundProperties = await propertyModel.find({
+//       userId,
+//       $or: [
+//         { title: { $regex: escapedSearch, $options: "i" } },
+//         { category: { $regex: escapedSearch, $options: "i" } },
+//         { bankName: { $regex: escapedSearch, $options: "i" } },
+//         { address: { $regex: escapedSearch, $options: "i" } },
+//         { description: { $regex: escapedSearch, $options: "i" } },
+//         { nearbyPlaces: { $regex: escapedSearch, $options: "i" } }
+//       ]
+//     });
+
+//     console.log(foundProperties)
+
+//     if (foundProperties.length > 0) {
+//       return res.json({ success: true, data: foundProperties });
+//     } else {
+//       return res.json({ success: false, message: "No properties found matching your search." });
+//     }
+//   } catch (error) {
+//     return res.json({ success: false, message: error.message });
+//   }
+// };
+
+
+export const searchProperty = async (req, res) => {
+  try {
+    const userId = req.userId; 
+    const { searchString } = req.body;
+
+    if (!searchString || searchString.length < 3) {
+      return res.json({ success: false, message: "Search string must be at least 3 characters." });
+    }
+
+    const user = await bankUser.findById(userId)
+
+    propertyModel.find({
+      bankName: user.bankName,
+      $text: { $search: searchString }
+    })
+    .then(results => {
+      return res.json({ success: true, data: results });
+    })
+    .catch(err => {
+      return res.json({ success: false, message: "No properties found matching your search." });
+    });
+    
+    
+    // if (foundProperties.length > 0) {
+    //   return res.json({ success: true, data: foundProperties });
+    // } else {
+    //   return res.json({ success: false, message: "No properties found matching your search." });
+    // }
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+
+
 // Get Top auctioners
 export const topAuctioners = async (req, res) => {
   try {
@@ -881,3 +994,18 @@ export const topAuctioners = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+// Check Auth
+export const checkAuth = async (req, res) => {
+  try {
+    const userId = req.userId
+    const user = await bankUser.findById(userId)
+    if (!user){
+      return res.json({success: false, message: "Login first"})
+    }
+    return res.json({success: true})
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}

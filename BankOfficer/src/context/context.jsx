@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 export const AppContext = createContext();
@@ -7,6 +7,7 @@ const AppContextProvider = (props) => {
   const serverUrl = import.meta.env.VITE_SERVER_URL;
   const [editProperty, setEditProperty] = useState(false);
   const [propertyId, setPropertyId] = useState(null);
+  const [searchString, setSearchString] = useState('');
 
   // New state for tracking added and removed images
   const [newImages, setNewImages] = useState([]);
@@ -95,6 +96,8 @@ const AppContextProvider = (props) => {
   
   const [properties, setProperties] = useState([]); // State to store properties
 
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
   // Get Profile Details
   const handleProfile = async () => {
     try {
@@ -123,7 +126,10 @@ const AppContextProvider = (props) => {
     }
   }
 
-  handleProfile();
+  useEffect(() => {
+    handleProfile();
+  }, [isAuthenticated])
+
 
   // Update user details
   const [userUpdateDetails, setUserUpdateDetails] = useState({
@@ -140,6 +146,35 @@ const AppContextProvider = (props) => {
   });
 
 
+
+  // const [properties, setProperties] = useState(null);
+
+  useEffect(() => {
+    getProperties();
+  }, [searchString, isAuthenticated]);
+
+  // Function to get properties
+  const getProperties = async () => {
+      try {
+        const { data } = await axios.get( serverUrl + "/api/v1/bank-user/get-property", {
+          withCredentials: true,
+        });
+        if (data.success) {
+          setProperties(data.properties);
+        }else{
+          console.log(data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+
+
+
+    // Latest Property
+    const latestProperty = properties[properties.length - 1]
+
   const value = {
     serverUrl,
     formData,
@@ -154,7 +189,7 @@ const AppContextProvider = (props) => {
     setRemovedImages,
     propertyId,
     setPropertyId,
-    userDetails,
+    userDetails,searchString, setSearchString, getProperties,latestProperty,isAuthenticated, setIsAuthenticated,
     setUserDetails,avatar, setAvatar, properties, setProperties, handleProfile, userUpdateDetails, setUserUpdateDetails
   };
   return (

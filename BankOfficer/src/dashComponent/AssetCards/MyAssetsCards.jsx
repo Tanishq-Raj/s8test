@@ -7,34 +7,12 @@ import axios from 'axios';
 
 const MyAssetsCards = () => {
   const [showAll, setShowAll] = useState(false); // State to control whether to show all cards
-  const [properties, setProperties] = useState([]); // State to store properties
-  const { serverUrl } = useContext(AppContext);
+  const { properties, avatar } = useContext(AppContext);
   const navigate = useNavigate();
  
   // Number of cards to show by default
   const defaultCardsToShow = 3;
   const cardsToDisplay = showAll ? properties : properties.slice(0, defaultCardsToShow);
-  
-  useEffect(() => {
-    getProperties();
-  }, []);
-
-  // Function to get properties
-  const getProperties = async () => {
-    try {
-      const { data } = await axios.get( serverUrl + "/api/v1/bank-user/get-property", {
-        withCredentials: true,
-      });
-      if (data.success) {
-        setProperties(data.properties);
-      }else{
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.log(error);
-      
-    }
-  }
 
   return (
     <div className="myAssetsCardsContainer">
@@ -52,7 +30,7 @@ const MyAssetsCards = () => {
               <div className="cardHeader">
                 <img src={property.image[0].url} alt={property.title} className="propertyImage" />
                 <div className="userImageContainer">
-                  <img src={property.profileImage} alt="User" className="userImage" />
+                  <img src={avatar} alt="User" className="userImage" />
                 </div>
               
               </div>
@@ -61,17 +39,13 @@ const MyAssetsCards = () => {
                 <p className="propertyAddress">{property.address?.address}, {property.address?.city}, {property.address?.state} - {property.address?.pincode}</p>
                 <p>{property.auctionDate}</p>
                 <div onClick={() => navigate(`/property/${property._id}`)} className="viewButton">View now</div>
-                {/* Corrected Link for navigation */}
-                {/* <Link to={`/property/${property.id}`} className="viewButton">View now</Link> */}
+               
               </div>
-              {/* <div className="cardFooter">
-                 <Link to={`/property/${property.id}`} className="viewButton">View now</Link>
-              </div> */}
+             
             </div>
           ))}
         </div>
         )}
-        {/* "View All" button outside the scrollable container */}
         {properties.length > defaultCardsToShow && (
         <div className="viewAllButton">
           {!showAll && (

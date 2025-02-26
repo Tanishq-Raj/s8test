@@ -3,6 +3,7 @@ import "./auctionForm.scss";
 import PropTypes from "prop-types";
 import { AppContext } from "../../context/context";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AuctionDetailsForm = ({ prevStep }) => {
   const {
@@ -15,6 +16,10 @@ const AuctionDetailsForm = ({ prevStep }) => {
     setEditProperty,
     propertyId, setPropertyId,
   } = useContext(AppContext);
+  const navigate = useNavigate()
+
+  const [showPopup, setShowPopup] = useState(false); // State for popup message
+  const [popupMessage, setPopupMessage] = useState(""); // State for popup message content
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,7 +69,9 @@ const AuctionDetailsForm = ({ prevStep }) => {
 
         console.log(data);
         if (data.success) {
-          console.log(data.message);
+          setPopupMessage("Asset information has been submitted!");
+          setShowPopup(true);
+          setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
         }
         setFormData({
           title: "",
@@ -95,6 +102,7 @@ const AuctionDetailsForm = ({ prevStep }) => {
           reservPrice: "",
           message: "",
         });
+        navigate('/view')
       } else {
         newFormData.append("propertyId", propertyId);
         // console.log("Updating property");
@@ -115,7 +123,9 @@ const AuctionDetailsForm = ({ prevStep }) => {
 
         console.log(data);
         if (data.success) {
-          console.log(data.message);
+          setPopupMessage("Asset information has been updated!");
+          setShowPopup(true);
+          setTimeout(() => setShowPopup(false), 2000); // Hide popup after 2 seconds
         }
         setEditProperty(false);
         setFormData({
@@ -148,6 +158,7 @@ const AuctionDetailsForm = ({ prevStep }) => {
           message: "",
         });
         setUploadedFiles([]);
+        navigate(`/property/${propertyId}`)
       }
     } catch (error) {
       console.log(error);
@@ -274,7 +285,7 @@ const AuctionDetailsForm = ({ prevStep }) => {
             >
               <option value="">Select the type</option>
               <option value="E-auction">E-auction</option>
-              <option value="B">B</option>
+              <option value="B">Normal</option>
               <option value="C">C</option>
             </select>
           </div>
@@ -285,18 +296,18 @@ const AuctionDetailsForm = ({ prevStep }) => {
           <label>Property Inspection Date:</label>
           <div className="inputWrapper">
             <input
-              type="text"
+              type="date"
               name="inspectDate"
               value={formData.inspectDate}
               onChange={handleChange}
-              placeholder="DD/MM/YYYY"
+              placeholder="DD-MM-YYYY"
               aria-label="Property Inspection Date"
             />
-            <img
+            {/* <img
               src="/calendar.svg"
               className="inputIcon"
               alt="Calendar Icon"
-            />
+            /> */}
           </div>
         </section>
 
@@ -379,6 +390,13 @@ const AuctionDetailsForm = ({ prevStep }) => {
           </button>
         )}
       </footer>
+
+       {/* Popup Message */}
+       {showPopup && (
+        <div className="popupMessage">
+          <p>{popupMessage}</p>
+        </div>
+      )}
     </main>
   );
 };

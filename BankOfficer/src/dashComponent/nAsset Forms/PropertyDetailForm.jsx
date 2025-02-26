@@ -59,7 +59,7 @@ const PropertyDetailsForm = ({ nextStep }) => {
               <option value="Residential">Residential</option>
               <option value="Commercial">Commercial</option>
               <option value="Industrial">Industrial</option>
-              <option value="Agricultural">Agricultural</option>
+              <option value="Agricultural">Land</option>
             </select>
           </div>
         </section>
@@ -69,14 +69,14 @@ const PropertyDetailsForm = ({ nextStep }) => {
           <label>Auction Date:</label>
           <div className="inputWrapper">
             <input
-              type="text"
+              type="date"
               name="auctionDate"
               value={formData.auctionDate}
               onChange={handleChange}
-              placeholder="DD/MM/YYYY"
+              placeholder="DD-MM-YYYY"
               aria-label="Auction Date"
             />
-            <img src="/calendar.svg" className="inputIcon" alt="Calendar" />
+            {/* <img src="/calendar.svg" className="inputIcon" alt="Calendar" /> */}
           </div>
         </section>
 

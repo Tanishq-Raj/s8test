@@ -94,6 +94,7 @@ const Profile2 = () => {
           }
         );
         console.log(data)
+        setEditAvatar(null)
       }
       } catch (error) {
         console.log(error);
@@ -168,7 +169,7 @@ const Profile2 = () => {
           onChange={handleImageChange}
         />
         <button onClick={updateProfileImage} className="upload-btn">
-          Upload Bank Logo
+          {editAvatar ? "Update": "Upload Bank Logo"}
         </button>
       </div>
 
