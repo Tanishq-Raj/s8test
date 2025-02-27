@@ -32,11 +32,11 @@ const Profile = () => {
     street: "",
     pincode: "",
     // Uncomment or add additional professional details if needed
-    bankName: "",
-    branchAddress: "",
-    branchName: "",
-    ifsc: "",
-    jobTitle: ""
+    // bankName: "",
+    // branchAddress: "",
+    // branchName: "",
+    // ifsc: "",
+    // jobTitle: ""
   });
 
   // Handle input changes for any field in userDetails
@@ -50,6 +50,7 @@ const Profile = () => {
 
   // Handle Save Button Click
   const handleSave = () => {
+    console.log(userDetails)
     setShowPopup(true);
 
     // Hide the popup after 2 seconds
