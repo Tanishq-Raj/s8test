@@ -5,8 +5,8 @@ export const sendToken = (user, message, res) => {
       expires: new Date(
         Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
       ), 
-      sameSite: 'none', 
-      secure: true
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: process.env.NODE_ENV === 'production'
     })
     .json({
       success: true,
