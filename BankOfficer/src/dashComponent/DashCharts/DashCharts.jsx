@@ -47,12 +47,24 @@ const DashCharts = () => {
   const cityOptions = ["All", ...new Set(assets.map(item => item.address?.city).filter(Boolean))];
   const categoryOptions = ["All", ...new Set(assets.map(item => item.category).filter(Boolean))];
 
+  //status options
+  const getStatus = (auctionDate) => {
+    if (!auctionDate) return "Unknown"; // Handle cases with no date
+  
+    const today = new Date().toISOString().split("T")[0]; // Get today's date (YYYY-MM-DD)
+    const auctionDay = new Date(auctionDate).toISOString().split("T")[0];
+  
+    if (auctionDay > today) return "Upcoming";
+    if (auctionDay === today) return "Ongoing";
+    return "Closed";
+  };
+
   // **Filter Data Based on Selection**
   const filteredData = assets.filter(asset =>
     (selectedCity === "All" || asset.address?.city === selectedCity) &&
     (selectedCategory === "All" || asset.category === selectedCategory) &&
-    (selectedStatus === "All" || asset.status?.toLowerCase() === selectedStatus.toLowerCase()) &&
-    (selectedDate === "" || new Date(asset.auctionDate).toISOString().split("T")[0] === selectedDate)&&
+    (selectedStatus === "All" || getStatus(asset.auctionDate) === selectedStatus) &&
+    (selectedDate === "" || new Date(asset.auctionDate).toISOString().split("T")[0] === selectedDate) &&
     (!minPrice || asset.price >= parseFloat(minPrice)) &&
     (!maxPrice || asset.price <= parseFloat(maxPrice))
   );
@@ -146,7 +158,7 @@ const DashCharts = () => {
           ADDRESS: asset.address?.street || "N/A",
           CITY: asset.address?.city || "N/A",
           STATE: asset.address?.state || "N/A",
-          STATUS: asset.auctionDate,
+          STATUS: getStatus(asset.auctionDate), 
           AUCTION_TYPE: asset.auctionType,
           CATEGORY: asset.category,
           BORROWER: asset.borrower,
@@ -357,7 +369,7 @@ const DashCharts = () => {
               <th style={{ width: "120px" }}>Date</th>
               <th style={{ width: "250px" }}>ADDRESS</th>
               <th style={{ width: "120px" }}>City</th>
-              <th style={{ width: "100px" }}>Status</th>
+              <th style={{ width: "120px" }}>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -375,8 +387,8 @@ const DashCharts = () => {
                     <td>{asset.auctionDate || "N/A"}</td>
                     <td>{asset.address?.address || "N/A"}</td>
                     <td>{asset.address?.city || "N/A"}</td>
-                    <td className={`status ${asset.status?.toLowerCase() || "unknown"}`}>
-                      {asset.status || "Unknown"}
+                    <td className={`status ${getStatus(asset.auctionDate).toLowerCase()}`}>
+                      {getStatus(asset.auctionDate)}
                     </td>
                   </tr>
 
