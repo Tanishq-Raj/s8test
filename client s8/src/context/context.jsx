@@ -15,9 +15,14 @@ const AppContextProvider = (props) => {
     designation: "",
   });
 
-
+  const [properties, setProperties] = useState([]); // Add this line
+  
   const value = {
     serverUrl,
+    userDetails,
+    setUserDetails,
+    properties,  // Add this line
+    setProperties,  // Add this line
   };
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
