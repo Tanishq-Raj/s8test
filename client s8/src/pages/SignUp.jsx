@@ -25,6 +25,9 @@ const bankOfficerSteps = [
             { label: "Email", placeholder: "Enter your Email here", type: "email" },
             { label: "Phone Number", placeholder: "Enter your Phone Number", type: "tel" },
             { label: "Address", placeholder: "Enter your Address", type: "text" },
+            { label: "City", placeholder: "Enter your City", type: "text" },
+    { label: "State", placeholder: "Enter your State", type: "text" },
+    { label: "Pincode", placeholder: "Enter your Pincode", type: "text" },
         ],
     },
     {
@@ -65,6 +68,7 @@ export default function SignUpPage() {
         confirmPassword: "",
         phoneNumber: "",
     });
+    const {bankOfficerFormValues, setBankOfficerFormValues, userFormValues, setUserFormValues} = useContext(AppContext)
 
     const {serverUrl} = useContext(AppContext)
     const socialButtons = [
@@ -213,10 +217,12 @@ export default function SignUpPage() {
                                 <div className="space-y-6">
                                     {formInputs.map((input, index) => (
                                         <FormInput
-                                            key={index}
-                                            {...input}
-                                            error={formErrors[input.label.toLowerCase().replace(/\s+/g, '')]}
-                                        />
+                                        key={index}
+                                        {...input}
+                                        isBankOfficer={userType === "Bank Officer"}
+                                        error={formErrors[input.label.toLowerCase().replace(/\s+/g, '')]}
+                                    />
+                                    
                                     ))}
                                 </div>
                             </div>

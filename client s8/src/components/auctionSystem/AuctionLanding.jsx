@@ -3,10 +3,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "./components/NavigationBar";
 import ProcessSteps from "./components/ProcessSteps";
-import PropertyCard from "./components/PropertyCard";
+// import PropertyCard from "./components/PropertyCard";
 import ContactForm from "./components/ContactForm";
 import ContactInfo from "./components/ContactInfo";
 import PropertyAuctions from "./components/PropertyAuctions";
+import PropertyCard from '../auctionSystem/UsersidePrime/PropertyCard';
+import { toast } from 'react-toastify';
+import Contact from './components/Contact';
 
 export default function AuctionLanding() {
   const navigate = useNavigate();
@@ -214,7 +217,15 @@ export default function AuctionLanding() {
           </div>
         </div>
       </div>
-      <PropertyAuctions/>
+      {/* <PropertyAuctions/> */}
+      <div className="py-16">
+        <p className="text-center text-4xl font-semibold text-[#004663] mb-8">Explore our latest property Auctions :</p>
+        <PropertyCard/>
+      </div>
+      <div>
+      <Contact/>
+      </div>
+      {/* {<PropertyCard/>} */}
       {/* <PropertyCard/>
       <ContactForm/>
       <ContactInfo/> */}

@@ -4,7 +4,7 @@ import { StepIndicator } from '../components/auctionSystem/SignInBankOfficer/Ste
 import styles from '../components/auctionSystem/SignInBankOfficer/SignupForm.module.css';
 
 const formInputs = [
-  { label: "Full Name", placeholder: "Enter your Full Name here", id: "fullName" },
+  // { label: "Full Name", placeholder: "Enter your Full Name here", id: "fullName" },
   { label: "Email", placeholder: "Enter your Email here", id: "email", type: "email" },
   { label: "Password", placeholder: "Enter your Password", id: "password", type: "password" },
   { label: "Confirm Password", placeholder: "Confirm your passwords", id: "confirmPassword", type: "password" },
