@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import axios from "axios";
 
 export const AppContext = createContext();
 
@@ -16,6 +17,25 @@ const AppContextProvider = (props) => {
   });
 
   const [properties, setProperties] = useState([]); // Add this line
+
+  const getProperties = async () => {
+    try {
+      const { data } = await axios.get( serverUrl + "/api/v1/user/get-properties", {
+        withCredentials: true,
+      });
+      if (data.success) {
+        setProperties(data.properties);
+      }else{
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getProperties();
+  }, []);
   
   const value = {
     serverUrl,
