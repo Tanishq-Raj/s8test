@@ -15,9 +15,33 @@ const AppContextProvider = (props) => {
     designation: "",
   });
 
+  const [userFormValues, setUserFormValues] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
+    phonenumber: "",
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+});
+
+const [bankOfficerFormValues, setBankOfficerFormValues] = useState({
+  fullname: "",
+  email: "",
+  phonenumber: "",
+  address: "",
+  bankbranch: "",
+  employeeid: "",
+  position: "",
+  uploadidproof: "",
+  otpverification: "",
+});
+
 
   const value = {
-    serverUrl,
+    serverUrl,bankOfficerFormValues, setBankOfficerFormValues, userFormValues, setUserFormValues,
   };
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
