@@ -4,26 +4,27 @@ import { AppContext } from '../../../context/context';
 
 export const FormInput = ({ label, placeholder, isTextArea, isBankOfficer }) => {
   const inputId = `${label.toLowerCase().replace(/\s+/g, '-')}`;
-  const {bankOfficerFormValues, setBankOfficerFormValues, userFormValues, setUserFormValues} = useContext(AppContext)
+  const { bankOfficerFormValues, setBankOfficerFormValues, userFormValues, setUserFormValues } = useContext(AppContext);
   
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if(isBankOfficer){
+    if (isBankOfficer) {
       setBankOfficerFormValues({
         ...bankOfficerFormValues,
         [name]: value,
       });
-    }
-    else{
+    } else {
       setUserFormValues({
         ...userFormValues,
         [name]: value,
       });
-      console.log(userFormValues)
     }
-    
-    }
+  };
+
+  // Determine the current value from state based on user type
+  const currentValue = isBankOfficer 
+    ? (bankOfficerFormValues[inputId] || '')
+    : (userFormValues[inputId] || '');
 
   return (
     <div className="flex flex-col mt-4 max-w-full rounded-3xl w-[500px]">
@@ -33,16 +34,20 @@ export const FormInput = ({ label, placeholder, isTextArea, isBankOfficer }) => 
       {isTextArea ? (
         <textarea
           id={inputId}
+          name={inputId} // Added name attribute for textarea
           placeholder={placeholder}
           onChange={handleChange}
-          className=" px-6 pt-2 pb-24 rounded-3xl bg-gray-400 bg-opacity-40 text-black text-opacity-50 max-md:px-5 max-md:pb-28 max-md:max-w-full"
+          value={currentValue} // Added value prop from state
+          className="px-6 pt-2 pb-24 rounded-3xl bg-gray-400 bg-opacity-40 text-black text-opacity-50 max-md:px-5 max-md:pb-28 max-md:max-w-full"
         />
       ) : (
         <input
           type={label.toLowerCase() === 'password' || label.toLowerCase() === 'confirm password' ? 'password' : 'text'}
           id={inputId}
+          name={inputId} // Added name attribute for input
           placeholder={placeholder}
           onChange={handleChange}
+          value={currentValue} // Added value prop from state
           className="h-9 px-6 mt-2 rounded-3xl bg-gray-400 bg-opacity-40 text-black text-opacity-50 max-md:px-2 max-md:max-w-full"
         />
       )}

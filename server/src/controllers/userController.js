@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken"
 export const userRegister = async (req, res) => {
   try {
     const { name, email, phone, password, verificationMethod } = req.body; ////////////////////////////////
-
+    console.log(name, email, phone, password)
     if (!name || !email || !phone || !password || !verificationMethod) {
       return res.json({ success: false, message: "Missing Details" });
     }
@@ -35,9 +35,9 @@ export const userRegister = async (req, res) => {
       return phoneRegex.test(phone);
     }
 
-    if (!validatePhoneNumber(phone)) {
-      return res.json({ success: false, message: "Enter valid Phone number" });
-    }
+    // if (!validatePhoneNumber(phone)) {
+    //   return res.json({ success: false, message: "Enter valid Phone number" });
+    // }
 
     const existingUser = await User.findOne({
       $or: [
@@ -392,3 +392,14 @@ export const removeFromSavedProperties = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 }
+
+export const getPropertyById = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const property = await propertyModel.findById(id);
+    res.json({ success: true, property });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};

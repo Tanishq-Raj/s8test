@@ -10,6 +10,7 @@ import {
   removeFromSavedProperties,
   userRegister,
   verifyOTP,
+  getPropertyById,
 } from "../controllers/userController.js";
 import userAuth from "../middlewares/authUser.js";
 
@@ -34,5 +35,7 @@ userRouter.get("/get-properties", userAuth, getProperties);
 userRouter.get("/add-to-saved-properties", userAuth, addToSavedProperties);
 userRouter.get("/get-saved-properties", userAuth, getSavedProperties);
 userRouter.get("/remove-from-saved-properties", userAuth, removeFromSavedProperties);
+userRouter.post("/get-property-by-id", userAuth, getPropertyById)
+
 
 export default userRouter;
