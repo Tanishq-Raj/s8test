@@ -31,7 +31,7 @@ function App() {
         <Route path="/properties" element={<Assets />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         {/* <Route path="/property" element={<Property />} /> */}
-        <Route path="/property/:id" element={<Property />} />
+        <Route path="/property/:id" element={<PropertyCard />} />
         <Route path="/usersideprime" element={<UserSideP />} />
         <Route path="/contact" element={<Contact />} />
         {/* <Route path="/profile" element={<Profile />} /> */}
