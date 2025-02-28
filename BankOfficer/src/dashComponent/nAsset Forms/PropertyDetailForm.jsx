@@ -126,6 +126,22 @@ const PropertyDetailsForm = ({ nextStep }) => {
           </div>
         </section>
 
+
+        {/* video Link */}
+        <section className="formGroup">
+          <label>Video Link:</label>
+          <div className="inputWrapper">
+            <input
+              type="text"
+              name="video"
+              value={formData.price}
+              onChange={handleChange}
+              placeholder="Property Video Link"
+              aria-label="video"
+            />
+          </div>
+        </section>
+
         {/* Description */}
         <section className="formGroup">
           <label>Description:</label>

@@ -3,7 +3,7 @@ import MyAssetList from "../../dashComponent/PropertyList/MyAssetList";
 import Sidebar from "../../dashComponent/Sidebar/Sidebar";
 import "./assetsView.scss";
 
-const AssetsViwe = () => {
+const AssetsView = () => {
   return (
         <div className="myAssetsView">
           <div className="sideContainerV">
@@ -19,4 +19,4 @@ const AssetsViwe = () => {
        )
      }
 
-export default AssetsViwe
+export default AssetsView

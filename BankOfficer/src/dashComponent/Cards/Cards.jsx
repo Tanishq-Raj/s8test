@@ -8,7 +8,7 @@ const CardsContainer = () => {
   const [showAll, setShowAll] = useState(false); // State to control whether to show all cards
     const { properties, avatar } = useContext(AppContext);
 
-  const defaultCardsToShow = 3;
+  const defaultCardsToShow = 5;
   const cardsToDisplay = showAll ? properties : properties.slice(0, defaultCardsToShow);
 
 
