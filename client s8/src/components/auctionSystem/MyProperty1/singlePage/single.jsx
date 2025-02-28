@@ -22,7 +22,7 @@ const Single = () => {
 
   const getPropertyById = async () => {
     try {
-      const { data } = await axios.post(serverUrl + "/api/v1/bank-user/get-property-by-id", { id }, {
+      const { data } = await axios.post(serverUrl + "/api/v1/user/get-property-by-id", { id }, {
         withCredentials: true,
       });
 
