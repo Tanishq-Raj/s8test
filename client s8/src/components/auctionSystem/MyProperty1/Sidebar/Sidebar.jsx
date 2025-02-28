@@ -1,14 +1,13 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import './Sidebar.scss';
 import { useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { AppContext } from '../../context/context';
+import { AppContext } from '../../../../context/context';
 
 
   const Sidebar = () => {
     const location = useLocation(); // Get current route
     const {setSearchString} = useContext(AppContext)
-    const [isOpen, setIsOpen] = useState(false); // State for mobile sidebar
 
   const menuItems = [
     {
@@ -35,29 +34,16 @@ import { AppContext } from '../../context/context';
   ];
 
   return (
-    <>
-   {/* Toggle Button */}
-   {!isOpen && (
-        <button className="toggle-button" onClick={() => setIsOpen(true)}>
-          ☰
-        </button>
-      )}
-
-      <div className={`sidebar ${isOpen ? "open" : ""}`}>     
-       <div className="header">
-          {/* Logo */}
-          <Link to="/" className="logo-container">
-            <div className="logo-circle">
+    <div className="sidebar">
+      <div className="logo-container">
+        <Link to="/">
+          <div className="logo-circle">
+     
               <span className="logo-text">S8</span>
-            </div>
-          </Link>
-
-          {/* Close Button (Visible only in mobile view) */}
-          <button className="close-button" onClick={() => setIsOpen(false)}>
-            ✖
-          </button>
+   
+          </div>
+        </Link>
       </div>
-
       <div className="separator"></div> {/* Add the separator */}
       <ul className="menu">
         {menuItems.map((item, index) => (
@@ -70,7 +56,6 @@ import { AppContext } from '../../context/context';
         ))}
       </ul>
     </div>
-     </>
   );
 };
 

@@ -1,6 +1,6 @@
 import "./ProfilePage.scss";
 
-import TopAuctioners from "../../dashComponent/auctioners/TopAuctioners";
+// import TopAuctioners from "../../dashComponent/auctioners/TopAuctioners";
 import Latest from "../../dashComponent/LatestAssetsCards/latest";
 import Sidebar from "../../dashComponent/Sidebar/Sidebar";
 import News from "../../dashComponent/News & Updates/newsUpdate";
@@ -72,7 +72,7 @@ const Profilepage = () => {
         </div>
         <div className="auctionersContainer">
           <CardsContainer />
-          <TopAuctioners />
+          {/* <TopAuctioners /> */}
         </div>
       </div>
     </div>
