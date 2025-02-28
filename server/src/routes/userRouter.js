@@ -10,8 +10,14 @@ import {
   removeFromSavedProperties,
   userRegister,
   verifyOTP,
+  getPropertyById,
+  updateProfile,
+  getProfile,
+  updateProfileImage,
 } from "../controllers/userController.js";
 import userAuth from "../middlewares/authUser.js";
+import upload from "../middlewares/multer.js";  
+
 
 const userRouter = express.Router();
 
@@ -34,5 +40,12 @@ userRouter.get("/get-properties", userAuth, getProperties);
 userRouter.get("/add-to-saved-properties", userAuth, addToSavedProperties);
 userRouter.get("/get-saved-properties", userAuth, getSavedProperties);
 userRouter.get("/remove-from-saved-properties", userAuth, removeFromSavedProperties);
+userRouter.post("/get-property-by-id", userAuth, getPropertyById)
+userRouter.post("/update-profile",userAuth, updateProfile)
+userRouter.get("/get-profile", userAuth, getProfile)
+userRouter.post("/update-profile-image",userAuth, upload.single('image'), updateProfileImage)
+
+
+
 
 export default userRouter;

@@ -3,18 +3,19 @@ import { FormInput } from '../components/auctionSystem/SignInUser/FormInput';
 import { SocialSignInButton } from '../components/auctionSystem/SignInUser/SocialSignInButton';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/context';
-
+import axios from 'axios';
+import Otp from '../components/Otp';
 
 const userInputs = [
-    { label: "Full Name", placeholder: "Enter your Full Name here", type: "text" },
+    { label: "Name", placeholder: "Enter your Full Name here", type: "text" },
     { label: "Email", placeholder: "Enter your Email here", type: "email" },
+    { label: "Phone", placeholder: "Enter your Phone Number", type: "tel" },
     { label: "Password", placeholder: "Enter your Password", type: "password" },
-    { label: "Confirm Password", placeholder: "Confirm your password", type: "password" },
-    { label: "Phone Number", placeholder: "Enter your Phone Number", type: "tel" },
-    { label: "Flat No, Building Name, Street Name", placeholder: "Enter your Flat No, Building Name, Street Name", type: "text"},
-    { label: "City", placeholder: "Enter your City", type: "text" },
-    { label: "State", placeholder: "Enter your State", type: "text" },
-    { label: "Pincode", placeholder: "Enter your Pincode", type: "text" },
+    // { label: "Confirm Password", placeholder: "Confirm your password", type: "password" },
+    // { label: "Flat No, Building Name, Street Name", placeholder: "Enter your Flat No, Building Name, Street Name", type: "text"},
+    // { label: "City", placeholder: "Enter your City", type: "text" },
+    // { label: "State", placeholder: "Enter your State", type: "text" },
+    // { label: "Pincode", placeholder: "Enter your Pincode", type: "text" },
 ];
 
 const bankOfficerSteps = [
@@ -26,8 +27,8 @@ const bankOfficerSteps = [
             { label: "Phone Number", placeholder: "Enter your Phone Number", type: "tel" },
             { label: "Address", placeholder: "Enter your Address", type: "text" },
             { label: "City", placeholder: "Enter your City", type: "text" },
-    { label: "State", placeholder: "Enter your State", type: "text" },
-    { label: "Pincode", placeholder: "Enter your Pincode", type: "text" },
+            { label: "State", placeholder: "Enter your State", type: "text" },
+            { label: "Pincode", placeholder: "Enter your Pincode", type: "text" },
         ],
     },
     {
@@ -38,24 +39,23 @@ const bankOfficerSteps = [
             { label: "Position", placeholder: "Enter your Position" },
         ],
     },
-    {
-        title: "Verification",
-        inputs: [
-            { label: "Upload ID Proof", placeholder: "Upload your ID Proof", type: "file" },
-            { label: "OTP Verification", placeholder: "Enter the OTP sent to your phone" },
-        ],
-    },
-    {
-        title: "Confirmation",
-        inputs: [],
-    },
+    // {
+    //     title: "Verification",
+    //     inputs: [
+    //         { label: "Upload ID Proof", placeholder: "Upload your ID Proof", type: "file" },
+    //         { label: "OTP Verification", placeholder: "Enter the OTP sent to your phone" },
+    //     ],
+    // },
+    // {
+    //     title: "Confirmation",
+    //     inputs: [],
+    // },
 ];
 
 const signInInputs = [
     { label: "Email", placeholder: "Enter your Email here", type: "email" },
     { label: "Password", placeholder: "Enter your Password", type: "password" },
 ];
-
 
 export default function SignUpPage() {
     const [userType, setUserType] = useState("User");
@@ -68,22 +68,49 @@ export default function SignUpPage() {
         confirmPassword: "",
         phoneNumber: "",
     });
-    const {bankOfficerFormValues, setBankOfficerFormValues, userFormValues, setUserFormValues} = useContext(AppContext)
-
-    const {serverUrl} = useContext(AppContext)
-    const socialButtons = [
-        { icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/8bc5b28e34b89399a5181e0b1ad025dca906bce676746acf663a21997d16f714?placeholderIfAbsent=true&apiKey=2b64ceff962d4ae184f534c4b0acd108", text: "Sign in with Google", serverApi: serverUrl + "/api/v1/user/auth/google" },
-    ];
+    const { bankOfficerFormValues, setBankOfficerFormValues, userFormValues, setUserFormValues } = useContext(AppContext);
+    const { serverUrl } = useContext(AppContext);
     const navigate = useNavigate();
-    
-    const handleFormSubmit = () => {
-        window.scrollTo(0, 0);
-        navigate("/usersideprime");
-    }
 
-    // const handleBankOfficer = () => {
-    //     window.location.href = 'http://localhost:3001';
-    // }
+    const socialButtons = [
+        { 
+            icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/8bc5b28e34b89399a5181e0b1ad025dca906bce676746acf663a21997d16f714?placeholderIfAbsent=true&apiKey=2b64ceff962d4ae184f534c4b0acd108", 
+            text: "Sign in with Google", 
+            serverApi: serverUrl + "/api/v1/user/auth/google" 
+        },
+    ];
+
+    // New state to control OTP popup visibility
+    const [showOtpPopup, setShowOtpPopup] = useState(false);
+
+    // Called when OTP is verified successfully
+    const handleOtpSuccess = () => {
+        setShowOtpPopup(false);
+        navigate("/usersideprime");
+    };
+
+    const handleFormSubmit = async () => {
+        try {
+            window.scrollTo(0, 0);
+            // Determine form data and endpoint based on user type
+            const formData = userType === "User" ? userFormValues : bankOfficerFormValues;
+            const endpoint = userType === "User" 
+                ? serverUrl + "/api/v1/user/register" 
+                : serverUrl + "/api/v1/bank-user/register";
+
+            console.log(userFormValues);
+            
+            // Send POST request using axios
+            const response = await axios.post(endpoint, formData);
+            console.log("Form submitted successfully:", response.data);
+            
+            // Open OTP popup upon successful registration
+            setShowOtpPopup(true);
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            // Optionally, add further error handling or display an error message
+        }
+    };
 
     const handleUserTypeChange = (type) => {
         setUserType(type);
@@ -93,9 +120,11 @@ export default function SignUpPage() {
     const handleNextStep = () => {
         if (currentStep < bankOfficerSteps.length - 1) {
             setCurrentStep(currentStep + 1);
-        }else {
-            window.location.href = 'https://s8-chi.vercel.app/';
-        }
+        } 
+        else {
+            // Final step: submit the form and show the OTP popup
+            handleFormSubmit();
+          }
     };
 
     const validateForm = () => {
@@ -126,7 +155,9 @@ export default function SignUpPage() {
         return isValid;
     };
 
-    const formInputs = isSignIn ? signInInputs : (userType === "User" ? userInputs : bankOfficerSteps[currentStep].inputs);
+    const formInputs = isSignIn 
+        ? signInInputs 
+        : (userType === "User" ? userInputs : bankOfficerSteps[currentStep].inputs);
 
     return (
         <div className="min-h-screen bg-[#004663] flex items-stretch">
@@ -164,40 +195,35 @@ export default function SignUpPage() {
                                     {isSignIn ? "Sign In" : "Create Account"}
                                 </div>
                                 
-                                {!isSignIn && (
-                                    /* User Type Selection */
-                                    <div className="flex justify-center gap-4 mb-8">
-                                        <button
-                                            onClick={() => handleUserTypeChange("User")}
-                                            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                                                userType === "User"
-                                                    ? "bg-[#004663] text-white shadow-lg"
-                                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                                            }`}
-                                        >
-                                            User
-                                        </button>
-                                        <button
-                                            onClick={() => handleUserTypeChange("Bank Officer")}
-                                            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                                                userType === "Bank Officer"
-                                                    ? "bg-[#004663] text-white shadow-lg"
-                                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                                            }`}
-                                        >
-                                            Bank Officer
-                                        </button>
-                                    </div>
-                                )}
+                                {/* Add user type selection for both Sign In and Sign Up */}
+                                <div className="flex justify-center gap-4 mb-8">
+                                    <button
+                                        onClick={() => handleUserTypeChange("User")}
+                                        className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                                            userType === "User"
+                                                ? "bg-[#004663] text-white shadow-lg"
+                                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                        }`}
+                                    >
+                                        User
+                                    </button>
+                                    <button
+                                        onClick={() => handleUserTypeChange("Bank Officer")}
+                                        className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                                            userType === "Bank Officer"
+                                                ? "bg-[#004663] text-white shadow-lg"
+                                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                        }`}
+                                    >
+                                        Bank Officer
+                                    </button>
+                                </div>
 
-                                {/* Progress Steps for Bank Officer */}
+                                {/* Progress Steps (only show for Bank Officer during Sign Up) */}
                                 {!isSignIn && userType === "Bank Officer" && (
                                     <div className="flex justify-between mb-8">
                                         {bankOfficerSteps.map((step, index) => (
-                                            <div
-                                                key={index}
-                                                className="flex flex-col items-center"
-                                            >
+                                            <div key={index} className="flex flex-col items-center">
                                                 <div
                                                     className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
                                                         index <= currentStep
@@ -217,12 +243,11 @@ export default function SignUpPage() {
                                 <div className="space-y-6">
                                     {formInputs.map((input, index) => (
                                         <FormInput
-                                        key={index}
-                                        {...input}
-                                        isBankOfficer={userType === "Bank Officer"}
-                                        error={formErrors[input.label.toLowerCase().replace(/\s+/g, '')]}
-                                    />
-                                    
+                                            key={index}
+                                            {...input}
+                                            isBankOfficer={userType === "Bank Officer"}
+                                            error={formErrors[input.label.toLowerCase().replace(/\s+/g, '')]}
+                                        />
                                     ))}
                                 </div>
                             </div>
@@ -230,7 +255,11 @@ export default function SignUpPage() {
                             {/* Action Buttons */}
                             <div className="mt-8 space-y-4">
                                 <button
-                                    onClick={isSignIn ? handleFormSubmit : userType === "Bank Officer" ? handleNextStep : validateForm ? handleFormSubmit : null}
+                                    onClick={isSignIn 
+                                        ? handleFormSubmit 
+                                        : userType === "Bank Officer" 
+                                            ? handleNextStep 
+                                            : validateForm ? handleFormSubmit : null}
                                     className="w-full py-3 bg-[#004663] text-white rounded-lg font-semibold hover:bg-sky-900 transition-colors duration-200"
                                 >
                                     {isSignIn 
@@ -275,6 +304,19 @@ export default function SignUpPage() {
                     </div>
                 </div>
             </div>
+
+            {/* OTP Popup Rendering - New Section */}
+            {showOtpPopup && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <Otp
+      onSuccess={handleOtpSuccess} 
+      onClose={() => setShowOtpPopup(false)}
+      email = {userFormValues.email}
+      phone = {userFormValues.phone}
+      userType={userType}
+    />
+  </div>
+)}
         </div>
     );
 }

@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken"
 export const userRegister = async (req, res) => {
   try {
     const { name, email, phone, password, verificationMethod } = req.body; ////////////////////////////////
-
+    console.log(name, email, phone, password)
     if (!name || !email || !phone || !password || !verificationMethod) {
       return res.json({ success: false, message: "Missing Details" });
     }
@@ -35,9 +35,9 @@ export const userRegister = async (req, res) => {
       return phoneRegex.test(phone);
     }
 
-    if (!validatePhoneNumber(phone)) {
-      return res.json({ success: false, message: "Enter valid Phone number" });
-    }
+    // if (!validatePhoneNumber(phone)) {
+    //   return res.json({ success: false, message: "Enter valid Phone number" });
+    // }
 
     const existingUser = await User.findOne({
       $or: [
@@ -387,6 +387,114 @@ export const removeFromSavedProperties = async (req, res) => {
 
     await User.findByIdAndUpdate(userId, {$pull : {savedProperties: propertyId}})
     res.status(200).json({ message: "Property removed from saved properties" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
+
+export const getPropertyById = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const property = await propertyModel.findById(id);
+    res.json({ success: true, property });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// get Profile
+export const getProfile = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const user = await User.findById(userId).select("-_id -verificationCode -verificationCodeExpire -verified -createdAt -updatedAt -__v");
+    res.json({ success: true, user });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Update Profile
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { name, email, mobile, flatNo, city, state, pincode } = req.body;
+    console.log(req.body);
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    if (!name || !email || !mobile || !flatNo || !city || !state || !pincode) {
+      return res.json({ success: false, message: "Provide all the fields" });
+    }
+
+    const userData = {
+      name,
+      email,
+      mobile,
+      address:{
+        address: flatNo,
+        city,
+        state,
+        pincode,
+      }
+    };
+
+    user.set(userData); 
+    await user.save();
+    res.json({ success: true, message: "Profile updated successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+
+export const updateProfileImage = async (req, res) => {
+  try {
+    const file = req.file
+    const userId = req.userId
+    if (!file || file.length === 0) {
+      return res.status(400).json({ success: false, message: "No Profile" });
+    }
+
+    const uploadToCloudinary = (fileBuffer) => {
+      return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.v2.uploader.upload_stream(
+          { folder: "profile" }, // optional: specify a folder in Cloudinary
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+        uploadStream.end(fileBuffer);
+      });
+    };
+    const uploadedFile = await uploadToCloudinary(file.buffer);
+
+    const imageData = {
+      url: uploadedFile.secure_url,
+      public_id: uploadedFile.public_id,
+      fileType: file.mimetype,
+    };
+    const user = await User.findById(userId)
+
+    if (user.profileImage && user.profileImage.public_id) {
+      
+        await cloudinary.v2.uploader.destroy(user.profileImage.public_id);
+        console.log("Previous image deleted successfully");
+      }
+    user.profileImage = imageData
+    user.save()
+
+    res.json({success: true, message: "Avatar Updated"})
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
