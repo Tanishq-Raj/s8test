@@ -50,15 +50,11 @@ const AppContextProvider = (props) => {
   }, []);
 
   const [userFormValues, setUserFormValues] = useState({
-    fullname: "",
+    name: "",
     email: "",
     password: "",
-    confirmpassword: "",
-    phonenumber: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
+    phone: "",
+    verificationMethod: "email"
 });
 
 const [bankOfficerFormValues, setBankOfficerFormValues] = useState({
