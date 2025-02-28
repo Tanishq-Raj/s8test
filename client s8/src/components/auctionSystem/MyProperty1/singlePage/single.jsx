@@ -295,7 +295,7 @@ const Single = () => {
 
               {/* Map Section */}
               <h3>Property Location :</h3>
-              <GMap
+              {/* <GMap
                 items={[
                   {
                     id: property.id,
@@ -303,7 +303,7 @@ const Single = () => {
                     longitude: property.longitude,
                   },
                 ]}
-              />
+              /> */}
 
               {/* Action Buttons */}
               <div className="actionButtons">
