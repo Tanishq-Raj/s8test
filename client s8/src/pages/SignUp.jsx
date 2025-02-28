@@ -195,33 +195,31 @@ export default function SignUpPage() {
                                     {isSignIn ? "Sign In" : "Create Account"}
                                 </div>
                                 
-                                {!isSignIn && (
-                                    /* User Type Selection */
-                                    <div className="flex justify-center gap-4 mb-8">
-                                        <button
-                                            onClick={() => handleUserTypeChange("User")}
-                                            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                                                userType === "User"
-                                                    ? "bg-[#004663] text-white shadow-lg"
-                                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                                            }`}
-                                        >
-                                            User
-                                        </button>
-                                        <button
-                                            onClick={() => handleUserTypeChange("Bank Officer")}
-                                            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                                                userType === "Bank Officer"
-                                                    ? "bg-[#004663] text-white shadow-lg"
-                                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                                            }`}
-                                        >
-                                            Bank Officer
-                                        </button>
-                                    </div>
-                                )}
+                                {/* Add user type selection for both Sign In and Sign Up */}
+                                <div className="flex justify-center gap-4 mb-8">
+                                    <button
+                                        onClick={() => handleUserTypeChange("User")}
+                                        className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                                            userType === "User"
+                                                ? "bg-[#004663] text-white shadow-lg"
+                                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                        }`}
+                                    >
+                                        User
+                                    </button>
+                                    <button
+                                        onClick={() => handleUserTypeChange("Bank Officer")}
+                                        className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                                            userType === "Bank Officer"
+                                                ? "bg-[#004663] text-white shadow-lg"
+                                                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                        }`}
+                                    >
+                                        Bank Officer
+                                    </button>
+                                </div>
 
-                                {/* Progress Steps for Bank Officer */}
+                                {/* Progress Steps (only show for Bank Officer during Sign Up) */}
                                 {!isSignIn && userType === "Bank Officer" && (
                                     <div className="flex justify-between mb-8">
                                         {bankOfficerSteps.map((step, index) => (
