@@ -28,6 +28,8 @@ const AppContextProvider = (props) => {
     designation: "",
   });
 
+  const [avatar, setAvatar] = useState(false)
+
   const [properties, setProperties] = useState([]); 
 
   const getProperties = async () => {
