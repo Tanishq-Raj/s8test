@@ -1,10 +1,22 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
-export const AppContext = createContext();
+export const AppContext = createContext({
+  serverUrl: 'http://localhost:4000',
+  userDetails: {},
+  setUserDetails: () => {},
+  properties: [],
+  setProperties: () => {},
+  getProperties: () => {},
+  bankOfficerFormValues: {},
+  setBankOfficerFormValues: () => {},
+  userFormValues: {},
+  setUserFormValues: () => {}
+});
 
 const AppContextProvider = (props) => {
-  const serverUrl = import.meta.env.VITE_SERVER_URL;
+  const serverUrl = 'http://localhost:4000';
+  // const serverUrl = import.meta.env.VITE_SERVER_URL;
   const [userDetails, setUserDetails] = useState({
     fullName: "",
     email: "",
@@ -16,7 +28,7 @@ const AppContextProvider = (props) => {
     designation: "",
   });
 
-  const [properties, setProperties] = useState([]); // Add this line
+  const [properties, setProperties] = useState([]); 
 
   const getProperties = async () => {
     try {
@@ -29,14 +41,14 @@ const AppContextProvider = (props) => {
         console.log(data.message);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching properties:", error);
     }
-  }
+  };
 
   useEffect(() => {
     getProperties();
   }, []);
-  
+
   const [userFormValues, setUserFormValues] = useState({
     fullname: "",
     email: "",
@@ -61,17 +73,21 @@ const [bankOfficerFormValues, setBankOfficerFormValues] = useState({
   otpverification: "",
 });
 
-
-  const value = {
-    serverUrl,
-    userDetails,
-    setUserDetails,
-    properties, 
-    setProperties, 
-    bankOfficerFormValues, setBankOfficerFormValues, userFormValues, setUserFormValues,
-  };
   return (
-    <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
+    <AppContext.Provider value={{
+      serverUrl,
+      userDetails,
+      setUserDetails,
+      properties,
+      setProperties,
+      getProperties,
+      bankOfficerFormValues,
+      setBankOfficerFormValues,
+      userFormValues,
+      setUserFormValues
+    }}>
+      {props.children}
+    </AppContext.Provider>
   );
 };
 
