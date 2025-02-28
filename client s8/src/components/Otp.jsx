@@ -2,24 +2,24 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AppContext } from '../context/context';
 
-const OtpPopup = ({ onSuccess, onClose }) => {
-  const [otp, setOtp] = useState('');
-  const [error, setError] = useState(null);
-  const { serverUrl } = useContext(AppContext);
+const OtpPopup = ({ onSuccess, onClose, email, phone, userType }) => {
+    const [otp, setOtp] = useState('');
+    const [error, setError] = useState(null);
+    const { serverUrl } = useContext(AppContext);
 
-  // Handles submission of OTP and posts it to the backend
-  const handleOtpSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // POST the OTP to the backend endpoint
-      const response = await axios.post(`${serverUrl}/api/v1/user/otp-verification`, { otp });
-      console.log("OTP verified successfully:", response.data);
-      onSuccess(); // Call onSuccess callback if OTP verification succeeds
-    } catch (err) {
-      console.error("OTP verification error:", err);
-      setError('OTP verification failed. Please try again.');
-    }
-  };
+    const handleOtpSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const endpoint = userType === "User"
+                ? `${serverUrl}/api/v1/user/otp-verification`
+                : `${serverUrl}/api/v1/bank-user/otp-verification`;
+
+            const response = await axios.post(endpoint, { otp, email, phone });
+            onSuccess();
+        } catch (err) {
+            setError('OTP verification failed. Please try again.');
+        }
+    };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
