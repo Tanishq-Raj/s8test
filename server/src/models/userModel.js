@@ -29,6 +29,11 @@ const userSchema = new Schema(
       maxLength: [32, "Password cannot have more than 32 characters."],
       select: false,
     },
+    profileImage: {
+      url: String,
+      public_id: String,
+      fileType: String,
+    },
     phone: {
       type: String,
       // required: true,
@@ -38,10 +43,10 @@ const userSchema = new Schema(
     address: {
       type: Object,
       default: {
+        address: "",
         city: "",
-        district: "",
         state: "",
-        Pincode: "",
+        pincode: "",
       },
     },
     dob: {
