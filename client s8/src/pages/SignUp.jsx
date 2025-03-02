@@ -114,8 +114,12 @@ export default function SignUpPage() {
   // Called when OTP is verified successfully
   const handleOtpSuccess = () => {
     setShowOtpPopup(false);
-    navigate("/usersideprime");
-    toast.success("Login Successfully");
+    if(userType === "User"){
+      navigate("/usersideprime");
+      toast.success("Login Successfully");
+    }else{
+      window.location.href = import.meta.env.VITE_BANKSIDE_URL
+    }
   };
 
   const handleFormSubmit = async () => {
@@ -146,7 +150,11 @@ export default function SignUpPage() {
         console.log(response)
         if (response.data.success) {
           toast.success("Login Successfully");
-          navigate("/usersideprime");
+          if(userType === "User"){
+            navigate("/usersideprime");
+          }else{
+            window.location.href = import.meta.env.VITE_BANKSIDE_URL
+          }
         } else {
           toast.error(response.data.message);
         }
