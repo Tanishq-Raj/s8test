@@ -1,3 +1,5 @@
+@import "../../responsive.scss";
+
 .cardContainer {
   font-family: "Poppins", sans-serif;
   // font-family: Inter, sans-serif;
@@ -23,6 +25,10 @@
   margin: 24px;
   height: 300px;
   overflow: hidden;
+
+  @include sm {
+    height: 600px;
+  }
 }
 
 .cardImage {
@@ -34,6 +40,13 @@
   object-position: center;
   // margin-top: 14px;
   border-radius: inherit;
+
+  @include sm {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
 }
 
 .cardTitle {
@@ -52,6 +65,11 @@
   padding: 7px 70px;
   text-align: center;
   width: 70%;
+
+  @include sm {
+    font-size: 16px;
+    padding: 5px 50px;
+  }
 }
 
 .cardDaysLeft {
@@ -65,6 +83,13 @@
   padding: 5px 32px;
   bottom: 0px;
   // left: 10px;
+
+  @include sm {
+    padding: 5px 20px;
+    font-size: 22px;
+    height: 38px;
+    
+  }
 }
 
 .cardDescription {
@@ -73,6 +98,10 @@
   font-weight: 400;
 margin-top: -5px;
   margin-left: 25px;
+
+  @include sm {
+    font-size: 20px;
+  }
 }
 
 .cardDetails {
