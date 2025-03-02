@@ -60,15 +60,24 @@ const AppContextProvider = (props) => {
 });
 
 const [bankOfficerFormValues, setBankOfficerFormValues] = useState({
-  fullname: "",
+  "first-name": "",
+  "last-name": "",
   email: "",
-  phonenumber: "",
-  address: "",
+  password: "",
+  phone: "",
+  bankAddress: {
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+  },
+  bankName: "",
   bankbranch: "",
-  employeeid: "",
-  position: "",
-  uploadidproof: "",
-  otpverification: "",
+  bankIFSC: "",
+  branchZone: "",
+  employeeID: "",
+  designation: "",
+  verificationMethod: "email"
 });
 
   return (

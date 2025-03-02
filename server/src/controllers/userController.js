@@ -186,9 +186,9 @@ export const verifyOTP = async function (req, res) {
       return phoneRegex.test(phone);
     }
 
-    if (!validatePhoneNumber(phone)) {
-      return res.json({ success: false, message: "Enter valid Phone number" });
-    }
+    // if (!validatePhoneNumber(phone)) {
+    //   return res.json({ success: false, message: "Enter valid Phone number" });
+    // }
 
     const userAllEntries = await User.find({
       $or: [
@@ -206,7 +206,7 @@ export const verifyOTP = async function (req, res) {
     if (!userAllEntries) {
       return res.json({ success: false, message: "User does not exist" });
     }
-
+    // console.log(userAllEntries)
     let user;
 
     if (userAllEntries > 1) {
@@ -222,6 +222,7 @@ export const verifyOTP = async function (req, res) {
     } else {
       user = userAllEntries[0];
     }
+    // console.log(user)
 
     if (user.verificationCode !== Number(otp)) {
       return res.json({ success: false, message: "Invalid OTP" });
@@ -241,7 +242,20 @@ export const verifyOTP = async function (req, res) {
     user.verificationCode = null;
     await user.save();
 
-    sendToken(user, "Account Verified", res);
+    // sendToken(user, "Account Verified", res);
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
+    
+    // Set the token in an HTTP-only cookie
+    res.cookie("s8userToken", token, {
+      // httpOnly: true,
+      // secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      // sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    }).json({
+      success: true,
+      message: "Account Verified",
+      
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -277,7 +291,20 @@ export const login = async function (req, res) {
       return res.json({ success: false, message: "Invalid email or password" });
     }
 
-    sendToken(user, "Logged in successfully", res);
+    // sendToken(user, "Logged in successfully", res);
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
+
+    // Set the token in an HTTP-only cookie
+    res.cookie("s8userToken", token, {
+      // httpOnly: true,
+      // secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      // sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    }).json({
+      success: true,
+      message: "Account Verified",
+      
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -315,7 +342,7 @@ export const googleAuthCallback = (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
     
     // Set the token in an HTTP-only cookie
-    res.cookie("s8Token", token, {
+    res.cookie("s8userToken", token, {
       // httpOnly: true,
       // secure: process.env.NODE_ENV === "production", // Use secure cookies in production
       // sameSite: "Strict",

@@ -36,9 +36,9 @@ export const bankUserRegister = async (req, res) => {
       return phoneRegex.test(phone);
     }
 
-    if (!validatePhoneNumber(phone)) {
-      return res.json({ success: false, message: "Enter valid Phone number" });
-    }
+    // if (!validatePhoneNumber(phone)) {
+    //   return res.json({ success: false, message: "Enter valid Phone number" });
+    // }
 
     const existingUser = await bankUser.findOne({
       $or: [
@@ -175,7 +175,6 @@ function generateEmailTemplate(verificationCode) {
 export const verifyOTP = async function (req, res) {
   try {
     const { email, phone, otp } = req.body;
-
     if (!validator.isEmail(email)) {
       return res.json({
         success: false,
@@ -188,9 +187,9 @@ export const verifyOTP = async function (req, res) {
       return phoneRegex.test(phone);
     }
 
-    if (!validatePhoneNumber(phone)) {
-      return res.json({ success: false, message: "Enter valid Phone number" });
-    }
+    // if (!validatePhoneNumber(phone)) {
+    //   return res.json({ success: false, message: "Enter valid Phone number" });
+    // }
 
     const userAllEntries = await bankUser
       .find({

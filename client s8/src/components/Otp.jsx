@@ -10,12 +10,17 @@ const OtpPopup = ({ onSuccess, onClose, email, phone, userType }) => {
     const handleOtpSubmit = async (e) => {
         e.preventDefault();
         try {
+            
             const endpoint = userType === "User"
                 ? `${serverUrl}/api/v1/user/otp-verification`
                 : `${serverUrl}/api/v1/bank-user/otp-verification`;
 
-            const response = await axios.post(endpoint, { otp, email, phone });
-            onSuccess();
+            const response = await axios.post(endpoint, { otp, email, phone }, {withCredentials: true});
+            console.log(response)
+            if(response.data.success){
+
+              onSuccess();
+            }
         } catch (err) {
             setError('OTP verification failed. Please try again.');
         }

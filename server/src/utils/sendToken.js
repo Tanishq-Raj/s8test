@@ -10,8 +10,8 @@ export const sendToken = (user, message, res) => {
     })
     .json({
       success: true,
-      token,
+      // token,
       message,
-      user,
+      
     });
 };
