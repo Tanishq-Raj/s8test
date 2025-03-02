@@ -1,13 +1,10 @@
 import "./ProfilePage.scss";
-
-// import TopAuctioners from "../../dashComponent/auctioners/TopAuctioners";
 import Latest from "../../dashComponent/LatestAssetsCards/latest";
 import Sidebar from "../../dashComponent/Sidebar/Sidebar";
 import News from "../../dashComponent/News & Updates/newsUpdate";
 import Header from "../../dashComponent/nav/header/Header";
 import CardsContainer from "../../dashComponent/Cards/Cards";
 import AddNewAsset from "../../dashComponent/Add Asset/AddNewAsset";
-
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/context";
 import axios from "axios";
@@ -15,6 +12,20 @@ import axios from "axios";
 const Profilepage = () => {
   const { serverUrl, properties, setProperties } = useContext(AppContext);
   const [latestAsset, setLatestAsset] = useState(null);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 768);
+      if (window.innerWidth > 768) {
+        setSidebarOpen(false); // Auto-close sidebar when switching to medium/large screens
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -35,44 +46,41 @@ const Profilepage = () => {
     fetchProperties();
   }, [serverUrl, setProperties]);
 
-  // Function to get the latest asset based on auction date
   const getLatestAuctionAsset = (userAssets) => {
     const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0); // Ensure we compare only the date part
-    
-    const upcomingOrOngoingAssets = userAssets.filter(asset => {
+    currentDate.setHours(0, 0, 0, 0);
+
+    const upcomingOrOngoingAssets = userAssets.filter((asset) => {
       const auctionDate = new Date(asset.auctionDate);
-      auctionDate.setHours(0, 0, 0, 0); // Remove time for accurate date comparison
-      return auctionDate >= currentDate; // Include both today’s and future auctions
+      auctionDate.setHours(0, 0, 0, 0);
+      return auctionDate >= currentDate;
     });
 
-    // Sort the assets by auction date in ascending order (soonest first)
     const sortedAssets = upcomingOrOngoingAssets.sort(
       (a, b) => new Date(a.auctionDate) - new Date(b.auctionDate)
     );
 
-    
-    return sortedAssets.length > 0 ? sortedAssets[0] : null; 
+    return sortedAssets.length > 0 ? sortedAssets[0] : null;
   };
 
   return (
     <div className="home">
-      <div className="sideContainer">
+      {isSmallScreen && (
+        <button className="toggle-btn" onClick={() => setSidebarOpen(!isSidebarOpen)}>
+          ☰
+        </button>
+      )}
+      <div className={`sideContainer ${isSidebarOpen ? "open" : ""}`}>
         <Sidebar />
       </div>
-      <div className="homeContainer">
+      <div className={`homeContainer ${isSidebarOpen && isSmallScreen ? "shifted" : ""}`}>
         <Header />
-
-        {/* Separator placed correctly */}
-        {/* <div className="separator2"></div> */}
-
         <div className="latestAssetContainer">
-          { latestAsset && latestAsset ? <Latest /> : <AddNewAsset />}
+          {latestAsset ? <Latest /> : <AddNewAsset />}
           <News />
         </div>
         <div className="auctionersContainer">
           <CardsContainer />
-          {/* <TopAuctioners /> */}
         </div>
       </div>
     </div>

@@ -31,12 +31,12 @@ const bankUserSchema = new Schema(
       maxLength: [32, "Password cannot have more than 32 characters."],
       select: false,
     },
-    // employeeID: {
-    //   type: String,
-    //   // required: true,
-    //   trim: true,
-    //   lowercase: true,
-    // },
+    employeeID: {
+      type: String,
+      // required: true,
+      trim: true,
+      // lowercase: true,
+    },
     phone: {
       type: String,
       required: true,
@@ -79,8 +79,13 @@ const bankUserSchema = new Schema(
       lowercase: true,
     },
     bankAddress: {
-      type: String,
-      //   required: true,
+      type: Object,
+      default: {
+        address: "",
+        city: "",
+        state: "",
+        pincode: "",
+      },
     },
 
     addedProperties: [

@@ -9,10 +9,11 @@ import cloudinary from "cloudinary";
 // bankUser Registration
 export const bankUserRegister = async (req, res) => {
   try {
-    const { firstName, email, phone, password, verificationMethod, bankName } =
+    const { firstName, email, phone, password, verificationMethod, bankName, lastName, address, city, state, pincode, bankbranch, employeeID, designation } =
       req.body; ////////////////////////////////
-
-    if (!firstName || !email || !phone || !password || !verificationMethod) {
+      console.log(bankName, lastName  )
+      if (!firstName || !email || !phone || !password || !verificationMethod || !lastName|| !address|| !city|| !state|| !pincode|| !bankbranch || !employeeID || !designation) {
+      console.log(firstName, email, phone, password, verificationMethod, bankName, lastName, address, city, state, pincode, bankbranch, employeeID, designation)
       return res.json({ success: false, message: "Missing Details" });
     }
 
@@ -36,9 +37,9 @@ export const bankUserRegister = async (req, res) => {
       return phoneRegex.test(phone);
     }
 
-    if (!validatePhoneNumber(phone)) {
-      return res.json({ success: false, message: "Enter valid Phone number" });
-    }
+    // if (!validatePhoneNumber(phone)) {
+    //   return res.json({ success: false, message: "Enter valid Phone number" });
+    // }
 
     const existingUser = await bankUser.findOne({
       $or: [
@@ -78,7 +79,14 @@ export const bankUserRegister = async (req, res) => {
       email,
       phone,
       password,
-      bankName,
+      bankAddress: {
+        type: Object,
+          address,
+          city,
+          state,
+          pincode,
+      },
+      bankName,lastName,  bankbranch, employeeID, designation
     };
 
     const newUser = new bankUser(userData);
@@ -175,7 +183,6 @@ function generateEmailTemplate(verificationCode) {
 export const verifyOTP = async function (req, res) {
   try {
     const { email, phone, otp } = req.body;
-
     if (!validator.isEmail(email)) {
       return res.json({
         success: false,
@@ -188,9 +195,9 @@ export const verifyOTP = async function (req, res) {
       return phoneRegex.test(phone);
     }
 
-    if (!validatePhoneNumber(phone)) {
-      return res.json({ success: false, message: "Enter valid Phone number" });
-    }
+    // if (!validatePhoneNumber(phone)) {
+    //   return res.json({ success: false, message: "Enter valid Phone number" });
+    // }
 
     const userAllEntries = await bankUser
       .find({

@@ -1,3 +1,5 @@
+@import "../../../responsive.scss";
+
 .headerContainer {
   font-family: "Poppins", sans-serif;
   position: relative;
@@ -34,8 +36,16 @@
   margin-left: 10px;
 }
 
-// @media (max-width: 991px) {
-//   .headerContainer {
-//     max-width: 100%;
+// .menuButton  {
+//   display: none;
+//   background: none;
+//   border: none;
+//   font-size: 22px;
+//   cursor: pointer;
+//   color: #333;
+//   margin-right: 10px;
+
+//   @include sm {  // Show only on small screens
+//     display: block;
 //   }
 // }
