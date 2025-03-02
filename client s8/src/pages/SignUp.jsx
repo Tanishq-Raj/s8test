@@ -115,6 +115,7 @@ export default function SignUpPage() {
   const handleOtpSuccess = () => {
     setShowOtpPopup(false);
     navigate("/usersideprime");
+    toast.success("Login Successfully");
   };
 
   const handleFormSubmit = async () => {
@@ -151,7 +152,7 @@ export default function SignUpPage() {
         }
       } else {
         // Determine endpoint and form data for registration
-        formData = userType === "User" ? userFormValues : {...bankOfficerFormValues, firstName: bankOfficerFormValues["first-name"]};
+        formData = userType === "User" ? userFormValues : {...bankOfficerFormValues, firstName: bankOfficerFormValues["first-name"], lastName: bankOfficerFormValues["last-name"], bankName: bankOfficerFormValues.bankname, employeeID: bankOfficerFormValues.employeeid};
         endpoint =
           userType === "User"
             ? `${serverUrl}/api/v1/user/register`

@@ -65,12 +65,12 @@ const [bankOfficerFormValues, setBankOfficerFormValues] = useState({
   email: "",
   password: "",
   phone: "",
-  bankAddress: {
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
-  },
+  
+  address: "",
+  city: "",
+  state: "",
+  pincode: "",
+  
   bankName: "",
   bankbranch: "",
   bankIFSC: "",

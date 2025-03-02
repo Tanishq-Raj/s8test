@@ -10,7 +10,6 @@ import jwt from "jsonwebtoken"
 export const userRegister = async (req, res) => {
   try {
     const { name, email, phone, password, verificationMethod } = req.body; ////////////////////////////////
-    console.log(name, email, phone, password)
     if (!name || !email || !phone || !password || !verificationMethod) {
       return res.json({ success: false, message: "Missing Details" });
     }
