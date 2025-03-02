@@ -134,6 +134,7 @@ export default function NavigationBar() {
               alt="User Profile Icon"
               className={`object-contain shrink-0 ${avatar ? "w-12" :"w-6"} aspect-square max-md:w-5 filter ${avatar ? "" :"invert"}`}
             />
+            
           </div> :
 
           <NavLink to='/sign-up' className="gap-2.5 self-stretch px-6 py-2.5 my-auto font-semibold text-white bg-sky-900 rounded-[55px] max-md:px-5">

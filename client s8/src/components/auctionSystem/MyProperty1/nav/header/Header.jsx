@@ -7,12 +7,12 @@ const Header = () => {
     <>
     <header className="headerContainer">
        <div className="wrapper">
-      <SearchBar />
-      <UserAvatar
+      {/* <SearchBar /> */}
+      {/* <UserAvatar
        imageSrc="/user.png"
        name="Anima Agrawal"
        address="U.P, India"
-       />
+       /> */}
       </div>
     </header>
     </>

@@ -15,9 +15,10 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Contact } from './components/auctionSystem/components/Contact'
 // import Profile from './components/auctionSystem/Profile/ProfilePage'
 import Profile1 from './components/auctionSystem/profile1/Profile'
-import PropertyCard from './components/auctionSystem/MyProperty1/singlePage/single'
+import Single from './components/auctionSystem/MyProperty1/singlePage/single'
 import { AppContext } from './context/context'
 import axios from 'axios'
+import MyAssets from './components/auctionSystem/MyProperty1/AssetCards/MyAssetsCards'
 
 function App() {
   const location = useLocation(); // Get current route path
@@ -61,12 +62,12 @@ function App() {
         <Route path="/properties" element={<Assets />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         {/* <Route path="/property" element={<Property />} /> */}
-        <Route path="/property/:id" element={<PropertyCard />} />
+        <Route path="/property/:id" element={<Single />} />
         <Route path="/usersideprime" element={<UserSideP />} />
         <Route path="/contact" element={<Contact />} />
         {/* <Route path="/profile" element={<Profile />} /> */}
         <Route path="/profile1" element={<Profile1 />} />
-        <Route path="/property-card" element={<PropertyCard />} />
+        <Route path="/property-card" element={<MyAssets />} />
       </Routes>
 
       {/* Hide Footer on /profile1 */}

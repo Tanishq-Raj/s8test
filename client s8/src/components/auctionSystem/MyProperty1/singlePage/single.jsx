@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import GMap from "../map(Google)/Gmap";
 import Header from "../nav/header/Header";
-import Sidebar from "../Sidebar/Sidebar";
 import SingleHeader from "../singlePage Header/singleHeader";
 import Slider from "../slider/Slider";
 import axios from "axios";
@@ -136,9 +135,6 @@ const Single = () => {
 
   return (
     <div className="singlePage">
-      <div className="sideContainerS">
-        <Sidebar />
-      </div>
       <div className="singlePageContainer">
         {/* Main Header */}
         <Header />

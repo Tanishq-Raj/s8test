@@ -8,17 +8,25 @@ import axios from 'axios';
 export const UserAvatar = ({ imageSrc, name, address, size = 'small' }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate(); // Hook for programmatic navigation
-  const {avatar, userDetails} = useContext(AppContext)
-  const {serverUrl} = useContext(AppContext)
+  
+  // Safely extract context values with fallbacks
+  const contextValue = useContext(AppContext) || {};
+  const {
+    avatar = imageSrc || 'default-avatar.png', 
+    userDetails = {}, 
+    serverUrl = '', 
+    isAuthenticated = false 
+  } = contextValue;
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleLogout = async () => {
-    // Perform logout actions here (e.g., clearing tokens, state)
-    // localStorage.removeItem('authToken'); // Example: Clearing token
-    // window.location.href = 'https://s8-client.vercel.app/'; // Redirect to login page
+    if (!serverUrl) {
+      console.error('Server URL is not available');
+      return;
+    }
     try {
       await axios.get(serverUrl + "/api/v1/bank-user/logout", {
         withCredentials: true, 
@@ -28,17 +36,21 @@ export const UserAvatar = ({ imageSrc, name, address, size = 'small' }) => {
     }
   };
 
+  // Fallback values
+  const displayName = userDetails.firstName || name || 'User';
+  const displayAddress = address || userDetails.bankAddress || '';
+
   return (
     <div className="avatarContainer">
       <img
-        src={avatar}
-        alt={`${name}'s profile picture`}
-        className={`${'avatarImage'} ${[size]}`}
+        src={avatar || 'default-avatar.png'}
+        alt={`${displayName}'s profile picture`}
+        className={`${'avatarImage'} ${size}`}
       />
-      {name && address && (
+      {(displayName || displayAddress) && (
         <div className="userInfo">
-          <span className="userName">{userDetails.firstName}</span>
-          <span className="userLocation">{address}</span>
+          <span className="userName">{displayName}</span>
+          {displayAddress && <span className="userLocation">{displayAddress}</span>}
         </div>
       )}
       <button
@@ -53,27 +65,27 @@ export const UserAvatar = ({ imageSrc, name, address, size = 'small' }) => {
         />
       </button>
       {isDropdownOpen && (
-  <div className="dropdownMenu">
-    <ul>
-      <li>
-        <Link to="/profile" className="dropdownItem">
-          <img src="user1.png" alt="Profile Icon" className="dropdownIcon" />
-          <span>Profile</span>
-        </Link>
-      </li>
-      <li onClick={handleLogout} className="dropdownItem">
-        <img src="power.png" alt="Logout Icon" className="dropdownIcon" />
-        <span>Logout</span>
-      </li>
-    </ul>
-  </div>
-)}
+        <div className="dropdownMenu">
+          <ul>
+            <li>
+              <Link to="/profile" className="dropdownItem">
+                <img src="user1.png" alt="Profile Icon" className="dropdownIcon" />
+                <span>Profile</span>
+              </Link>
+            </li>
+            <li onClick={handleLogout} className="dropdownItem">
+              <img src="power.png" alt="Logout Icon" className="dropdownIcon" />
+              <span>Logout</span>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
 
 UserAvatar.propTypes = {
-  imageSrc: PropTypes.string.isRequired,
+  imageSrc: PropTypes.string,
   name: PropTypes.string,
   address: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
@@ -81,4 +93,5 @@ UserAvatar.propTypes = {
 
 UserAvatar.defaultProps = {
   size: 'small',
+  imageSrc: 'default-avatar.png'
 };

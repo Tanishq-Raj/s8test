@@ -43,7 +43,7 @@ function PropertyCard({category}) {
     window.scrollTo(0, 0);
     if(isAuthenticated){
 
-      navigate(`/single-property/${propertyId}`);
+      navigate(`/property/${propertyId}`);
     }else{
       navigate("/sign-up")
       toast.error("Login First")

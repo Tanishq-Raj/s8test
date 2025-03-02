@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import Link for navigation
 // import properties from "../../dummyData"; // Import your dummy data
 import './myAssetsCards.scss';
-import { AppContext } from '../../context/context';
+import { AppContext } from '../context/context';
 import axios from 'axios';
 
 const MyAssetsCards = () => {

@@ -5,7 +5,7 @@ function PropertyCard({ image, title, location, bidPrice, bank }) {
   const navigate = useNavigate();
 
   const handleSeeDetails = () => {
-    navigate('/property');
+    navigate('/property/${id}');
   };
 
   return (
