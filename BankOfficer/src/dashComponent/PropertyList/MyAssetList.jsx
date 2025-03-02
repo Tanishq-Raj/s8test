@@ -9,9 +9,9 @@ const MyAssetList = () => {
   
   const {serverUrl, properties, getProperties, searchString} = useContext(AppContext)
   const [prop, setProp] = useState([])
-  useEffect(() => {
-    getProperties()
-  }, [getProperties])
+  // useEffect(() => {
+  //   getProperties()
+  // }, [getProperties])
   
   useEffect(() => {
     // If the search string (after trimming) has more than 2 characters, execute getProp.
@@ -25,6 +25,7 @@ const MyAssetList = () => {
   
   const getProp = async () => {
     try {
+      console.log("hehu")
       const response = await axios.post(
         `${serverUrl}/api/v1/bank-user/searchProperties`,
         { searchString },

@@ -21,9 +21,10 @@ function AuctionLayout() {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleCategoryClick = (category) => {
+    console.log(category)
     setSelectedCategory(category);
   };
-
+  console.log(selectedCategory)
   const displayedProperties = selectedCategory
     ? allProperties.filter((property) => property.category === selectedCategory)
     : allProperties;
@@ -44,14 +45,14 @@ function AuctionLayout() {
           {selectedCategory ? `${selectedCategory} Properties` : 'Recently Added'}
         </div>
         <div className="flex flex-wrap gap-4 justify-center items-center w-full pl-24">
-          {displayedProperties.length > 0 ? 
-          <PropertyCard/>
-          // (
+          {/* {displayedProperties.length > 0 ?  */}
+          <PropertyCard category={selectedCategory}/>
+          {/* // (
           //   displayedProperties.map((property, index) => <PropertyCard key={index} {...property} />)
-          // )
-           : (
+          // ) */}
+           {/* : (
             <p>No properties available in this category.</p>
-          )}
+          )} */}
         </div>
       </div>
     </div>

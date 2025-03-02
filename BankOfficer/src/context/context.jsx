@@ -151,7 +151,7 @@ const AppContextProvider = (props) => {
 
   useEffect(() => {
     getProperties();
-  }, [searchString, isAuthenticated]);
+  }, [isAuthenticated]);
 
   // Function to get properties
   const getProperties = async () => {

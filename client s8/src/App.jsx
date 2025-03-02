@@ -45,6 +45,7 @@ function App() {
     checkAuth();
   }, []);
 
+
   // Prevent rendering until authentication status is determined
   if (isAuthenticated === null) {
     return <div className="flex items-center justify-center h-screen">Loading...</div>;
@@ -61,7 +62,7 @@ function App() {
         <Route path="/sign-up" element={<SignUpPage />} />
         {/* <Route path="/property" element={<Property />} /> */}
         <Route path="/property/:id" element={<PropertyCard />} />
-        {/* <Route path="/usersideprime" element={<UserSideP />} /> */}
+        <Route path="/usersideprime" element={<UserSideP />} />
         <Route path="/contact" element={<Contact />} />
         {/* <Route path="/profile" element={<Profile />} /> */}
         <Route path="/profile1" element={<Profile1 />} />

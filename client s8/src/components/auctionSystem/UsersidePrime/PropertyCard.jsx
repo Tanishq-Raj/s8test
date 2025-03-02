@@ -2,23 +2,67 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/context";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-function PropertyCard() {
+function PropertyCard({category}) {
   const navigate = useNavigate();
-  const { serverUrl, properties, setProperties } = useContext(AppContext);
+  const { serverUrl, properties, setProperties, isAuthenticated, getProperties, searchString } = useContext(AppContext);
   const [showAllProperties, setShowAllProperties] = useState(false);
+
+  const [prop, setProp] = useState([])
+  // useEffect(() => {
+  //   getProperties()
+  // }, [getProperties])
+  
+  useEffect(() => {
+    // If the search string (after trimming) has more than 2 characters, execute getProp.
+    if (searchString?.trim().length > 2) {
+      getProp();
+    } else {
+      // Otherwise, use the default 'properties' from context.
+      setProp(properties);
+    }
+  }, [searchString, properties]);
+  
+  const getProp = async () => {
+    try {
+      const response = await axios.post(
+        `${serverUrl}/api/v1/user/searchProperties`,
+        { searchString },
+        { withCredentials: true }
+      );
+      // Update state with the search results.
+      setProp(response.data.data);
+    } catch (error) {
+      console.error("Error searching properties:", error);
+      // Optionally, handle the error (e.g., show an error message)
+    }
+  };
 
   const handleSeeDetails = (propertyId) => {
     window.scrollTo(0, 0);
-    navigate(`/single-property/${propertyId}`);
+    if(isAuthenticated){
+
+      navigate(`/single-property/${propertyId}`);
+    }else{
+      navigate("/sign-up")
+      toast.error("Login First")
+    }
   };
 
   const handleViewAll = () => {
     setShowAllProperties(true);
   };
-
+  // console.log(category)
   // Determine which properties to display
-  const displayProperties = showAllProperties ? properties : properties.slice(0, 4);
+  let displayProperties;
+  if(!category){
+    displayProperties = showAllProperties ? prop : prop.slice(0, 4);
+  }else{
+    const newProp = prop.filter(item => item?.category?.toLowerCase() === category?.toLowerCase())
+    displayProperties = showAllProperties ? newProp : newProp.slice(0, 4);
+  }
+  console.log(displayProperties)
 
   return (
     <div>
@@ -40,7 +84,7 @@ function PropertyCard() {
             
             <div className="flex flex-col p-6 w-full rounded-b-xl h-full relative">
               <div>
-                <div className="text-xl font-semibold text-slate-500 text-left">{property.title}</div>
+                <div className="text-xl font-semibold text-slate-500 text-left">{property.category}</div>
                 
                 <div className="text-sm text-slate-400 mt-2 text-left">{property.location}</div>
       
@@ -62,7 +106,7 @@ function PropertyCard() {
           </div>
         ))}
       </div>
-      {!showAllProperties && properties.length > 4 && (
+      {!showAllProperties && prop.length > 4 && (
         <div className="flex justify-end mt-8 mr-8">
           <button 
             onClick={handleViewAll}

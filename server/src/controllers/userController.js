@@ -449,7 +449,6 @@ export const updateProfile = async (req, res) => {
   try {
     const userId = req.userId;
     const { name, email, phone, address, city, state, pincode } = req.body;
-    console.log(name, email, phone, address, city, state, pincode);
     const user = await User.findById(userId);
 
     if (!user) {
@@ -517,7 +516,6 @@ export const updateProfileImage = async (req, res) => {
     if (user.profileImage && user.profileImage.public_id) {
       
         await cloudinary.v2.uploader.destroy(user.profileImage.public_id);
-        console.log("Previous image deleted successfully");
       }
     user.profileImage = imageData
     user.save()
@@ -543,3 +541,38 @@ export const checkAuth = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 }
+
+// guest property show
+export const getGuestProperties = async (req, res) => {
+  try {
+    const pro = await propertyModel.find({});
+    const properties = pro.slice(0, 4)
+    res.json({ success: true, properties });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, messae: error.message });
+  }
+};
+
+export const searchProperty = async (req, res) => {
+  try {
+    const { searchString } = req.body;
+
+    if (!searchString || searchString.length < 3) {
+      return res.json({ success: false, message: "Search string must be at least 3 characters." });
+    }
+
+    propertyModel.find({
+      $text: { $search: searchString }
+    })
+    .then(results => {
+      return res.json({ success: true, data: results });
+    })
+    .catch(err => {
+      return res.json({ success: false, message: "No properties found matching your search." });
+    });
+    
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};

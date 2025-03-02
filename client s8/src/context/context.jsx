@@ -7,6 +7,8 @@ const AppContextProvider = (props) => {
   // const serverUrl = 'http://localhost:4000';
   const serverUrl = import.meta.env.VITE_SERVER_URL;
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [searchString, setSearchString] = useState('');
+
   const [userDetails, setUserDetails] = useState({
     fullName: "",
     email: "",
@@ -74,9 +76,28 @@ const AppContextProvider = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //   getProperties();
-  // }, []);
+  const getGuestProperties = async () => {
+    try {
+      const { data } = await axios.get( serverUrl + "/api/v1/user/get-guest-properties");
+      console.log("this is the ",data)
+      if (data.success) {
+        setProperties(data.properties);
+      }else{
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching properties:", error);
+    }
+  };
+
+  useEffect(() => {
+    if(isAuthenticated){
+
+      getProperties();
+    }else{
+      getGuestProperties()
+    }
+  }, [isAuthenticated]);
 
   const [userFormValues, setUserFormValues] = useState({
     name: "",
@@ -117,7 +138,7 @@ const [bankOfficerFormValues, setBankOfficerFormValues] = useState({
       getProperties,
       bankOfficerFormValues,
       setBankOfficerFormValues,
-      userFormValues,
+      userFormValues,searchString, setSearchString,
       setUserFormValues,userInfo, setUserInfo,avatar, setAvatar, isAuthenticated, setIsAuthenticated
     }}>
       {props.children}
