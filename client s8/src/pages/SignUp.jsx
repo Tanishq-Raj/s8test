@@ -114,7 +114,7 @@ export default function SignUpPage() {
   // Called when OTP is verified successfully
   const handleOtpSuccess = () => {
     setShowOtpPopup(false);
-    navigate("/usersideprime");
+    navigate("/");
     toast.success("Login Successfully");
   };
 
@@ -146,7 +146,7 @@ export default function SignUpPage() {
         console.log(response)
         if (response.data.success) {
           toast.success("Login Successfully");
-          navigate("/usersideprime");
+          navigate("/");
         } else {
           toast.error(response.data.message);
         }

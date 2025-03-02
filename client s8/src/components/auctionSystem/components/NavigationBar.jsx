@@ -1,7 +1,8 @@
 import * as React from "react";
-import { NavLink, useParams, useLocation } from "react-router-dom";
+import { NavLink, useParams, useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import userIcon from "../../../assets/person_13924070.png";
+import { AppContext } from "../../../context/context";
 
 const styles = {
   logoContainer: {
@@ -31,9 +32,11 @@ const styles = {
 };
 
 export default function NavigationBar() {
+  const {avatar} = React.useContext(AppContext)
   const { section } = useParams();
   const location = useLocation(); // Hook to track the current route
   const [activeIndex, setActiveIndex] = React.useState(null);
+  const navigate = useNavigate()
 
   const navItems = [
     { label: "Home", isBold: true, to: "/" },
@@ -95,17 +98,26 @@ export default function NavigationBar() {
               {item.label}
             </NavLink>
           ))}
+          {
+            avatar ?
+            <img 
+              loading="lazy"
+              src={avatar? avatar : userIcon}
+              alt="User Profile Icon"
+              className="object-contain shrink-0 w-12 aspect-square max-md:w-5 filter"
+            />:
+          
           <div 
             className="flex items-center justify-center w-12 h-12 rounded-full bg-[#004663] cursor-pointer"
-            onClick={() => window.location.href = '/profile1'}
+            onClick={() => navigate('profile1')}
           >
             <img
               loading="lazy"
-              src={userIcon}
+              src={avatar? avatar : userIcon}
               alt="User Profile Icon"
               className="object-contain shrink-0 w-6 aspect-square max-md:w-5 filter invert"
             />
-          </div>
+          </div>}
 
           <NavLink to='/sign-up' className="gap-2.5 self-stretch px-6 py-2.5 my-auto font-semibold text-white bg-sky-900 rounded-[55px] max-md:px-5">
             Sign in

@@ -8,64 +8,28 @@ import { AppContext } from "../../../context/context";
 const Profile = () => {
   // Default avatar image state
   const [image, setImage] = useState("/user.png");
+  const {serverUrl, userInfo, setUserInfo, avatar, setAvatar} = useContext(AppContext)
+  const [editAvatar, setEditAvatar] = useState(false)
 
-  useEffect(() => {
-    const getProfile = async () => {
-      try {
-        const response = await axios.get(serverUrl + "/api/v1/user/get-profile");
-        console.log(response.data);
-        if (response.data.success) {
-          const profileData = response.data.data;
-          setUserDetails({
-            name: profileData.name || "",
-            email: profileData.email || "",
-            mobile: profileData.mobile || "",
-            flatNo: profileData.flatNo || "",
-            city: profileData.city || "",
-            state: profileData.state || "",
-            pincode: profileData.pincode || ""
-          });
-          // Optionally update the avatar if the profile has one
-          if (profileData.image) {
-            setImage(profileData.image);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-
-    getProfile();
-  }, []);
 
   // Handle avatar image change
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
+      setImage(file); // Set the image file
+        setAvatar(imageUrl)
+        setEditAvatar(true)
     }
   };
 
   // Popup state for save confirmation
   const [showPopup, setShowPopup] = useState(false);
-  const {serverUrl} = useContext(AppContext)
-
-  // User details state (removed lastName and renamed firstName to name)
-  const [userDetails, setUserDetails] = useState({
-    name: "",
-    email: "",
-    mobile: "",
-    flatNo: "",
-    city: "",
-    state: "",
-    pincode: ""
-  });
 
   // Handle input changes for any field in userDetails
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setUserDetails((prevDetails) => ({
+    setUserInfo((prevDetails) => ({
       ...prevDetails,
       [name]: value,
     }));
@@ -75,8 +39,8 @@ const Profile = () => {
   const handleSave = async () => {
     try {
       // Send a POST request to the backend
-      console.log(userDetails)
-      const response = await axios.post(serverUrl + "/api/v1/user/update-profile", userDetails);
+      console.log(userInfo)
+      const response = await axios.post(serverUrl + "/api/v1/user/update-profile", userInfo, {withCredentials: true});
       console.log(response.data);
       setShowPopup(true);
       
@@ -89,20 +53,48 @@ const Profile = () => {
     }
   };
 
+  const updateProfileImage = async () => {
+
+    try {
+      if (!editAvatar) {
+        document.getElementById("avatarUpload").click()
+        
+      } else {
+        
+      
+      const formData = new FormData();
+      
+      formData.append("image", image); // Append the image file
+      
+
+      const { data } = await axios.post(serverUrl + "/api/v1/user/update-profile-image", formData, 
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
+      console.log(data)
+      setEditAvatar(null)
+    }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="profile">
       {/* <div className="sideContainer2">
         <Sidebar />
       </div> */}
       <div className="mainContent">
-        <Header />
+        {/* <Header /> */}
         <div className="mainWrapper">
           <div className="profile-container">
             {/* Avatar Section */}
             <div className="avatar-section">
-              <img src={image} alt="User Avatar" className="avatar" />
-              <h3>@{userDetails.name || "User"}</h3>
-              <p>{userDetails.email || "user@email.com"}</p>
+              <img src={avatar ? avatar : "/user.png"} alt="User Avatar" className="avatar" />
+              <h3>@{userInfo.name || "User"}</h3>
+              <p>{userInfo.email || "user@email.com"}</p>
               <input
                 type="file"
                 id="avatarUpload"
@@ -110,12 +102,9 @@ const Profile = () => {
                 style={{ display: "none" }}
                 onChange={handleImageChange}
               />
-              <button
-                onClick={() => document.getElementById("avatarUpload").click()}
-                className="upload-btn"
-              >
-                Upload new avatar
-              </button>
+              <button onClick={updateProfileImage} className="upload-btn">
+          {editAvatar ? "Update": "Upload Bank Logo"}
+        </button>
             </div>
 
             {/* Information Section (Auto Updates) */}
@@ -123,20 +112,20 @@ const Profile = () => {
               <div className="info">
                 <h4>Information</h4>
                 <p>
-                  <strong>Name:</strong> {userDetails.name || "Name"}
+                  <strong>Name:</strong> {userInfo.name || "Name"}
                 </p>
                 <p>
                   <strong>Email:</strong>{" "}
-                  {userDetails.email || "user@email.com"}
+                  {userInfo.email || "user@email.com"}
                 </p>
                 <p>
                   <strong>Tel:</strong>{" "}
-                  {userDetails.mobile ? `+91 ${userDetails.mobile}` : "+91 966 696 123"}
+                  {userInfo.phone ? `+91 ${userInfo.phone}` : "+91 966 696 123"}
                 </p>
                 <p>
                   <strong>Address:</strong>{" "}
-                  {userDetails.flatNo || ""} {userDetails.city || ""}{" "}
-                  {userDetails.state || ""} {userDetails.pincode || ""}
+                  {userInfo.address || ""} {userInfo.city || ""}{" "}
+                  {userInfo.state || ""} {userInfo.pincode || ""}
                 </p>
               </div>
             </div>
@@ -155,7 +144,7 @@ const Profile = () => {
                   <input
                     type="text"
                     name="name"
-                    value={userDetails.name}
+                    value={userInfo.name}
                     placeholder="Enter your full name..."
                     onChange={handleInputChange}
                   />
@@ -167,7 +156,7 @@ const Profile = () => {
                   <input
                     type="email"
                     name="email"
-                    value={userDetails.email}
+                    value={userInfo.email}
                     placeholder="Enter your email..."
                     onChange={handleInputChange}
                   />
@@ -178,8 +167,8 @@ const Profile = () => {
                     <span className="country-code">+91</span>
                     <input
                       type="text"
-                      name="mobile"
-                      value={userDetails.mobile}
+                      name="phone"
+                      value={userInfo.phone}
                       placeholder="Enter your number..."
                       onChange={handleInputChange}
                     />
@@ -198,8 +187,8 @@ const Profile = () => {
                   <label>Flat No:</label>
                   <input
                     type="text"
-                    name="flatNo"
-                    value={userDetails.flatNo}
+                    name="address"
+                    value={userInfo.address}
                     placeholder="Enter your Flat number..."
                     onChange={handleInputChange}
                   />
@@ -209,7 +198,7 @@ const Profile = () => {
                   <input
                     type="text"
                     name="city"
-                    value={userDetails.city}
+                    value={userInfo.city}
                     placeholder="Enter city..."
                     onChange={handleInputChange}
                   />
@@ -221,7 +210,7 @@ const Profile = () => {
                   <input
                     type="text"
                     name="state"
-                    value={userDetails.state}
+                    value={userInfo.state}
                     placeholder="Enter state..."
                     onChange={handleInputChange}
                   />
@@ -231,7 +220,7 @@ const Profile = () => {
                   <input
                     type="number"
                     name="pincode"
-                    value={userDetails.pincode}
+                    value={userInfo.pincode}
                     placeholder="Enter pincode..."
                     onChange={handleInputChange}
                   />

@@ -14,6 +14,7 @@ import {
   updateProfile,
   getProfile,
   updateProfileImage,
+  checkAuth
 } from "../controllers/userController.js";
 import userAuth from "../middlewares/authUser.js";
 import upload from "../middlewares/multer.js";  
@@ -31,10 +32,6 @@ userRouter.get("/auth/google/callback", googleAuthCallback);
 userRouter.get("/profile", userAuth, (req, res) => {
     res.json({success: true, message: "Yeeee"})
   })
-userRouter.get("/auth-check", userAuth, (req, res) => {
-  res.json({success: true, message: "Logged in Successfully"})
-  
-})
 
 userRouter.get("/get-properties", userAuth, getProperties);
 userRouter.get("/add-to-saved-properties", userAuth, addToSavedProperties);
@@ -44,6 +41,8 @@ userRouter.post("/get-property-by-id", userAuth, getPropertyById)
 userRouter.post("/update-profile",userAuth, updateProfile)
 userRouter.get("/get-profile", userAuth, getProfile)
 userRouter.post("/update-profile-image",userAuth, upload.single('image'), updateProfileImage)
+userRouter.get("/check-auth",userAuth, checkAuth)
+
 
 
 

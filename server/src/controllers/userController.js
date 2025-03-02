@@ -5,6 +5,8 @@ import { sendToken } from "../utils/sendToken.js";
 import passport from "passport";
 import propertyModel from "../models/PropertiesModel.js";
 import jwt from "jsonwebtoken"
+import cloudinary from "cloudinary";
+
 
 // User Registration
 export const userRegister = async (req, res) => {
@@ -348,7 +350,7 @@ export const googleAuthCallback = (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    return res.redirect( process.env.CLIENT_LOCALHOST + "/usersideprime");
+    return res.redirect( process.env.CLIENT_LOCALHOST + "/");
   })(req, res);
 };
 
@@ -446,24 +448,24 @@ export const getProfile = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const userId = req.userId;
-    const { name, email, mobile, flatNo, city, state, pincode } = req.body;
-    console.log(req.body);
+    const { name, email, phone, address, city, state, pincode } = req.body;
+    console.log(name, email, phone, address, city, state, pincode);
     const user = await User.findById(userId);
 
     if (!user) {
       return res.json({ success: false, message: "User not found" });
     }
 
-    if (!name || !email || !mobile || !flatNo || !city || !state || !pincode) {
+    if (!name || !email || !phone || !address || !city || !state || !pincode) {
       return res.json({ success: false, message: "Provide all the fields" });
     }
 
     const userData = {
       name,
       email,
-      mobile,
+      phone,
       address:{
-        address: flatNo,
+        address,
         city,
         state,
         pincode,
@@ -521,6 +523,21 @@ export const updateProfileImage = async (req, res) => {
     user.save()
 
     res.json({success: true, message: "Avatar Updated"})
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
+
+// Check Auth
+export const checkAuth = async (req, res) => {
+  try {
+    const userId = req.userId
+    const user = await User.findById(userId)
+    if (!user){
+      return res.json({success: false, message: "Login first"})
+    }
+    return res.json({success: true})
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });

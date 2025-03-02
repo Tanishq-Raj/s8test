@@ -1,22 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
-export const AppContext = createContext({
-  serverUrl: 'http://localhost:4000',
-  userDetails: {},
-  setUserDetails: () => {},
-  properties: [],
-  setProperties: () => {},
-  getProperties: () => {},
-  bankOfficerFormValues: {},
-  setBankOfficerFormValues: () => {},
-  userFormValues: {},
-  setUserFormValues: () => {}
-});
+export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
-  const serverUrl = 'http://localhost:4000';
-  // const serverUrl = import.meta.env.VITE_SERVER_URL;
+  // const serverUrl = 'http://localhost:4000';
+  const serverUrl = import.meta.env.VITE_SERVER_URL;
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userDetails, setUserDetails] = useState({
     fullName: "",
     email: "",
@@ -27,6 +17,43 @@ const AppContextProvider = (props) => {
     empId: "",
     designation: "",
   });
+
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    address: ""
+  });
+
+  const getProfile = async () => {
+    try {
+      const response = await axios.get(serverUrl + "/api/v1/user/get-profile", {withCredentials: true});
+      console.log(response.data);
+      if (response.data.success) {
+        const profileData = response.data.user;
+        setUserInfo({
+          name: profileData.name || "",
+          email: profileData.email || "",
+          phone: profileData.phone || "",
+          address: profileData.address.address || "",
+          city: profileData.address.city || "",
+          state: profileData.address.state || "",
+          pincode: profileData.address.pincode || ""
+        });
+        setAvatar(profileData.profileImage?.url)
+        // Optionally update the avatar if the profile has one
+        // if (profileData.image) {
+        //   setImage(profileData.image);
+        // }
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+    }
+  };
+  useEffect(() => {
+
+    getProfile();
+  }, []);
 
   const [avatar, setAvatar] = useState(false)
 
@@ -47,9 +74,9 @@ const AppContextProvider = (props) => {
     }
   };
 
-  useEffect(() => {
-    getProperties();
-  }, []);
+  // useEffect(() => {
+  //   getProperties();
+  // }, []);
 
   const [userFormValues, setUserFormValues] = useState({
     name: "",
@@ -91,7 +118,7 @@ const [bankOfficerFormValues, setBankOfficerFormValues] = useState({
       bankOfficerFormValues,
       setBankOfficerFormValues,
       userFormValues,
-      setUserFormValues
+      setUserFormValues,userInfo, setUserInfo,avatar, setAvatar, isAuthenticated, setIsAuthenticated
     }}>
       {props.children}
     </AppContext.Provider>

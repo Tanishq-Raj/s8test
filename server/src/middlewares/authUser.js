@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 // User authentication middleware
 const userAuth = (req, res, next) => {
   try {
-    const token = req.cookies.s8Token;
+    const token = req.cookies.s8userToken;
     if (!token) {
       return res.json({ success: false, message: "Not authorized, Login Again" });
     }
@@ -13,7 +13,7 @@ const userAuth = (req, res, next) => {
        return res.json({ success: false, message: "Not authorized, Login again" });
     }
 
-    req.body.userId = token_decode.id;
+    req.userId = token_decode.id;
     next();
   } catch (error) {
     console.log(error);

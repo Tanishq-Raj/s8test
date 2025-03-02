@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './App.css'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import AuctionLanding from './components/auctionSystem/AuctionLanding'
@@ -16,23 +16,52 @@ import { Contact } from './components/auctionSystem/components/Contact'
 // import Profile from './components/auctionSystem/Profile/ProfilePage'
 import Profile1 from './components/auctionSystem/profile1/Profile'
 import PropertyCard from './components/auctionSystem/MyProperty1/singlePage/single'
+import { AppContext } from './context/context'
+import axios from 'axios'
 
 function App() {
   const location = useLocation(); // Get current route path
   const hideFooterRoutes = ["/profile1"]; // Routes where the footer should be hidden
+
+  const {serverUrl, isAuthenticated, setIsAuthenticated} = useContext(AppContext)
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get(serverUrl + "/api/v1/user/check-auth", {
+          withCredentials: true, 
+        });
+        console.log(response)
+        if (response.data.success) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+        console.log(isAuthenticated)
+      } catch (error) {
+        console.error("Authentication check failed:", error);
+        setIsAuthenticated(false);
+      }
+    };
+    checkAuth();
+  }, []);
+
+  // Prevent rendering until authentication status is determined
+  if (isAuthenticated === null) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
 
   return (
     <>
       <ToastContainer position="top-right" autoClose={3000} />
       <NavigationBar />
       <Routes>
-        <Route path="/" element={<AuctionLanding />} />
+        <Route path="/" element={isAuthenticated ? <UserSideP /> :<AuctionLanding />} />
         <Route path="/about" element={<About />} />
         <Route path="/properties" element={<Assets />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         {/* <Route path="/property" element={<Property />} /> */}
         <Route path="/property/:id" element={<PropertyCard />} />
-        <Route path="/usersideprime" element={<UserSideP />} />
+        {/* <Route path="/usersideprime" element={<UserSideP />} /> */}
         <Route path="/contact" element={<Contact />} />
         {/* <Route path="/profile" element={<Profile />} /> */}
         <Route path="/profile1" element={<Profile1 />} />
