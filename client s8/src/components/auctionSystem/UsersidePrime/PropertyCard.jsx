@@ -10,7 +10,7 @@ function PropertyCard() {
 
   const handleSeeDetails = (propertyId) => {
     window.scrollTo(0, 0);
-    navigate("/property");
+    navigate(`/single-property/${propertyId}`);
   };
 
   const handleViewAll = () => {
