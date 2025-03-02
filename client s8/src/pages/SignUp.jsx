@@ -146,7 +146,7 @@ export default function SignUpPage() {
         console.log(response)
         if (response.data.success) {
           toast.success("Login Successfully");
-          navigate("/");
+          navigate("/usersideprime");
         } else {
           toast.error(response.data.message);
         }

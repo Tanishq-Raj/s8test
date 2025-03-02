@@ -84,7 +84,7 @@ function PropertyCard({category}) {
             
             <div className="flex flex-col p-6 w-full rounded-b-xl h-full relative">
               <div>
-                <div className="text-xl font-semibold text-slate-500 text-left">{property.category}</div>
+                <div className="text-xl font-semibold text-slate-500 text-left">{property.title}</div>
                 
                 <div className="text-sm text-slate-400 mt-2 text-left">{property.location}</div>
       
