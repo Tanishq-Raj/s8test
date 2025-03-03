@@ -1,4 +1,4 @@
-import "./profile.scss";
+import "./Profile.scss";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { useContext, useEffect, useState } from "react";
