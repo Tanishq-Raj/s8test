@@ -248,10 +248,12 @@ export const verifyOTP = async function (req, res) {
     
     // Set the token in an HTTP-only cookie
     res.cookie("s8userToken", token, {
-      // httpOnly: true,
-      // secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-      // sameSite: "Strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      expires: new Date(
+        Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+      ), 
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: process.env.NODE_ENV === 'production'
     }).json({
       success: true,
       message: "Account Verified",
@@ -297,10 +299,12 @@ export const login = async function (req, res) {
 
     // Set the token in an HTTP-only cookie
     res.cookie("s8userToken", token, {
-      // httpOnly: true,
-      // secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-      // sameSite: "Strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      expires: new Date(
+        Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+      ), 
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: process.env.NODE_ENV === 'production'
     }).json({
       success: true,
       message: "Account Verified",
@@ -318,7 +322,7 @@ export const login = async function (req, res) {
 // User Logout
 export const logout = (req, res) => {
   res
-    .cookie("s8Token", "", { expires: new Date(0), httpOnly: true })
+    .cookie("s8userToken", "", { expires: new Date(0), httpOnly: true })
     .json({
       success: true,
       message: "Logged out successfully.",
@@ -344,10 +348,12 @@ export const googleAuthCallback = (req, res) => {
     
     // Set the token in an HTTP-only cookie
     res.cookie("s8userToken", token, {
-      // httpOnly: true,
-      // secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-      // sameSite: "Strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      expires: new Date(
+        Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+      ), 
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: process.env.NODE_ENV === 'production'
     });
 
     return res.redirect( process.env.CLIENT_LOCALHOST + "/usersideprime");
