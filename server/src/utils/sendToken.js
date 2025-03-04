@@ -13,5 +13,6 @@
         success: true,
         token,
         message,
+        user,
       });
   };
