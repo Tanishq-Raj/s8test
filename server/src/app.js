@@ -9,13 +9,14 @@ import connectCloudinary from "./config/cloudinary.js";
 
 const app = express();
 
+// app.set('trust proxy', 1);
 // middlewares
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(cors());
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174", "https://s8test-bank-frontend.onrender.com", "https://s8test-client-frontend.onrender.com"],
+  origin: ["http://localhost:5173", "http://localhost:5174", "https://s8test-bank-frontend.onrender.com", "https://s8test-client.onrender.com"],
   credentials: true,
 }));
 
