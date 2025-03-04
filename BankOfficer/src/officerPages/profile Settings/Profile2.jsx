@@ -43,7 +43,7 @@ const Profile2 = () => {
         formData.append("bankIFSC", userUpdateDetails.bankIFSC);
         formData.append("branchZone", userUpdateDetails.branchZone);
         formData.append("designation", userUpdateDetails.designation);
-        formData.append("bankAddress", userUpdateDetails.bankAddress);
+        formData.append("bankAddress", JSON.stringify(userUpdateDetails.bankAddress));
         // if (image) {
         //   formData.append("files", image); // Append the image file
         // }
@@ -191,7 +191,7 @@ const Profile2 = () => {
           <p><strong>IFSC:</strong> {userDetails.bankIFSC }</p>
           <p><strong>Branch Name:</strong> {userDetails.bankBranch }</p>
           <p><strong>Branch Zone:</strong> {userDetails.branchZone}</p>
-          <p><strong>Branch Address:</strong> {userDetails.bankAddress }</p>
+          <p><strong>Branch Address:</strong> {userDetails.bankAddress.address } {userDetails.bankAddress.city } {userDetails.bankAddress.state }-{userDetails.bankAddress.pincode }</p>
         </div>
        </div>
       </div>

@@ -9,24 +9,30 @@ export const UserAvatar = ({ imageSrc, name, address, size = 'small' }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate(); // Hook for programmatic navigation
   const {avatar, userDetails} = useContext(AppContext)
-  const {serverUrl} = useContext(AppContext)
+  const {serverUrl, setIsAuthenticated} = useContext(AppContext)
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleLogout = async () => {
-    // Perform logout actions here (e.g., clearing tokens, state)
-    // localStorage.removeItem('authToken'); // Example: Clearing token
-    // window.location.href = 'https://s8-client.vercel.app/'; // Redirect to login page
     try {
-      await axios.get(serverUrl + "/api/v1/bank-user/logout", {
-        withCredentials: true, 
-      })
+      const {data} = await axios.get(serverUrl + "/api/v1/bank-user/logout", {withCredentials: true});
+      console.log(data)
+      
+      // Clear local authentication state
+      setIsAuthenticated(false);
+      // setUserInfo({});
+      // setAvatar(null);
     } catch (error) {
-      console.log(error)
+      console.error("Error logging out:", error);
+    } finally {
+      // Always redirect to the specified URL
+      navigate('/')
+
     }
-  };
+  }
+
 
   return (
     <div className="avatarContainer">

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/context";
 import axios from "axios";
 import { toast } from "react-toastify";
+import LoadingWrapper from "../components/Loading";
 
 function PropertyCard({category}) {
   const navigate = useNavigate();
@@ -39,6 +40,33 @@ function PropertyCard({category}) {
     }
   };
 
+  // const [isLoading, setIsLoading] = React.useState(false);
+
+  // useEffect(() => {
+  //   if (searchString?.trim().length > 2) {
+  //     getProp();
+  //   } else {
+  //     setProp(properties);
+  //   }
+  // }, [searchString, properties]);
+
+  // const getProp = async () => {
+  //   try {
+  //     setIsLoading(true); // Start loading
+  //     const response = await axios.post(
+  //       `${serverUrl}/api/v1/user/searchProperties`,
+  //       { searchString },
+  //       { withCredentials: true }
+  //     );
+  //     setProp(response.data.data);
+  //   } catch (error) {
+  //     console.error("Error searching properties:", error);
+  //     toast.error("Error searching properties");
+  //   } finally {
+  //     setIsLoading(false); // Stop loading regardless of success/error
+  //   }
+  // };
+
   const handleSeeDetails = (propertyId) => {
     window.scrollTo(0, 0);
     if(isAuthenticated){
@@ -65,6 +93,10 @@ function PropertyCard({category}) {
   console.log(displayProperties)
 
   return (
+    // <LoadingWrapper 
+    //   isLoading={isLoading}
+    //   className="min-h-[500px]" // Add minimum height to prevent layout shift
+    // >
     <div>
       {/* Property Cards */}
       <div className="flex flex-wrap gap-5 justify-center">
@@ -122,6 +154,7 @@ function PropertyCard({category}) {
         </div>
       )}
     </div>
+    // </LoadingWrapper>
   );
 }
 
