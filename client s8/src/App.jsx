@@ -19,6 +19,7 @@ import Single from './components/auctionSystem/MyProperty1/singlePage/single'
 import { AppContext } from './context/context'
 import axios from 'axios'
 import MyAssets from './components/auctionSystem/MyProperty1/AssetCards/MyAssetsCards'
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   const location = useLocation(); // Get current route path
@@ -62,12 +63,12 @@ function App() {
         <Route path="/properties" element={<Assets />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         {/* <Route path="/property" element={<Property />} /> */}
-        <Route path="/property/:id" element={<Single />} />
-        <Route path="/usersideprime" element={<UserSideP />} />
-        <Route path="/contact" element={<Contact />} />
+        {/* <Route path="/usersideprime" element={<UserSideP />} /> */}
+        <Route path="/contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
         {/* <Route path="/profile" element={<Profile />} /> */}
-        <Route path="/profile1" element={<Profile1 />} />
-        <Route path="/property-card" element={<MyAssets />} />
+        <Route path="/property/:id" element={<PrivateRoute><Single /></PrivateRoute>} />
+        <Route path="/profile1" element={<PrivateRoute><Profile1 /></PrivateRoute>} />
+        
       </Routes>
 
       {/* Hide Footer on /profile1 */}

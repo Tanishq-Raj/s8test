@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FormInput } from "../components/auctionSystem/SignInUser/FormInput";
 import { SocialSignInButton } from "../components/auctionSystem/SignInUser/SocialSignInButton";
 import { useNavigate } from "react-router-dom";
@@ -97,7 +97,7 @@ export default function SignUpPage() {
     userFormValues,
     setUserFormValues,
   } = useContext(AppContext);
-  const { serverUrl } = useContext(AppContext);
+  const { serverUrl, isAuthenticated, setIsAuthenticated  } = useContext(AppContext);
   const navigate = useNavigate();
 
   const socialButtons = [
@@ -115,7 +115,8 @@ export default function SignUpPage() {
   const handleOtpSuccess = () => {
     setShowOtpPopup(false);
     if(userType === "User"){
-      navigate("/usersideprime");
+      setIsAuthenticated(true); // This updates the context state
+      navigate("/")
       toast.success("Login Successfully");
     }else{
       window.location.href = import.meta.env.VITE_BANKSIDE_URL
@@ -151,7 +152,8 @@ export default function SignUpPage() {
         if (response.data.success) {
           toast.success("Login Successfully");
           if(userType === "User"){
-            navigate("/usersideprime");
+            navigate("/");
+            setIsAuthenticated(true);
           }else{
             window.location.href = import.meta.env.VITE_BANKSIDE_URL
           }

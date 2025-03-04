@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { AppContext } from '../context/context';
 
 const OtpPopup = ({ onSuccess, onClose, email, phone, userType }) => {
     const [otp, setOtp] = useState('');
     const [error, setError] = useState(null);
-    const { serverUrl } = useContext(AppContext);
+    const { serverUrl } = useContext(AppContext)
 
     const handleOtpSubmit = async (e) => {
         e.preventDefault();

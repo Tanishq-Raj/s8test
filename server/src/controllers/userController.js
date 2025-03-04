@@ -356,7 +356,7 @@ export const googleAuthCallback = (req, res) => {
       secure: process.env.NODE_ENV === 'production'
     });
 
-    return res.redirect( process.env.CLIENT_LOCALHOST + "/usersideprime");
+    return res.redirect( process.env.CLIENT_LOCALHOST );
   })(req, res);
 };
 
