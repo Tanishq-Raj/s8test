@@ -4,12 +4,14 @@ import Sidebar from "./Sidebar";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AppContext } from "../../../context/context";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   // Default avatar image state
   const [image, setImage] = useState("/user.png");
   const {serverUrl, userInfo, setUserInfo, avatar, setAvatar, setIsAuthenticated} = useContext(AppContext)
   const [editAvatar, setEditAvatar] = useState(false)
+  const navigate = useNavigate()
 
 
   // Handle avatar image change
@@ -83,7 +85,8 @@ const Profile = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(serverUrl + "/api/v1/user/logout", {}, {withCredentials: true});
+      const {data} = await axios.get(serverUrl + "/api/v1/user/logout", {withCredentials: true});
+      console.log(data)
       
       // Clear local authentication state
       setIsAuthenticated(false);
@@ -93,7 +96,8 @@ const Profile = () => {
       console.error("Error logging out:", error);
     } finally {
       // Always redirect to the specified URL
-      window.location.href = 'https://s8test-client.onrender.com/';
+      navigate('/')
+
     }
   }
 
