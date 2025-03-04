@@ -18,18 +18,18 @@ export const UserAvatar = ({ imageSrc, name, address, size = 'small' }) => {
   };
 
   return (
-    <div className="avatarContainer">
+      <div className="avatarContainer">
       <img
         src={imageSrc}
         alt={`${name}'s profile picture`}
         className={`${'avatarImage'} ${[size]}`}
       />
-      {name && address && (
+      {/* {name && address && (
         <div className="userInfo">
           <span className="userName">{name}</span>
           <span className="userLocation">{address}</span>
         </div>
-      )}
+      )} */}
       <button
         className="settingsIcon"
         aria-label="User settings"

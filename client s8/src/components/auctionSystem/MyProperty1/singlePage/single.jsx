@@ -302,7 +302,7 @@ const Single = () => {
               />
 
               {/* Action Buttons */}
-              <div className="actionButtons">
+              {/* <div className="actionButtons">
                 <button className="delete" onClick={handleDeleteProperty}>
                   <img src="/delete2.svg" alt="Delete" className="button-icon" />
                   Delete
@@ -315,7 +315,7 @@ const Single = () => {
                   <img src="/done.svg" alt="Done" className="button-icon" />
                   Done
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

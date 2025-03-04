@@ -8,7 +8,7 @@ import { AppContext } from "../../../context/context";
 const Profile = () => {
   // Default avatar image state
   const [image, setImage] = useState("/user.png");
-  const {serverUrl, userInfo, setUserInfo, avatar, setAvatar} = useContext(AppContext)
+  const {serverUrl, userInfo, setUserInfo, avatar, setAvatar, setIsAuthenticated} = useContext(AppContext)
   const [editAvatar, setEditAvatar] = useState(false)
 
 
@@ -81,6 +81,22 @@ const Profile = () => {
     }
   }
 
+  const handleLogout = async () => {
+    try {
+      await axios.post(serverUrl + "/api/v1/user/logout", {}, {withCredentials: true});
+      
+      // Clear local authentication state
+      setIsAuthenticated(false);
+      setUserInfo({});
+      setAvatar(null);
+    } catch (error) {
+      console.error("Error logging out:", error);
+    } finally {
+      // Always redirect to the specified URL
+      window.location.href = 'https://s8test-client.onrender.com/';
+    }
+  }
+
   return (
     <div className="profile">
       {/* <div className="sideContainer2">
@@ -127,6 +143,14 @@ const Profile = () => {
                   {userInfo.address || ""} {userInfo.city || ""}{" "}
                   {userInfo.state || ""} {userInfo.pincode || ""}
                 </p>
+                <div className="flex justify-end mt-4">
+                  <button 
+                    onClick={handleLogout} 
+                    className="w-1/3 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             </div>
           </div>
