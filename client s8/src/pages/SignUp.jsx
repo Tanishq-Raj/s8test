@@ -83,7 +83,7 @@ const signInInputs = [
 export default function SignUpPage() {
     const [userType, setUserType] = useState("User");
     const [currentStep, setCurrentStep] = useState(0);
-    const [isSignIn, setIsSignIn] = useState(false);
+    const [isSignIn, setIsSignIn] = useState(true);
     const [formErrors, setFormErrors] = useState({
         fullName: "",
         email: "",

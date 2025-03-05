@@ -3,9 +3,13 @@ import { Navigate } from 'react-router-dom';
 import { AppContext } from '../context/context';
 
 const PrivateRoute = ({ children }) => {
-  const { isAuthenticated } = useContext(AppContext); // Implement your own auth logic
+  const { isAuthenticated, authChecked } = useContext(AppContext);
 
-  return isAuthenticated ? children : <Navigate to="/sign-up" replace />;
+  if (!authChecked) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
+
+  return isAuthenticated ? children : <Navigate to="/sign-up" />;
 };
 
 export default PrivateRoute;
