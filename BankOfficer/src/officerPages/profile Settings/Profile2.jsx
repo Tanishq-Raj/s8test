@@ -146,8 +146,6 @@ const Profile2 = () => {
       }));
     };
 
-    
-
     return userDetails.firstName && (
     <div className="profile">
       <div className="sideContainer2">
@@ -177,7 +175,7 @@ const Profile2 = () => {
       <div className="details-section">
         <div className="info">
           <h4>Information</h4>
-          <p><strong>Name:</strong> {userDetails.firstName} {userDetails.lastName}</p>
+          <p><strong>Name:</strong> {userDetails.firstName || "First Name" } {userDetails.lastName}</p>
           <p><strong>Email:</strong> {userDetails.email}</p>
           <p><strong>Tel:</strong> {userDetails.phone}</p>
           <button className="update-details-btn" onClick={() => setShowForm(!showForm)} >

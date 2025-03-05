@@ -71,7 +71,7 @@ const Profilepage = () => {
         </button>
       )}
       <div className={`sideContainer ${isSidebarOpen ? "open" : ""}`}>
-        <Sidebar />
+        <Sidebar isSidebarOpen={isSidebarOpen} />
       </div>
       <div className={`homeContainer ${isSidebarOpen && isSmallScreen ? "shifted" : ""}`}>
         <Header />

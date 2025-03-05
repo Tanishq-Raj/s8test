@@ -10,7 +10,7 @@
 .sideContainer2 {
     flex: 1; /* Sidebar takes 1 parts of the total flex space */
     min-width: 245px; /* Optional: Minimum width for sidebar */
-    background-color: #f4f4f4; /* Example styling for visibility */
+    // background-color: #f4f4f4; /* Example styling for visibility */
   
   @include md {
     min-width: 80px;

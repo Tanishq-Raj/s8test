@@ -2,7 +2,7 @@
 // Using for My Asset List
 import "./propertyCards.scss";
 import PropTypes from "prop-types";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export const PropertyCards = ({
   id,
@@ -15,6 +15,9 @@ export const PropertyCards = ({
   auctionDate,
   image,
 }) => {
+
+  const location = useLocation(); // Get the current path
+  
   return (
     <article className="propertyCard">
       <div className="imageContainer">
@@ -55,12 +58,13 @@ export const PropertyCards = ({
           <span className="dateValue">{auctionDate}</span>
         </div>
 
-        <Link to={`/property/${id}`}>
+        <Link to={`/property/${id}`} 
+          state={{ from: location.pathname }}>
         <button
           className="viewButton"
           aria-label={`View details for ${title}`}
         >
-          View Details
+          View 
         </button>
         </Link>
         {/* <a href={`/property/${id}`} className="viewButton">View Details</a> */}

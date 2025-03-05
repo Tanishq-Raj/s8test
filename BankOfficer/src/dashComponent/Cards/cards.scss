@@ -1,3 +1,5 @@
+@import "../../responsive.scss";
+
 .CardContainer {
   font-family: "Poppins", sans-serif;
   flex: 4;
@@ -10,8 +12,22 @@
   border: 1px solid rgba(0, 0, 0, 0.25);
   height: 479px;
   width: 459px;
-  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  // -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+  // box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+
+@include md {
+  width: 650px;
+  height: 100%;
+  border-radius: 20px;
+  border: none;
+  padding: 5px;
+  margin: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  margin-left: 50px;
+}
+}
 
   h2 {
     font-size: 24px;
@@ -205,5 +221,5 @@
       color: #000;
     }
   }
-}
+
 

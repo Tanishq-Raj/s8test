@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import './cards.scss';
 import { AppContext } from '../../context/context';
 import axios from 'axios';
+import { Link, useLocation } from "react-router-dom";
 
 const CardsContainer = () => {
   const [showAll, setShowAll] = useState(false); // State to control whether to show all cards
@@ -11,6 +12,7 @@ const CardsContainer = () => {
   const defaultCardsToShow = 5;
   const cardsToDisplay = showAll ? properties : properties.slice(0, defaultCardsToShow);
 
+  const location = useLocation(); // Get the current path
 
 
   return (
@@ -41,7 +43,15 @@ const CardsContainer = () => {
                 <h4>{property.title}</h4>
                 <p className="propertyAddress">{property.address?.address}, {property.address?.city}, {property.address?.state} - {property.address?.pincode}</p>
                 <p>{property.auctionDate}</p>
-                <a href={`/property/${property._id}`} className="viewButton">View now</a>
+                <Link
+                 to={{
+                 pathname: `/property/${property._id}`,
+                 search: `?from=${encodeURIComponent(location.pathname)}`, // Pass previous page
+                  }}
+                 className="viewButton"
+                 >
+                 View now
+               </Link>         
               </div>
             </div>
           ))}

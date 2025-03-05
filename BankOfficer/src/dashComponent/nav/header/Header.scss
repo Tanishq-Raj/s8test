@@ -5,7 +5,7 @@
   position: relative;
   align-self: center;
   display: flex;
-  gap: 20px;
+  // gap: 20px;
   font-family: Inter, sans-serif;
   font-weight: 400;
   flex-wrap: wrap;
@@ -13,6 +13,12 @@
   // background-color: aqua;
   width: 100%;
   // border-bottom: 2px solid gray; /* Adjust color and thickness */
+
+  @include md {
+    // gap: 20px;
+    width: 100%;
+  }
+
 }
 
 .headerContainer::after {
@@ -34,6 +40,12 @@
   align-items: center;
   justify-content: space-between;
   margin-left: 10px;
+
+
+  @include md {
+   gap:50px;
+   width: 100%;
+  }
 }
 
 // .menuButton  {

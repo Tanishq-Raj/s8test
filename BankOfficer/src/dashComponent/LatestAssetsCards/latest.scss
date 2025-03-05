@@ -15,6 +15,17 @@
   width: 459px;
   // -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
   // box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+
+@include md {
+  width: 650px;
+  height: 100%;
+  border-radius: 0px;
+  border: none;
+  padding: 5px;
+  margin: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+margin-left: 50px; }
 }
 
 .cardImageContainer {
@@ -25,6 +36,10 @@
   margin: 24px;
   height: 300px;
   overflow: hidden;
+
+  @include md{
+    height: 650px;
+  }
 
   @include sm {
     height: 600px;
@@ -40,6 +55,12 @@
   object-position: center;
   // margin-top: 14px;
   border-radius: inherit;
+
+  @include md {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
 
   @include sm {
     height: 100%;
@@ -83,6 +104,12 @@
   padding: 5px 32px;
   bottom: 0px;
   // left: 10px;
+
+  @include md {
+    padding: 5px 20px;
+    font-size: 22px;
+    height: 38px;
+  }
 
   @include sm {
     padding: 5px 20px;
@@ -142,6 +169,13 @@ margin-top: -5px;
     background-color: #00334a;
     color: white;
     cursor: pointer;}
+
+    @include md {
+      margin-right: 50px;
+      margin-bottom: 20px;
+      padding: 5px 5px;
+      font-size: 12px;
+    }
 }
 
 @media (max-width: 991px) {

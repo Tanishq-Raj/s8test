@@ -5,7 +5,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts"
 import "./dashCharts.scss";
 import { AppContext } from "../../context/context";
 import * as XLSX from "xlsx"; // Import XLSX for Excel export
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const DashCharts = () => {
   // **State for Assets & Filters**
@@ -20,6 +20,8 @@ const DashCharts = () => {
 
   const { serverUrl } = useContext(AppContext);
 
+  const location = useLocation(); // Get the current location
+  
   // **Fetch Data from API**
   useEffect(() => {
     const fetchAssets = async () => {
@@ -378,7 +380,7 @@ const DashCharts = () => {
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>
-                       <Link to={`/property/${asset._id}`} className="asset-link">
+                       <Link to={`/property/${asset._id}`} className="asset-link" state={{ from: location.pathname }} >
                       {asset.title}</Link>
                     </td>                    
                     <td>{asset.borrower}</td>

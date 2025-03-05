@@ -6,15 +6,24 @@ import SingleHeader from "../../dashComponent/singlePage Header/singleHeader";
 import Slider from "../../dashComponent/slider/Slider";
 import axios from "axios";
 import "./single.scss";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation} from "react-router-dom";
 import { AppContext } from "../../context/context";
+
 
 const Single = () => {
   const { id } = useParams(); // Get ID from the URL
-  const { serverUrl, formData, setFormData, editProperty, setEditProperty, setUploadedFiles, propertyId, setPropertyId ,userDetails, avatar } = useContext(AppContext);
+  const { serverUrl, formData, setFormData, setEditProperty, setUploadedFiles, setPropertyId ,userDetails, avatar } = useContext(AppContext);
   const [property, setProperty] = useState(null);
 
+  //Go back to previous page
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromPage = location.state?.from || "/"; // Default to home if no previous page
+
+  const handleDone = () => {
+    navigate(fromPage);
+  }; //
+
 
   useEffect(() => {
     getPropertyById();
@@ -133,6 +142,17 @@ const Single = () => {
   const media = property?.image?.map(item => item.url) || [];
 
   const pageName = "My Assets";
+
+
+  const handleConfirmDelete = () => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this property?");
+    
+    if (isConfirmed) {
+      handleDeleteProperty();
+      alert("Property deleted successfully!"); // You can replace this with a toast notification
+    }
+  };
+
 
   return (
     <div className="singlePage">
@@ -307,15 +327,15 @@ const Single = () => {
 
               {/* Action Buttons */}
               <div className="actionButtons">
-                <button className="delete" onClick={handleDeleteProperty}>
-                  <img src="/delete2.svg" alt="Delete" className="button-icon" />
-                  Delete
-                </button>
+              <button className="delete" onClick={handleConfirmDelete}>
+  <img src="/delete2.svg" alt="Delete" className="button-icon" />
+  Delete
+</button>
                 <button onClick={handleEdit} className="edit">
                   <img src="/edit.svg" alt="Edit" className="button-icon" />
                   Edit
                 </button>
-                <button className="done">
+                <button className="done" onClick={handleDone}>
                   <img src="/done.svg" alt="Done" className="button-icon" />
                   Done
                 </button>

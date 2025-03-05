@@ -1,3 +1,5 @@
+@import "../../responsive.scss";
+
 .dashboard {
 font-family: "Poppins", sans-serif;
 display: flex;
@@ -6,6 +8,11 @@ display: flex;
 .sideContainerdash {
     flex: 1; // Sidebar takes 1 part of the total flex space
     min-width: 245px;
+    transition: transform 0.3s ease-in-out;
+
+    @include md {
+      min-width: 80px;
+    }
   }
 
   .dashContainer {

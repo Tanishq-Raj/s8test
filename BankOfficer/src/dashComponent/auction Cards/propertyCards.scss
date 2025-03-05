@@ -137,13 +137,18 @@
   padding: 10px 16px;
   background-color:  #00334a;
   color: #fff;
-  border-radius: 10px;
+  border-radius: 20px;
   text-decoration: none;
   font-size: 14px;
   transition: background-color 0.3s ease;
-  max-width: 120px;
+  width: 50%;
+  // max-width: 140px;
+  width: 160px;
   text-align: center;
   display: inline-block;
+  white-space: nowrap; /* Prevents text from breaking */
+  justify-content: center; 
+  align-items: center;
 
   &:hover {
     background-color: #004f6e;

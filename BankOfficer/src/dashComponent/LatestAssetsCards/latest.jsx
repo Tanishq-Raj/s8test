@@ -1,12 +1,14 @@
 import PropTypes from "prop-types"; // Import PropTypes for type validation
 import "./latest.scss";
 import { useContext, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AppContext } from "../../context/context";
 
 function Latest() {
   const {latestProperty} = useContext(AppContext)
   
+  const location = useLocation(); // Get the current location
+
   const daysLeft = useMemo(() => {
     const auctionDate = new Date(latestProperty?.auctionDate);
     const today = new Date();
@@ -37,7 +39,8 @@ function Latest() {
           <div>{latestProperty.address.city}, {latestProperty.address.state}</div>
           <div className="detailDate">{latestProperty.auctionDate}</div>
         </div>
-        <Link to={`/property/${latestProperty._id}`}>
+        <Link to={`/property/${latestProperty._id}`}
+        state={{ from: location.pathname }}>
           <div tabIndex="0" role="button" className="detailButton">View</div>
         </Link>
       </div>

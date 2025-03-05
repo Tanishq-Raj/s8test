@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import Link for navigation
+import { Link, useNavigate, useLocation  } from 'react-router-dom'; // Import Link for navigation
 // import properties from "../../dummyData"; // Import your dummy data
 import './myAssetsCards.scss';
 import { AppContext } from '../../context/context';
@@ -9,7 +9,8 @@ const MyAssetsCards = () => {
   const [showAll, setShowAll] = useState(false); // State to control whether to show all cards
   const { properties, avatar } = useContext(AppContext);
   const navigate = useNavigate();
- 
+  const location = useLocation();
+
   // Number of cards to show by default
   const defaultCardsToShow = 3;
   const cardsToDisplay = showAll ? properties : properties.slice(0, defaultCardsToShow);
@@ -38,8 +39,8 @@ const MyAssetsCards = () => {
                 <h4>{property.title}</h4>
                 <p className="propertyAddress">{property.address?.address}, {property.address?.city}, {property.address?.state} - {property.address?.pincode}</p>
                 <p>{property.auctionDate}</p>
-                <div onClick={() => navigate(`/property/${property._id}`)} className="viewButton">View now</div>
-               
+                <div onClick={() => navigate(`/property/${property._id}`, { state: { from: location.pathname }})} 
+                className="viewButton">View now</div>
               </div>
              
             </div>

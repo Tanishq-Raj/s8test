@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+@import "../../responsive.scss";
 
 .myAssetsView{
   font-family: "Poppins", sans-serif;
@@ -8,7 +9,11 @@
     .sideContainerV {
         flex: 1; /* Sidebar takes 1 parts of the total flex space */
         min-width: 245px; /* Optional: Minimum width for sidebar */
-        background-color: #f4f4f4; /* Example styling for visibility */
+        background-color: white; /* Example styling for visibility */
+      
+      @include md{
+        min-width: 80px;
+      }
       }
     
       .AssetsViewCards{

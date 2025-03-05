@@ -1,12 +1,14 @@
 import "./MyAssetList.scss";
-import { singlePostData } from "../../dummyData";
+// import { singlePostData } from "../../dummyData";
 import { PropertyCards } from "../auction Cards/PropertyCards";
 import { useContext, useEffect, useState } from "react";
 import axios from 'axios';
 import { AppContext } from "../../context/context";
+// import {Link, useLocation} from "react-router-dom";
 
 const MyAssetList = () => {
   
+  // const location = useLocation(); // Get the current path
   const {serverUrl, properties, getProperties, searchString} = useContext(AppContext)
   const [prop, setProp] = useState([])
   // useEffect(() => {

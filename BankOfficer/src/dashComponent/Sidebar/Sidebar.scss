@@ -7,11 +7,10 @@
   padding: 20px;
   position: fixed;
   top: 0;
-  left: 0;
-  min-width: 245px;
+  left:0; // Initially hidden  min-width: 245px;
   border-radius: 0px 20px 20px 0px;
   transition: left 0.3s ease-in-out;
-  z-index: 2000;
+  z-index: 1000;
 
   // @media (max-width: 1024px) {
   @include lg {
@@ -45,13 +44,14 @@
   &.open {
     transform: translateX(0); // Show when toggled
     // min-width: 80px; // Compact width
+  
+   .text {
+    display: block !important; // Ensure text is shown when sidebar is open  }
   }
-  &.open .text {
-    display: block;
-  }
-}
+ }
 }
 
+}
 /* Header with Logo and Close Button */
 // .header {
 //   display: flex;

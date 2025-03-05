@@ -12,6 +12,7 @@
   align-self: center;
   padding: 10px;
 
+
 @include sm{
     max-width: 50%;
     justify-content: center;
@@ -31,6 +32,12 @@
   color: rgb(6, 6, 6);
   padding: 11px 17px;
   transition: border 0.3s ease;
+
+
+  @include md {
+    width: 70%;    
+    padding: 11px 17px;
+  }
 
   @include sm {
     width: 260px;

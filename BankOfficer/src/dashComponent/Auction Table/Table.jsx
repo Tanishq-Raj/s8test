@@ -5,12 +5,38 @@ import * as XLSX from "xlsx"; // Import xlsx library
 import "./table.scss";
 import axios from "axios";
 import { AppContext } from "../../context/context";
+import { useNavigate, useParams, useLocation} from "react-router-dom";
+
 
 const AuctionHistory = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
-  const { serverUrl, properties, setProperties } = useContext(AppContext);
+  const { serverUrl, properties, formData, setFormData, setEditProperty, setUploadedFiles} = useContext(AppContext);
+  const { id } = useParams(); // Get ID from the URL
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    getPropertyById();
+  }, []);
+
+  const getPropertyById = async () => {
+    try {
+      const { data } = await axios.post(serverUrl + "/api/v1/bank-user/get-property-by-id", { id }, {
+        withCredentials: true,
+      });
+
+      if (data.success) {
+        setProperty(data.property);
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Calculate total pages
   const totalPages = Math.ceil(properties.length / itemsPerPage);
@@ -130,6 +156,104 @@ const AuctionHistory = () => {
     return `${day}-${month}-${year}`;
   };
 
+//Edit
+const handleEdit = async (propertyId) => {
+  try {
+    const { data } = await axios.post(serverUrl + "/api/v1/bank-user/get-property-by-id", { id: propertyId }, {
+      withCredentials: true,
+    });
+
+    if (data.success) {
+      const {
+        title,
+        category,
+        auctionType,
+        auctionDate,
+        auctionTime,
+        area,
+        price,
+        description,
+        contact,
+        nearbyPlaces,
+        mapLocation,
+        address,
+        auctionUrl,
+        borrower,
+        amountDue,
+        deposit,
+        bidInc,
+        inspectDate,
+        inspectTime,
+        reservPrice,
+        message,
+      } = data.property;
+
+      setFormData((prevState) => ({
+        ...prevState,
+        title,
+        category,
+        auctionType,
+        auctionDate,
+        auctionTime,
+        area,
+        price,
+        description,
+        contact,
+        nearbyPlaces,
+        latitude: mapLocation?.latitude || "",
+        longitude: mapLocation?.longitude || "",
+        address: {
+          address: address?.address || "",
+          city: address?.city || "",
+          state: address?.state || "",
+          pincode: address?.pincode || "",
+        },
+        auctionUrl,
+        borrower,
+        amountDue,
+        deposit,
+        bidInc,
+        inspectDate,
+        inspectTime,
+        reservPrice,
+        message,
+      }));
+
+      setUploadedFiles(data.property.image);
+      setEditProperty(true);
+      navigate("/addNew");
+
+      console.log(formData);
+      console.log(data.property);
+    } else {
+      console.log(data.message);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleDelete = async (propertyId) => {
+  const isConfirmed = window.confirm("Are you sure you want to delete this property?");
+  if (!isConfirmed) return;
+  
+  try {
+    const { data } = await axios.delete(serverUrl + "/api/v1/bank-user/delete-property", {
+      data: { id: propertyId },
+      withCredentials: true,
+    });
+    if (data.success) {
+      alert("Property deleted successfully");
+      window.location.reload();
+    } else {
+      alert("Failed to delete property");
+    }
+  } catch (error) {
+    console.error("Error deleting property:", error);
+    alert("An error occurred while deleting the property");
+  }
+};
+
   return (
     <div className="auction-container">
       <div className="auction-header">
@@ -204,15 +328,15 @@ const AuctionHistory = () => {
                     </span>
                   </td>
                   <td className="action-buttons">
-                    <Link to={`/property/${item._id}`} className="view-button">
+                    <Link to={`/property/${item._id}`} state={{ from: location.pathname }} className="view-button">
                       <img src="/goTo.svg" alt="View" width={16} height={16} />
                       <span className="tooltip">View</span>
                     </Link>
-                    <button className="edit-button">
+                    <button onClick={() => handleEdit(item._id)} className="edit-button">
                       <img src="/edit2.svg" alt="edit" width={16} height={16} />
                       <span className="tooltip">Edit</span>
                     </button>
-                    <button className="delete-button">
+                    <button onClick={() => handleDelete(item._id)} className="delete-button">
                       <img src="/delete2.svg" alt="delete" width={16} height={16} />
                       <span className="tooltip">Delete</span>
                     </button>

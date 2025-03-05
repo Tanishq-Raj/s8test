@@ -1,3 +1,5 @@
+@import "../../responsive.scss";
+
 .profile {
     display: flex;
     height: 100vh;
@@ -10,12 +12,24 @@
     .sideContainer2 {
       flex: 1;
       min-width: 245px;
+      transition: transform 0.3s ease-in-out;
+
+    @include md {
+      min-width: 80px;
+     }
     }
   
     .mainContent {
       flex: 8;
       display: flex;
       flex-direction: column;
+      background-color: white;
+
+      @include md {
+        margin-top: -18px;
+        padding: 10px;
+        width: 92%;
+      }
     
       .profile-container {
         display: flex;
@@ -26,6 +40,10 @@
         background: white;
         // border: 1px solid #ddd;
         margin-top: 20px;
+      
+      @include md {
+        padding: 10px;
+       }
       }
   
       /* Avatar Section */
@@ -39,17 +57,39 @@
         width: 250px;
         height: 310px;
         text-align: center;
+
+        @include md {
+          width: 200px;
+          height: 300px;
+          object-fit: cover;
+          margin-left: -5px;
+          border-radius: 10px;
+        }
       }
   
       .avatar {
+        margin-top: 20px;
         width: 140px;
         height: 140px;
         border-radius: 50%;
         border:2px solid #004663;
         object-fit: cover;
+
+        @include md {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          border:2px solid #004663;
+          object-fit: contain;
+        }
       }
      h3{
       margin-top: 10px;
+
+      @include md {
+        font-size: 15px;
+        margin-top: 10px;
+      }
      }
 
       .upload-btn {
@@ -60,7 +100,7 @@
         font-size: 14px;
         border-radius: 5px;
         cursor: pointer;
-        margin-top: 25px;
+        margin-top: 18px;
         width: 100%;
       }
   
@@ -92,9 +132,14 @@
         overflow: hidden;
         white-space: nowrap; /* Prevents content from wrapping */
         text-overflow: ellipsis; /* Adds "..." if content overflows */
-      margin-left: 10px;
+        margin-left: 10px;
+      
+      @include md {
+        margin-left: 0;
+        overflow: hidden;
+        // font-size: ;
+       }
       }
-  
       .update-details-btn{
         background-color:#00324a;
         color: white;
@@ -105,6 +150,11 @@
         cursor: pointer;
         margin-top: 55px;
         width: 60%;
+
+        @include md {
+          margin-top: 30px;
+          width: 80%;
+        }
       }
       .update-details-btn:hover {
         background-color:#004663;
@@ -124,6 +174,18 @@
         max-width: 100%; // Ensures it doesn't exceed container width
         line-height: 1.5; // Improves readability
         margin-left: -20px;
+
+        @include md {
+          margin-left: 0;
+          display: -webkit-box;
+          -webkit-line-clamp: 2; /* Show only 2 lines */
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          // text-overflow: ellipsis;
+          // max-width: 100%;
+          // word-break: break-word;
+          // font-size: ;
+        }
       }
 
       .info h4 , .info2 h4 {
@@ -131,6 +193,11 @@
         color: gray;
         margin-bottom: 5px;
         font-weight: 600;
+
+        @include md {
+          font-size: 16px;
+          margin-bottom: 5px;
+        }
       }
   
       .info p {
@@ -141,12 +208,51 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         max-width: 100%;
+
+        @include md {
+          font-size: 14px;
+          margin-bottom: 5px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          max-width: 100%;
+        }
       }
   
       .info strong {
         font-weight: 600;
+
+        @include md {
+          font-size: 14px;
+        }
       }
 
+      .info2 p {
+        margin: 0;
+        font-size: 16px;
+        color: #333;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 100%;
+
+        @include md {
+          font-size: 14px;
+          margin-bottom: 5px;
+          // overflow: hidden;
+          // white-space: nowrap;
+          // text-overflow: ellipsis;
+          max-width: 100%;
+        }
+      }
+  
+      .info strong {
+        font-weight: 600;
+
+        @include md {
+          font-size: 14px;
+        }
+      }
 
        /* User Settings Form */
        .form-container {
@@ -160,6 +266,14 @@
         margin-left: 20px;
         margin-right: 40px;
         margin-bottom: 20px;
+
+        @include md {
+          width: 97%;
+          padding: 10px;
+          margin-left: 5px;
+          margin-right: 0;
+          margin-bottom: 0;
+        }
     }
 
     .form-title {
