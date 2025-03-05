@@ -25,27 +25,24 @@ function App() {
   const location = useLocation(); // Get current route path
   const hideFooterRoutes = ["/profile1"]; // Routes where the footer should be hidden
 
-  const {serverUrl, isAuthenticated, setIsAuthenticated} = useContext(AppContext)
+  const {serverUrl, isAuthenticated, setIsAuthenticated, setAuthChecked} = useContext(AppContext)
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await axios.get(serverUrl + "/api/v1/user/check-auth", {
-          withCredentials: true, 
-        });
-        console.log(response)
-        if (response.data.success) {
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-        console.log(isAuthenticated)
-      } catch (error) {
-        console.error("Authentication check failed:", error);
-        setIsAuthenticated(false);
-      }
-    };
     checkAuth();
   }, []);
+
+  const checkAuth = async () => {
+    try {
+      const response = await axios.get(serverUrl + "/api/v1/user/check-auth", {
+        withCredentials: true,
+      });
+      setIsAuthenticated(response.data.success);
+    } catch (error) {
+      console.error("Authentication check failed:", error);
+      setIsAuthenticated(false);
+    } finally {
+      setAuthChecked(true); // Mark auth check as complete
+    }
+  };
 
 
   // Prevent rendering until authentication status is determined

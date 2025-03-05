@@ -73,8 +73,7 @@ function App() {
           </>
         ) : (
           <>
-            
-            <Route path="/" element={<SignIn />} />
+            {window.location.href = import.meta.env.VITE_CLIENT_URL + '/sign-up'}
           </>
         )}
       </Routes>
