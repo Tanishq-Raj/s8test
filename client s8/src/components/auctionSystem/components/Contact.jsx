@@ -14,9 +14,9 @@ export function Contact() {
                   <span className="font-bold">Get in </span>
                   <span className="font-bold text-sky-900">Touch</span>
                 </div>
-                <div className="mt-5 text-sm font-semibold tracking-normal leading-6 text-center max-md:max-w-full">
+{/*                 <div className="mt-5 text-sm font-semibold tracking-normal leading-6 text-center max-md:max-w-full">
                   Enim tempor eget pharetra facilisis sed maecenas adipiscing. Eu leo molestie vel, ornare non id blandit netus.
-                </div>
+                </div> */}
               </div>
               <ContactForm />
             </div>
