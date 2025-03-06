@@ -1,3 +1,5 @@
+@import "../../responsive.scss";
+
 .myAssetsCardsContainer {
   font-family: "Poppins", sans-serif;
   flex: 4;
@@ -12,6 +14,10 @@
   width: 400px;
   // -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
   // box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+
+@include md {
+  height: 450px;
+}
 
   .headerContainer2 {
     display: flex;
@@ -44,7 +50,11 @@
     overflow-x: auto; // Enable horizontal scrolling
     padding-bottom: 10px; // Space for scrollbar
     position: relative; // For positioning the "View All" button
-    margin-top: -5px;
+    margin-top: 0px;
+    
+    @include md {
+     margin-bottom: -13px;
+    }
 
     &::-webkit-scrollbar {
       height: 8px; // Scrollbar height
@@ -97,6 +107,11 @@
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    @include md {
+      max-width: 310px;
+      height: 340px;
     }
   }
 
@@ -194,6 +209,10 @@
         &:hover {
           background-color: #004f6e;
         }
+
+        @include md {
+          margin-top: -5px;
+        }
     }
   
 
@@ -219,6 +238,12 @@
 
     &:hover {
       color: #000;
+    }
+
+    @include md {
+      padding: 8px 16px;
+      font-size: 13px;
+      margin-bottom: 10px;
     }
   }
 

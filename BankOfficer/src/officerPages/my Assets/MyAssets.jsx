@@ -18,7 +18,7 @@ const MyAssets = () => {
        <AddNewAsset/>
        <MyAssetsCards/>
        </div>
-       <div className="card2Contsiner">
+       <div className="card2Container">
         <AuctionHistory/>
        </div>
      </div>

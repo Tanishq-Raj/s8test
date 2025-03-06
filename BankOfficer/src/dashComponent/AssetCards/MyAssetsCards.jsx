@@ -21,6 +21,15 @@ const MyAssetsCards = () => {
         <h2>My Assets</h2>
         <h3>Showing {cardsToDisplay.length} / {properties.length} results</h3>
       </div>
+      {/* {properties.length > defaultCardsToShow && (
+        <div className="viewAllButton">
+          {!showAll && (
+            <button onClick={() => setShowAll(true)}>
+              <Link to="/view">View All</Link>
+            </button>
+          )}
+        </div>
+         )} */}
       <div className="cardsScrollContainer">
       {properties.length === 0 ? (
           <div className="noDataMessage">There is no data to show</div>

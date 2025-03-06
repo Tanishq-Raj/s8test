@@ -10,8 +10,8 @@ const AddNewAsset = () => {
             className="cardImage2"
             alt="Latest asset"
           />
-          <h3>Add new Assets for</h3>
-          <h3>auction now!</h3>
+          <h3>Add new Assets for <br/> auction now!</h3>
+          {/* <h3></h3> */}
           <button className="addAssetButton">
             <Link to="/addNew">Add new Asset</Link>
           </button>

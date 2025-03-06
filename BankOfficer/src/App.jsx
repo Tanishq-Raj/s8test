@@ -55,7 +55,7 @@ function App() {
   return (
     
       <Routes>
-        {isAuthenticated ? (
+        {/* {true ? ( */}
           <>
             <Route path="/" element={<Profilepage />} />
             <Route path="/myAssets" element={<MyAssets />} />
@@ -71,11 +71,11 @@ function App() {
     //    <Route path="/address-details" element={<AddressDetailsForm/> } />
     //   <Route path="/auction-details" element={<AuctionDetailsForm />} />  */}
           </>
-        ) : (
+        {/* ) : (
           <>
             {window.location.href = import.meta.env.VITE_CLIENT_URL + '/sign-up'}
           </>
-        )}
+        )} */}
       </Routes>
   )
 }

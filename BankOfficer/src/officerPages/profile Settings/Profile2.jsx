@@ -254,15 +254,15 @@ const Profile2 = () => {
                                 </div>
                             </div>
                             <div className="form-row">
-                            <div className="form-group">
+                                <div className="form-group">
                                     <label>Branch Zone</label>
                                     <input type="text" name="branchZone" value={userUpdateDetails.branchZone} placeholder="Enter branch zone..." onChange={handleUpdateChange} />
                                 </div>
-                            <div className="form-group">
+                                <div className="form-group">
                                     <label>Branch Address</label>
-                                    <textarea type="text" name="bankAddress" value={userUpdateDetails.bankAddress} placeholder="Enter branch address..." onChange={handleUpdateChange}  rows="2"/> 
+                                    <textarea type="text" name="bankAddress" value={userUpdateDetails.bankAddress} placeholder="Enter branch address..." onChange={handleUpdateChange}  rows="1"/> 
                                 </div>
-                                </div>
+                             </div>
                         </div>
 
                   {/* horrizontal line */}
