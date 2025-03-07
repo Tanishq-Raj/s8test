@@ -43,10 +43,10 @@ export function CitySelector() {
                     aria-label="Choose auction type"
                   >
                     <option value="" disabled selected className="bg-zinc-800 text-neutral-400">Select auction type</option>
-                    <option value="online" className="bg-zinc-800 text-neutral-200">Online Auction</option>
-                    <option value="live" className="bg-zinc-800 text-neutral-200">Live Auction</option>
-                    <option value="sealed" className="bg-zinc-800 text-neutral-200">Sealed Bid</option>
-                    <option value="reverse" className="bg-zinc-800 text-neutral-200">Reverse Auction</option>
+                    <option value="Normal Auction" className="bg-zinc-800 text-neutral-200">Normal Auction</option>
+                    <option value="E Auction" className="bg-zinc-800 text-neutral-200">E Auction</option>
+                    {/* <option value="sealed" className="bg-zinc-800 text-neutral-200">Sealed Bid</option>
+                    <option value="reverse" className="bg-zinc-800 text-neutral-200">Reverse Auction</option> */}
                   </select>
           </div>
         </div>

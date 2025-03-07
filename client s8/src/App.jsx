@@ -61,7 +61,7 @@ function App() {
         <Route path="/sign-up" element={<SignUpPage />} />
         {/* <Route path="/property" element={<Property />} /> */}
         {/* <Route path="/usersideprime" element={<UserSideP />} /> */}
-        <Route path="/contact" element={<PrivateRoute><Contact /></PrivateRoute>} />
+        <Route path="/contact" element={<Contact />} />
         {/* <Route path="/profile" element={<Profile />} /> */}
         <Route path="/property/:id" element={<PrivateRoute><Single /></PrivateRoute>} />
         <Route path="/profile1" element={<Profile1 />} />

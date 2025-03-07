@@ -64,10 +64,10 @@ export default function SearchHeader() {
                     aria-label="Choose auction type"
                   >
                     <option value="" disabled selected className="bg-zinc-800 text-neutral-400">Select auction type</option>
-                    <option value="office" className="bg-zinc-800 text-neutral-200">Online Auction</option>
-                    <option value="retail" className="bg-zinc-800 text-neutral-200">Live Auction</option>
-                    <option value="warehouse" className="bg-zinc-800 text-neutral-200">Sealed Bid</option>
-                    <option value="hotel" className="bg-zinc-800 text-neutral-200">Reverse Auction</option>
+                    <option value="Normal Auction" className="bg-zinc-800 text-neutral-200">Normal Auction</option>
+                    <option value="E Auction" className="bg-zinc-800 text-neutral-200">E Auction</option>
+                    {/* <option value="warehouse" className="bg-zinc-800 text-neutral-200">Sealed Bid</option>
+                    <option value="hotel" className="bg-zinc-800 text-neutral-200">Reverse Auction</option> */}
                   </select>
                 </div>
               </div>

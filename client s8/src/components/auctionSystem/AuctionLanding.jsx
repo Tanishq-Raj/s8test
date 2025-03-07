@@ -25,7 +25,7 @@ export default function AuctionLanding() {
           <span className="text-white">uy, Sell</span>
         </>
       ),
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pulvinar interdum enim a vestibulum, nunc cras. Gravida morbi sit sed egestas cursus risus imperdiet bibendum nisl enim.",
+      description: "Welcome to S8 where opportunity meets value: explore and acquire distressed assets from top banks with ease and confidence. ",
       image: "https://cdn.builder.io/api/v1/image/assets/TEMP/4fee83c532ee2cbc0dbe8438799b6e163611a329dff92d59d5826885bac100c5?placeholderIfAbsent=true&apiKey=94eb20460e0f412389c7e1a6f1ae6031"
     },
     {
@@ -37,7 +37,7 @@ export default function AuctionLanding() {
           <span className="text-white">roperty</span>
         </>
       ),
-      description: "Discover your dream property through our extensive collection of premium real estate listings.",
+      description: " S8 houses a comprehensive listing of distressed properties, simplifying the search process for investors to identify profitable opportunities. We feature exhaustive listings, such as property details, reserve prices, and auction dates. ",
       image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3"
     },
     {
@@ -49,7 +49,7 @@ export default function AuctionLanding() {
           <span className="text-white">eals</span>
         </>
       ),
-      description: "Participate in our exclusive property auctions and find the best deals in the market.",
+      description: "S8 is involved in highlighting properties that have been put up for sale through bank auctions, providing transparency and ease of accessibility. Users can look through a range of assets, from residential to commercial property.",
       image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3"
     },
     {
@@ -61,7 +61,7 @@ export default function AuctionLanding() {
           <span className="text-white">mart</span>
         </>
       ),
-      description: "Make informed investment decisions with our expert guidance and market insights.",
+      description: "Investors can make smart choices by accessing authentic information and expert opinion. We help with assisting users in finding high-potential investments with low risk.",
       image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?ixlib=rb-4.0.3"
     },
     {
@@ -73,7 +73,7 @@ export default function AuctionLanding() {
           <span className="text-white">iving</span>
         </>
       ),
-      description: "Experience the epitome of luxury living with our premium property collection.",
+      description: "S8 also has luxury properties that blend luxury with value, targeting sophisticated buyers. These properties tend to feature exclusive homes in prime locations at competitive prices.",
       image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3"
     },
     {
@@ -85,7 +85,7 @@ export default function AuctionLanding() {
           <span className="text-white">hoice</span>
         </>
       ),
-      description: "Join thousands of satisfied customers who have found their perfect property through our platform.",
+      description: "S8 is a trusted website supported by an assurance of precision and customer satisfaction. Our simple interface and comprehensive support make it the top choice of property investors.",
       image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3"
     }
   ];
@@ -183,9 +183,7 @@ export default function AuctionLanding() {
             </div> */}
         </div>
         <div className="self-center mt-5 ml-7 text-2xl font-semibold leading-9 text-center text-sky-900 w-[1022px] max-md:mt-10 max-md:max-w-full">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pulvinar
-          interdum enim a vestibulum, nunc cras. Gravida morbi sit sed egestas
-          cursus risus imperdiet bibendum nisl enim.
+        S8 facilitates an effortless registration experience, complemented by its seamless and efficient functionality. For a smooth and hassle-free experience follow the steps below:  
         </div>
         <ProcessSteps />
       </div>
