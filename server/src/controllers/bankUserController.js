@@ -470,7 +470,6 @@ export const addProperties = async function (req, res) {
 // Update the Properties
 export const updateProperties = async function (req, res) {
   try {
-    console.log("reached")
     const userId = req.userId;
     console.log(userId);
     const {

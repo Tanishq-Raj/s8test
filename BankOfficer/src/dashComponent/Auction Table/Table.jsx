@@ -238,10 +238,10 @@ const handleDelete = async (propertyId) => {
   if (!isConfirmed) return;
   
   try {
-    const { data } = await axios.delete(serverUrl + "/api/v1/bank-user/delete-property", {
-      data: { id: propertyId },
+    const { data } = await axios.post(serverUrl + "/api/v1/bank-user/delete-property", {propertyId }, {
       withCredentials: true,
     });
+    console.log(data)
     if (data.success) {
       alert("Property deleted successfully");
       window.location.reload();

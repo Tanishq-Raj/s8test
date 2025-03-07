@@ -27,7 +27,8 @@ const AppContextProvider = (props) => {
     mobile: "",
     address: "",
   });
-
+  const [isLoading, setIsLoading] = useState(true);
+  
   const getProfile = async () => {
     try {
       const response = await axios.get(serverUrl + "/api/v1/user/get-profile", {
