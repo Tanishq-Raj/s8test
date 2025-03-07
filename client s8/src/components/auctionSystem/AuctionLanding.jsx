@@ -183,9 +183,7 @@ export default function AuctionLanding() {
             </div> */}
         </div>
         <div className="self-center mt-5 ml-7 text-2xl font-semibold leading-9 text-center text-sky-900 w-[1022px] max-md:mt-10 max-md:max-w-full">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pulvinar
-          interdum enim a vestibulum, nunc cras. Gravida morbi sit sed egestas
-          cursus risus imperdiet bibendum nisl enim.
+        S8 facilitates an effortless registration experience, complemented by its seamless and efficient functionality. For a smooth and hassle-free experience follow the steps below:  
         </div>
         <ProcessSteps />
       </div>
