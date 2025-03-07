@@ -134,7 +134,7 @@ const PropertyDetailsForm = ({ nextStep }) => {
             <input
               type="text"
               name="video"
-              value={formData.price}
+              value={formData.video}
               onChange={handleChange}
               placeholder="Property Video Link"
               aria-label="video"

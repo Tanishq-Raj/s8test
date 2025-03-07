@@ -52,6 +52,11 @@ const propertySchema = new Schema(
       default: "",
       trim: true,
     },
+    video: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     auctionDate: {
       // type: Date,
       type: String, // DD/MM/YYYY

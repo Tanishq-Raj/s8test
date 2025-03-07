@@ -90,7 +90,6 @@ function PropertyCard({category}) {
     const newProp = prop.filter(item => item?.category?.toLowerCase() === category?.toLowerCase())
     displayProperties = showAllProperties ? newProp : newProp.slice(0, 4);
   }
-  console.log(displayProperties)
 
   return (
     // <LoadingWrapper 

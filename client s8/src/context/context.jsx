@@ -28,13 +28,12 @@ const AppContextProvider = (props) => {
     address: "",
   });
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const getProfile = async () => {
     try {
       const response = await axios.get(serverUrl + "/api/v1/user/get-profile", {
         withCredentials: true,
       });
-      console.log(response.data);
       if (response.data.success) {
         const profileData = response.data.user;
         setUserInfo({
@@ -87,7 +86,6 @@ const AppContextProvider = (props) => {
       const { data } = await axios.get(
         serverUrl + "/api/v1/user/get-guest-properties"
       );
-      console.log("this is the ", data);
       if (data.success) {
         setProperties(data.properties);
       } else {

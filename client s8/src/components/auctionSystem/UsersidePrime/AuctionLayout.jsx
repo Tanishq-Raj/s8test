@@ -21,10 +21,8 @@ function AuctionLayout() {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleCategoryClick = (category) => {
-    console.log(category)
     setSelectedCategory(category);
   };
-  console.log(selectedCategory)
   const displayedProperties = selectedCategory
     ? allProperties.filter((property) => property.category === selectedCategory)
     : allProperties;
