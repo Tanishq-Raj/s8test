@@ -23,10 +23,10 @@ function Footer() {
         <div className="flex flex-col min-w-[240px] w-[350px] max-md:max-w-full">
           <NewsletterForm />
           <div className="self-start mt-3 text-sm font-light text-white">
-            S8@company.gmail.com
+            s8contact.us@gmail.com
           </div>
           <div className="self-start text-sm font-light text-white">
-            +91 1515124812
+            +91 9820457323
           </div>
           <div className="flex flex-wrap gap-4 items-end mt-6 ml-px min-h-[70px] max-md:max-w-full">
             <button className="flex flex-col grow shrink justify-center px-3 py-2 text-base font-semibold text-white w-[130px]">
@@ -40,7 +40,7 @@ function Footer() {
       </div>
       <div className="flex flex-wrap gap-6 mt-8 text-sm leading-relaxed text-white max-w-[1160px] max-md:mt-6 max-md:max-w-full">
         <div className="shrink basis-auto grow-0">
-          2022 s8 Auction Online. All rights reserved
+          2025 s8 Auction Online. All rights reserved
         </div>
         <div className="shrink-0 my-auto max-w-full h-0 border-white w-[500px]" />
       </div>

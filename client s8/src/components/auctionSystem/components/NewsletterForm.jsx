@@ -12,7 +12,7 @@ function NewsletterForm() {
       <input
         id="emailInput"
         type="email"
-        className="grow shrink leading-relaxed text-white text-opacity-40 w-[221px] bg-transparent"
+        className="grow shrink leading-relaxed text-white py-2.5 text-opacity-40 w-[221px] bg-transparent"
         placeholder="enter your email address"
         aria-label="Email address"
       />

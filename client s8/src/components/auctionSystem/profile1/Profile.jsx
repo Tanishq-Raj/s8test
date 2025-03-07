@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
   // Default avatar image state
   const [image, setImage] = useState("/user.png");
+  const [isLoading, setIsLoading] = useState(true);
   const {
     serverUrl,
     userInfo,
