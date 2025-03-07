@@ -17,7 +17,7 @@ const CardsContainer = () => {
 
   return (
     <div className="CardContainer">
-      <h2>Latest Auctions</h2>
+      <h2>Latest Auction List</h2>
       <div className="viewAllContainer">
   <h3>Showing {cardsToDisplay.length} / {properties.length} results</h3>
   {!showAll && (

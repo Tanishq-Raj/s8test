@@ -286,7 +286,7 @@ const AuctionDetailsForm = ({ prevStep }) => {
               <option value="">Select the type</option>
               <option value="E-auction">E-auction</option>
               <option value="B">Normal</option>
-              <option value="C">C</option>
+              {/* <option value="C">C</option> */}
             </select>
           </div>
         </section>

@@ -12,20 +12,20 @@ import axios from "axios";
 const Profilepage = () => {
   const { serverUrl, properties, setProperties } = useContext(AppContext);
   const [latestAsset, setLatestAsset] = useState(null);
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
+  // const [isSidebarOpen, setSidebarOpen] = useState(false);
+  // const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 768);
-      if (window.innerWidth > 768) {
-        setSidebarOpen(false); // Auto-close sidebar when switching to medium/large screens
-      }
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsSmallScreen(window.innerWidth <= 768);
+  //     if (window.innerWidth > 768) {
+  //       setSidebarOpen(false); // Auto-close sidebar when switching to medium/large screens
+  //     }
+  //   };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -64,27 +64,45 @@ const Profilepage = () => {
   };
 
   return (
-    <div className="home">
-      {isSmallScreen && (
-        <button className="toggle-btn" onClick={() => setSidebarOpen(!isSidebarOpen)}>
-          ☰
-        </button>
-      )}
-      <div className={`sideContainer ${isSidebarOpen ? "open" : ""}`}>
-        <Sidebar isSidebarOpen={isSidebarOpen} />
-      </div>
-      <div className={`homeContainer ${isSidebarOpen && isSmallScreen ? "shifted" : ""}`}>
-        <Header />
-        <div className="latestAssetContainer">
-          {latestAsset ? <Latest /> : <AddNewAsset />}
-          <News />
-        </div>
-        <div className="auctionersContainer">
-          <CardsContainer />
-        </div>
-      </div>
-    </div>
-  );
+//     <div className="home">
+//       {isSmallScreen && (
+//         <button className="toggle-btn" onClick={() => setSidebarOpen(!isSidebarOpen)}>
+//           ☰
+//         </button>
+//       )}
+//       <div className={`sideContainer ${isSidebarOpen ? "open" : ""}`}>
+//         <Sidebar isSidebarOpen={isSidebarOpen} />
+//       </div>
+//       <div className={`homeContainer ${isSidebarOpen && isSmallScreen ? "shifted" : ""}`}>
+//         <Header />
+//         <div className="latestAssetContainer">
+//           {latestAsset ? <Latest /> : <AddNewAsset />}
+//           <News />
+//         </div>
+//         <div className="auctionersContainer">
+//           <CardsContainer />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+<div className="home">
+<div className="sideContainer">
+  <Sidebar />
+</div>
+<div className="homeContainer">
+  <Header />
+  <div className="latestAssetContainer">
+  {latestAsset ? <Latest /> : <AddNewAsset />}
+  <News />
+  </div>
+  <div className="auctionersContainer">
+    <CardsContainer />
+  </div>
+</div>
+</div>
+);
 };
 
 export default Profilepage;

@@ -32,6 +32,10 @@
       font-weight: 600;
       color: #333;
       margin: 0; // Remove left margin
+
+      @include md {
+        font-size: 20px;
+      }
     }
 
     h3 {
@@ -41,7 +45,11 @@
       margin: 0; // Remove left margin
       margin-left: auto; // Push to right
       padding-left: 20px; // Add spacing between h2 and h3
+    
+    @include md {
+      font-size: 14px;
     }
+   }
   }
 
   .cardsScrollContainer {
@@ -125,6 +133,10 @@
         height: 100%; // Make the image fill the header
         object-fit: cover; // Ensure the image covers the area without distortion
         object-position: center; // Center the image inside the container
+      
+      @include md {
+        height: 90%;
+       }
       }
 
       .userImageContainer {
@@ -138,14 +150,18 @@
         border: 3px solid white; // Optional: Add a border to make it stand out
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
+       @include md {
+        height: 50px;
+        width: 50px;
+       }
+      }
         .userImage {
           width: 100%;
           height: 100%;
-          object-fit: contain;
+          object-fit: cover;
           overflow: hidden;
           background-color: #fff; 
         }
-      }
     }
 
     .cardBody {
@@ -167,19 +183,27 @@
         line-clamp: 2; /* Standard property for compatibility */
         -webkit-box-orient: vertical;
         overflow: hidden;
+      
+      @include md {
+        font-size: 14px;
+       }
       }
 
       p {
         font-size: 13px;
         color: #555;
         margin: 0 0 10px 0;
+
+        @include md {
+          font-size: 12px;
+        }
       }
 
       /*  Address Styling to Limit to 2 Lines  */
     .propertyAddress {
       font-size: 13px;
       color: #555;
-      margin: 0 0 10px 0;
+      margin: 0 0 8px 0;
       display: -webkit-box;
       -webkit-line-clamp: 2; /* Limit to 2 lines */
       line-clamp: 2;
@@ -188,8 +212,12 @@
       text-overflow: ellipsis;
       word-break: break-word;
       white-space: normal; /* Ensures proper wrapping */
+   
+   @include md {
+    font-size: 12.5px;
     }
-    }
+   }
+  }
      
       .viewButton {
         display: inline-block;

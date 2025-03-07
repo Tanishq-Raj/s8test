@@ -201,6 +201,13 @@ const Single = () => {
                       <span className="info-value highligh">₹ {property.price}</span>
                     </div>
 
+
+                    <div className="info-item">
+                      <img src="/video.svg" alt="link" className="info-icon" />
+                      <span className="info-label">Video Link:</span>
+                      <a href={property.auctionUrl} className="info-link">{property.video}</a>
+                    </div>
+
                     <div className="info-item">
                       <img src="/link.svg" alt="link" className="info-icon" />
                       <span className="info-label">Enquiry URL:</span>

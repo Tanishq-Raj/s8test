@@ -4,8 +4,10 @@
   display: flex;
   height: 100vh;
   font-family: "Poppins", sans-serif;
+}
 
   .sideContainer {
+    flex: 1;
     min-width: 245px;
     transition: transform 0.3s ease-in-out;
 
@@ -15,17 +17,17 @@
   }
 
   .homeContainer {
-    flex: 1;
+    flex: 8;
     display: flex;
     flex-direction: column;
     // padding: 20px;
-    transition: margin-left 0.3s ease-in-out;
+    // transition: margin-left 0.3s ease-in-out;
   
     
     @include md {
       display: flex;
-      margin-top: -18px;
-      padding: 10px;
+      width: 70%;
+      margin-top: -9px;
     }
   }
 
@@ -43,6 +45,7 @@
       flex-direction: column;
       gap: 20px;
       padding: 0px;
+      margin-left: -35px;
     }
   }
 
@@ -50,56 +53,56 @@
     height: 458px;
   }
 
-  .toggle-btn {
-    display: none; // Hidden by default on large screens
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 1000;
-    font-size: 24px;
-    color: #000000;
-  }
+  // .toggle-btn {
+  //   display: none; // Hidden by default on large screens
+  //   position: fixed;
+  //   top: 15px;
+  //   left: 15px;
+  //   background-color: transparent;
+  //   border: none;
+  //   cursor: pointer;
+  //   z-index: 1000;
+  //   font-size: 24px;
+  //   color: #000000;
+  // }
 
-  // Only apply sidebar behavior for small screens
-  @media screen and (max-width: 768px) {
-    .sideContainer {
-      position: fixed;
-      left: -250px;
-      width: 245px;
-      height: 100%;
-      background: #fff;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      transition: left 0.3s ease-in-out;
-      z-index: 100;
-    }
+  // // Only apply sidebar behavior for small screens
+  // @media screen and (max-width: 768px) {
+  //   .sideContainer {
+  //     position: fixed;
+  //     left: -250px;
+  //     width: 245px;
+  //     height: 100%;
+  //     background: #fff;
+  //     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  //     transition: left 0.3s ease-in-out;
+  //     z-index: 100;
+  //   }
 
-    .sideContainer.open {
-      left: 0;
-    }
+  //   .sideContainer.open {
+  //     left: 0;
+  //   }
 
-    .homeContainer.shifted {
-      margin-left: 245px; // Shift content only when sidebar is open on small screens
-    }
+  //   .homeContainer.shifted {
+  //     margin-left: 245px; // Shift content only when sidebar is open on small screens
+  //   }
 
-    .toggle-btn {
-      display: block; // Show toggle button only on small screens
-    }
-  }
+  //   .toggle-btn {
+  //     display: block; // Show toggle button only on small screens
+  //   }
+  // }
 
-  @media screen and (max-width: 480px) {
-    .toggle-btn {
-      top: 10px;
-      left: 10px;
-      font-size: 20px;
-    }
+  // @media screen and (max-width: 480px) {
+  //   .toggle-btn {
+  //     top: 10px;
+  //     left: 10px;
+  //     font-size: 20px;
+  //   }
 
-    .latestAssetContainer,
-    .auctionersContainer {
-      margin-top: 10px;
-      gap: 10px;
-    }
-  }
-}
+  //   .latestAssetContainer,
+  //   .auctionersContainer {
+  //     margin-top: 10px;
+  //     gap: 10px;
+  //   }
+  // }
+
