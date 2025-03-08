@@ -1,3 +1,5 @@
+@import "../../responsive.scss"; 
+
 .dashboard-charts {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -5,6 +7,13 @@
   gap: 20px;
   padding: 10px;
   font-family: "Poppins", sans-serif;
+
+@include md {
+  display: flex;
+ flex-direction: column;
+}
+
+}
 
   .total-assets {
     display: flex;
@@ -27,7 +36,7 @@
       height: 200px;
       margin-bottom: 20px;
       margin-left: 40px;
-
+     }
       .total-card {
         background: #e9d5ff;
         font-size: 18px;
@@ -50,13 +59,14 @@
         font-size: 14px;
         color: #777;
       }
-    }
+    
 
     .asset-list {
       display: flex;
       flex-direction: column;
       margin-left: 20px;
       width: 100%;
+    }
     
       .asset-item {
         display: flex;
@@ -71,7 +81,8 @@
         // border-left: 5px solid transparent;
         border-radius: 5px;
         overflow: hidden;
-    
+      }
+
         .fill-bar {
           position: absolute;
           left: 0;
@@ -97,10 +108,7 @@
         p {
           font-size: 14px;
           color: #555;
-        }
-      }
-    }
-    
+        } 
   }
 
   .asset-analytics {
@@ -111,6 +119,10 @@
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 600px;
+@include md {
+  width: 100%;
+}
+
 
     h4 {
       font-size: 18px;
@@ -244,6 +256,7 @@
       }
     }
   }
+  
    //download button
    .download-button{
     font-size: 16px; /* Ensure font size is consistent */
@@ -255,7 +268,17 @@
     background-color: transparent;
     color: #004f6e;
     transition: background-color 0.3s ease, color 0.3s ease;
-    }
+    white-space: nowrap; /* Ensures text stays in one line */
+
+  @include md {
+    font-size: 14px;
+    padding: 8px 30px;
+    margin-left: -185px;
+    margin-top: -85px;
+    margin-bottom: 20px;
+    width: 400px;
+  }
+  }
 
 
   //table style
@@ -266,12 +289,20 @@
     padding: 20px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
 
-  
+    @include md {
+   max-width: 700px;
+   margin-right: 5px;
+ }
+   
     h4 {
       font-size: 18px;
       color: black;
       font-weight: bold;
       margin-bottom: 15px;
+
+      @include md {
+        margin-bottom: 20px;
+      }
     }
   
     .table-filters {
@@ -279,7 +310,12 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 15px;
-  
+
+      @include md{
+      margin-top: 20px;
+      }
+    }
+
       select {
         padding: 8px;
         border: 1px solid #ccc;
@@ -292,13 +328,14 @@
         border: 1px solid #ddd;
         border-radius: 5px;
       }
-    }
+  
   
     .table-container {
       max-width: 100%;
       overflow-x: auto;
       border-radius: 20px;
       border:1px solid #ddd;
+
       table {
         width: 100%;
         border-collapse: collapse;
@@ -422,4 +459,3 @@
     }
   }
   
-}

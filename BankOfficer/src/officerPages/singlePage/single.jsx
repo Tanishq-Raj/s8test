@@ -226,6 +226,12 @@ const Single = () => {
                     </div>
 
                     <div className="info-item">
+                      <img src="/video.svg" alt="video" className="info-icon" />
+                      <span className="info-label">Asset Video:</span>
+                      <span className="info-value">{property.video}</span>
+                    </div>
+
+                    <div className="info-item">
                       <img src="/link.svg" alt="link" className="info-icon" />
                       <span className="info-label">Enquiry URL:</span>
                       <a href={property.auctionUrl} className="info-link">{property.auctionUrl}</a>
