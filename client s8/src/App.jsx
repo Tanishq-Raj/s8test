@@ -35,6 +35,7 @@ function App() {
       const response = await axios.get(serverUrl + "/api/v1/user/check-auth", {
         withCredentials: true,
       });
+      console.log(response)
       setIsAuthenticated(response.data.success);
     } catch (error) {
       console.error("Authentication check failed:", error);
