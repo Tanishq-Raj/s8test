@@ -35,96 +35,6 @@ const Single = () => {
     }
   };
 
-  const handleEdit = async () => {
-    try {
-      const { data } = await axios.post(serverUrl + "/api/v1/bank-user/get-property-by-id", { id }, {
-        withCredentials: true,
-      });
-
-      if (data.success) {
-        const {
-          title,
-          category,
-          auctionType,
-          auctionDate,
-          auctionTime,
-          area,
-          price,
-          description,
-          contact,
-          nearbyPlaces,
-          mapLocation,
-          address,
-          auctionUrl,
-          borrower,
-          amountDue,
-          deposit,
-          bidInc,
-          inspectDate,
-          inspectTime,
-          reservPrice,
-          message,
-        } = data.property;
-
-        setFormData((prevState) => ({
-          ...prevState,
-          title,
-          category,
-          auctionType,
-          auctionDate,
-          auctionTime,
-          area,
-          price,
-          description,
-          contact,
-          nearbyPlaces,
-          latitude: mapLocation?.latitude || "",
-          longitude: mapLocation?.longitude || "",
-          address: {
-            address: address?.address || "",
-            city: address?.city || "",
-            state: address?.state || "",
-            pincode: address?.pincode || "",
-          },
-          auctionUrl,
-          borrower,
-          amountDue,
-          deposit,
-          bidInc,
-          inspectDate,
-          inspectTime,
-          reservPrice,
-          message,
-        }));
-        setUploadedFiles(data.property.image);
-        setEditProperty(true);
-        setPropertyId(id);
-        navigate("/addNew");
-
-        console.log(formData);
-        console.log(data.property);
-      } else {
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleDeleteProperty = async () => {
-    try {
-      const { data } = await axios.post(serverUrl + "/api/v1/bank-user/delete-property", { propertyId: id }, {
-        withCredentials: true,
-      });
-      console.log(data);
-      if (data.success) {
-        navigate("/view");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   if (!property) {
     return <h2>Property Not Found!</h2>; // If ID is invalid
   }
@@ -205,7 +115,7 @@ const Single = () => {
                     <div className="info-item">
                       <img src="/video.svg" alt="link" className="info-icon" />
                       <span className="info-label">Video Link:</span>
-                      <a href={property.auctionUrl} className="info-link">{property.video}</a>
+                      <a href={property.video} className="info-link">{property.video}</a>
                     </div>
 
                     <div className="info-item">

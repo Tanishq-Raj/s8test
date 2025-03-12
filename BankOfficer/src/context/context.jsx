@@ -98,7 +98,7 @@ const AppContextProvider = (props) => {
   
   const [properties, setProperties] = useState([]); // State to store properties
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
   
   // Get Profile Details
   const handleProfile = async () => {
