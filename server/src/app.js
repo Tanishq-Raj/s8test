@@ -27,21 +27,8 @@ connectCloudinary();
 // Initialize passport
 app.use(passport.initialize());
 
-// Google OAuth routes
-// app.get("/auth/google", googleAuth);
-// app.get("/auth/google/callback", googleAuthCallback);
-
 // api endpoints
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/bank-user", bankUserRouter);
-
-
-// app.get("/check-auth", (req, res) => {
-//   if (req.cookies.auth_token) {
-//     res.json({ authenticated: true });
-//   } else {
-//     res.json({ authenticated: false });
-//   }
-// });
 
 export { app }
